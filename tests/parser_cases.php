@@ -1,12 +1,20 @@
 <?php
 require_once 'SQL/Parser.php';
 require_once 'PHPUnit.php';
-require_once 'Var_Dump.php';
+require_once 'dumper.php';
+
+/**
+ * SQL Parser tests
+ *
+ * @author  Brent Cook <busterbcook@yahoo.com>
+ * @version 0.5
+ * @access  public
+ * @package SQL_Parser
+ */
 
 class SqlParserTest extends PHPUnit_TestCase {
     // contains the object handle of the parser class
     var $parser;
-    var $dumper;
 
     //constructor of the test suite
     function SqlParserTest($name) {
@@ -15,8 +23,6 @@ class SqlParserTest extends PHPUnit_TestCase {
 
     function setUp() {
         $this->parser = new Sql_parser();
-        $this->dumper = new Var_Dump(
-            array('displayMode'=> VAR_DUMP_DISPLAY_MODE_TEXT));
     }
 
     function tearDown() {
@@ -30,10 +36,10 @@ class SqlParserTest extends PHPUnit_TestCase {
             $message = "\nSQL: {$test['sql']}\n";
             if (PEAR::isError($result)) {
                 $result = $result->getMessage();
-                $message .= "\nError:\n".$result;
+                $message .= "\nError:\n".dump($result);
             } else {
-                $message .= "\nExpected:\n".$this->dumper->display($expected);
-                $message .= "\nResult:\n".$this->dumper->display($result);
+                $message .= "\nExpected:\n".dump($expected);
+                $message .= "\nResult:\n".dump($result);
             }
             $message .= "\n*********************\n";
             $this->assertEquals($expected, $result, $message, $number);
@@ -67,6 +73,11 @@ class SqlParserTest extends PHPUnit_TestCase {
 
     function testCreate() {
         include 'create.php';
+        $this->runTests($tests);
+    }
+
+    function testEmployment() {
+        include 'employment.php';
         $this->runTests($tests);
     }
 }

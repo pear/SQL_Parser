@@ -275,7 +275,9 @@ array(
                         ),
                     1 => array(
                         'name' => 'nextval',
-                        'arg' => 'serial',
+                        'arg' => array(
+                            0 => 'serial'
+                            ),
                         'type' => 'default_function'
                         )
                     )

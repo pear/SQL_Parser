@@ -63,7 +63,9 @@ array(
         'set_function' => array(
             0 => array(
                 'name' => 'max',
-                'arg' => 'length'
+                'arg' => array(
+                    0 => 'length'
+                    )
                 )
             ),
         'table_names' => array(
@@ -308,7 +310,9 @@ array(
         'set_function' => array(
             0 => array(
                 'name' => 'min',
-                'arg' => 'a',
+                'arg' => array(
+                    0 => 'a'
+                    ),
                 'alias' => 'baz'
                 )
             ),
@@ -834,17 +838,23 @@ array(
         'set_function' => array(
             0 => array(
                 'name' => 'max',
-                'arg' => 'b',
+                'arg' => array(
+                    0 => 'b'
+                    ),
                 'alias' => 'x'
                 ),
             1 => array(
                 'name' => 'sum',
-                'arg' => 'c',
+                'arg' => array(
+                    0 => 'c'
+                    ),
                 'alias' => 'y'
                 ),
             2 => array(
                 'name' => 'min',
-                'arg' => 'd',
+                'arg' => array(
+                    0 => 'd'
+                    ),
                 'alias' => 'z'
                 )
             ),
