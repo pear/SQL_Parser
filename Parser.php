@@ -714,7 +714,7 @@ class SQL_Parser
             $this->getTok();
         } elseif ($this->token == 'ident') {
             while ($this->token == 'ident') {
-                $prevToken = $this->token;
+                $prevTok = $this->token;
                 $prevTokText = $this->lexer->tokText;
                 $this->getTok();
                 if ($this->token == '.') {

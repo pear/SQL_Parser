@@ -5,3 +5,6 @@ SELECT COUNT(DISTINCT country) FROM publishers;
 select one, two from hairy where two <> 4 and one = 2;
 select one, two from hairy where two <> 4 and one = 2 order by two;
 select one, two from hairy where two <> 4 and one = 2 limit 4 order by two ascending, dog descending;
+select foo.a from foo;
+select a as b from foo;
+select a from foo as bar;
