@@ -473,7 +473,8 @@ class SQL_Parser
         while (1) {
             // parse field identifier
             $this->getTok();
-            if ($this->token == 'ident') {
+            // In this context, field names can be reserved words or function names
+            if ($this->token == 'ident' || $this->isFunc() || $this->isReserved()) {
                 $name = $this->lexer->tokText;
             } elseif ($this->token == ')') {
                 return $fields;
