@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE package SYSTEM "../package.dtd">
+<!-- do not use the "Type" attribute here, that one is only for
+     generated package.xml files -->
+<package>
+    <name>SQL_Parser</name>
+    <summary>An SQL parser</summary>
+    <description>
+An SQL parser, uses a lexer to tokenize a statement, returns an array of the
+statement structure
+    </description>
+
+    <maintainers>
+        <maintainer>
+            <user>busterb</user>
+            <name>Brent Cook</name>
+            <email>busterb@mail.utexas.edu</email>
+            <role>lead</role>
+        </maintainer>
+    </maintainers>
+
+    <release>
+        <license>LGPL</license>
+        <version>0.19</version>
+        <date>2002-09-24</date>
+        <state>devel</state>
+        <notes>
+No notes is good notes.
+        </notes>
+        <filelist>
+            <dir name="/" baseinstalldir="/SQL">
+                <file role="php">Parser.php</file>
+                <file role="php">Lexer.php</file>
+                <file role="php">Dialect_ANSI.php</file>
+                <file role="php">ctype.php</file>
+                <dir name="tests" role="test">
+                    <file role="test">test_parser.php</file>
+                    <file role="test">parser_cases.php</file>
+                    <file role="test">create.php</file>
+                    <file role="test">delete.php</file>
+                    <file role="test">drop.php</file>
+                    <file role="test">insert.php</file>
+                    <file role="test">select.php</file>
+                    <file role="test">update.php</file>
+                </dir>
+            </dir>
+        </filelist>
+    </release>
+</package>
