@@ -916,7 +916,73 @@ class SQL_Parser
             } else {
                 $tree['table_aliases'][] = '';
             }
+            if ($this->token == 'on') {
+                $clause = $this->parseSearchClause();
+                if (PEAR::isError($clause)) {
+                    return $clause;
+                }
+                $tree['table_join_clause'][] = $clause;
+            } else {
+                $tree['table_join_clause'][] = '';
+            }
             if ($this->token == ',') {
+                $tree['table_join'][] = ',';
+                $this->getTok();
+            } elseif ($this->token == 'join') {
+                $tree['table_join'][] = 'join';
+                $this->getTok();
+            } elseif (($this->token == 'cross') ||
+                        ($this->token == 'inner')) {
+                $join = $this->lexer->tokText;
+                $this->getTok();
+                if ($this->token != 'join') {
+                    return $this->raiseError('Expected token "join"');
+                }
+                $tree['table_join'][] = $join.' join';
+                $this->getTok();
+            } elseif (($this->token == 'left') ||
+                        ($this->token == 'right')) {
+                $join = $this->lexer->tokText;
+                $this->getTok();
+                if ($this->token == 'join') {
+                    $tree['table_join'][] = $join.' join';
+                } elseif ($this->token == 'outer') {
+                        $join .= ' outer';
+                    $this->getTok();
+                    if ($this->token == 'join') {
+                        $tree['table_join'][] = $join.' join';
+                    } else {
+                        return $this->raiseError('Expected token "join"');
+                    }
+                } else {
+                    return $this->raiseError('Expected token "outer" or "join"');
+                }
+                $this->getTok();
+            } elseif ($this->token == 'natural') {
+                $join = $this->lexer->tokText;
+                $this->getTok();
+                if ($this->token == 'join') {
+                    $tree['table_join'][] = $join.' join';
+                } elseif (($this->token == 'left') ||
+                            ($this->token == 'right')) {
+                        $join .= ' '.$this->token;
+                    $this->getTok();
+                    if ($this->token == 'join') {
+                        $tree['table_join'][] = $join.' join';
+                    } elseif ($this->token == 'outer') {
+                        $join .= ' '.$this->token;
+                        $this->getTok();
+                        if ($this->token == 'join') {
+                            $tree['table_join'][] = $join.' join';
+                        } else {
+                            return $this->raiseError('Expected token "join" or "outer"');
+                        }
+                    } else {
+                        return $this->raiseError('Expected token "join" or "outer"');
+                    }
+                } else {
+                    return $this->raiseError('Expected token "left", "right" or "join"');
+                }
                 $this->getTok();
             } elseif (($this->token == 'where') ||
                         ($this->token == 'order') ||

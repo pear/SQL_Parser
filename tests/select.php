@@ -13,6 +13,9 @@ array(
         'table_aliases' => array(
             0 => ''
             ),
+        'table_join_clause' => array(
+            0 => ''
+            ),
         'where_clause' => array(
             'arg_1' => array(
                 'value' => 'cat',
@@ -47,6 +50,9 @@ array(
             ),
         'table_aliases' => array(
             0 => ''
+            ),
+        'table_join_clause' => array(
+            0 => ''
             )
         )
 ),
@@ -64,6 +70,9 @@ array(
             0 => 'dog'
             ),
         'table_aliases' => array(
+            0 => ''
+            ),
+        'table_join_clause' => array(
             0 => ''
             )
         )
@@ -85,6 +94,9 @@ array(
             0 => 'publishers'
             ),
         'table_aliases' => array(
+            0 => ''
+            ),
+        'table_join_clause' => array(
             0 => ''
             )
         )
@@ -109,6 +121,9 @@ array(
             0 => 'hairy'
             ),
         'table_aliases' => array(
+            0 => ''
+            ),
+        'table_join_clause' => array(
             0 => ''
             ),
         'where_clause' => array(
@@ -158,6 +173,9 @@ array(
             0 => 'hairy'
             ),
         'table_aliases' => array(
+            0 => ''
+            ),
+        'table_join_clause' => array(
             0 => ''
             ),
         'where_clause' => array(
@@ -210,6 +228,9 @@ array(
             0 => 'hairy'
             ),
         'table_aliases' => array(
+            0 => ''
+            ),
+        'table_join_clause' => array(
             0 => ''
             ),
         'where_clause' => array(
@@ -265,6 +286,9 @@ array(
             ),
         'table_aliases' => array(
             0 => ''
+            ),
+        'table_join_clause' => array(
+            0 => ''
             )
         )
 ),
@@ -293,6 +317,9 @@ array(
             ),
         'table_aliases' => array(
             0 => ''
+            ),
+        'table_join_clause' => array(
+            0 => ''
             )
         )
 ),
@@ -314,6 +341,9 @@ array(
             ),
         'table_aliases' => array(
             0 => 'bar'
+            ),
+        'table_join_clause' => array(
+            0 => ''
             )
         )
 ),
@@ -328,6 +358,9 @@ array(
             0 => 'person'
             ),
         'table_aliases' => array(
+            0 => ''
+            ),
+        'table_join_clause' => array(
             0 => ''
             ),
         'where_clause' => array(
@@ -371,6 +404,9 @@ array(
         'table_aliases' => array(
             0 => ''
             ),
+        'table_join_clause' => array(
+            0 => ''
+            ),
         'where_clause' => array(
             'arg_1' => array(
                 'value' => 'surname',
@@ -395,6 +431,9 @@ array(
             0 => 'person'
             ),
         'table_aliases' => array(
+            0 => ''
+            ),
+        'table_join_clause' => array(
             0 => ''
             ),
         'where_clause' => array(
@@ -448,6 +487,13 @@ array(
             0 => '',
             1 => ''
             ),
+        'table_join_clause' => array(
+            0 => '',
+            1 => ''
+            ),
+        'table_join' => array(
+            0 => ','
+            ),
         'where_clause' => array(
             'arg_1' => array(
                 'value' => 'table_2.table_1_id',
@@ -480,6 +526,9 @@ array(
         'table_aliases' => array(
             0 => ''
             ),
+        'table_join_clause' => array(
+            0 => ''
+            ),
         'where_clause' => array(
             'arg_1' => array(
                 'value' => 'a',
@@ -503,6 +552,9 @@ array(
                         0 => 'table_2'
                         ),
                     'table_aliases' => array(
+                        0 => ''
+                        ),
+                    'table_join_clause' => array(
                         0 => ''
                         )
                     ),
@@ -530,6 +582,9 @@ array(
         'table_aliases' => array(
             0 => ''
             ),
+        'table_join_clause' => array(
+            0 => ''
+            ),
         'where_clause' => array(
             'arg_1' => array(
                 'value' => 'a',
@@ -552,6 +607,9 @@ array(
                         0 => 'table_2'
                         ),
                     'table_aliases' => array(
+                        0 => ''
+                        ),
+                    'table_join_clause' => array(
                         0 => ''
                         ),
                     'where_clause' => array(
@@ -577,6 +635,9 @@ array(
                                     0 => 'table_3'
                                     ),
                                 'table_aliases' => array(
+                                    0 => ''
+                                    ),
+                                'table_join_clause' => array(
                                     0 => ''
                                     )
                                 ),
@@ -606,6 +667,9 @@ array(
             0 => 'table_1'
             ),
         'table_aliases' => array(
+            0 => ''
+            ),
+        'table_join_clause' => array(
             0 => ''
             ),
         'where_clause' => array(
@@ -649,6 +713,13 @@ array(
             0 => '',
             1 => ''
             ),
+        'table_join_clause' => array(
+            0 => '',
+            1 => ''
+            ),
+        'table_join' => array(
+            0 => ','
+            ),
         'where_clause' => array(
             'arg_1' => array(
                 'value' => 'parent_table.id',
@@ -691,6 +762,13 @@ array(
             0 => '',
             1 => ''
             ),
+        'table_join_clause' => array(
+            0 => '',
+            1 => ''
+            ),
+        'table_join' => array(
+            0 => ','
+            ),
         'where_clause' => array(
             'arg_1' => array(
                 'value' => 'parent_table.id',
@@ -718,6 +796,9 @@ array(
             0 => 'cats'
             ),
         'table_aliases' => array(
+            0 => ''
+            ),
+        'table_join_clause' => array(
             0 => ''
             ),
         'where_clause' => array(
@@ -772,6 +853,9 @@ array(
             ),
         'table_aliases' => array(
             0 => ''
+            ),
+        'table_join_clause' => array(
+            0 => ''
             )
         )
 ),
@@ -814,6 +898,15 @@ array(
             0 => '',
             1 => '',
             2 => ''
+            ),
+        'table_join_clause' => array(
+            0 => '',
+            1 => '',
+            2 => ''
+            ),
+        'table_join' => array(
+            0 => ',',
+            1 => ','
             ),
         'where_clause' => array(
             'arg_1' => array(
@@ -927,6 +1020,9 @@ WHERE (column1=\'1\' AND column2=\'1\') OR (column3=\'1\' AND column4=\'1\')',
         'table_aliases' => array(
             0 => ''
             ),
+        'table_join_clause' => array(
+            0 => ''
+            ),
         'where_clause' => array(
             'arg_1' => array(
                 'arg_1' => array(
@@ -1025,6 +1121,9 @@ array(
         'table_aliases' => array(
             0 => ''
             ),
+        'table_join_clause' => array(
+            0 => ''
+            ),
         'where_clause' => array(
             'arg_1' => array(
                 'arg_1' => array(
@@ -1084,6 +1183,9 @@ array(
         'table_aliases' => array(
             0 => ''
             ),
+        'table_join_clause' => array(
+            0 => ''
+            ),
         'where_clause' => array(
             'arg_1' => array(
                 'arg_1' => array(
@@ -1127,6 +1229,106 @@ array(
                     'type' => 'text_val'
                     )
                 )
+            )
+        )
+),
+array(
+'sql' => 'select a, d from b inner join c on b.a = c.a',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => '',
+            1 => ''
+            ),
+        'column_names' => array(
+            0 => 'a',
+            1 => 'd'
+            ),
+        'column_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
+        'table_names' => array(
+            0 => 'b',
+            1 => 'c'
+            ),
+        'table_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
+        'table_join_clause' => array(
+            0 => '',
+            1 => array(
+                'arg_1' => array(
+                    'value' => 'b.a',
+                    'type' => 'ident'
+                    ),
+                'op' => '=',
+                'arg_2' => array(
+                    'value' => 'c.a',
+                    'type' => 'ident'
+                    )
+                )
+            ),
+        'table_join' => array(
+            0 => 'inner join'
+            )
+        )
+),
+array(
+'sql' => 'select a, d from b inner join c on b.a = c.a left outer join q on r < m',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => '',
+            1 => ''
+            ),
+        'column_names' => array(
+            0 => 'a',
+            1 => 'd'
+            ),
+        'column_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
+        'table_names' => array(
+            0 => 'b',
+            1 => 'c',
+            2 => 'q'
+            ),
+        'table_aliases' => array(
+            0 => '',
+            1 => '',
+            2 => ''
+            ),
+        'table_join_clause' => array(
+            0 => '',
+            1 => array(
+                'arg_1' => array(
+                    'value' => 'b.a',
+                    'type' => 'ident'
+                    ),
+                'op' => '=',
+                'arg_2' => array(
+                    'value' => 'c.a',
+                    'type' => 'ident'
+                    )
+                ),
+            2 => array(
+                'arg_1' => array(
+                    'value' => 'r',
+                    'type' => 'ident'
+                    ),
+                'op' => '<',
+                'arg_2' => array(
+                    'value' => 'm',
+                    'type' => 'ident'
+                    )
+                )
+            ),
+        'table_join' => array(
+            0 => 'inner join',
+            1 => 'left outer join'
             )
         )
 ),

@@ -30,17 +30,17 @@ This class is primarily an SQL parser, written with influences from a variety of
             Parser:
                 * More robust search clause parsing; now handles subsearches
                   with parentheses in more cases
-                * Added more alias handling
-                * TODO: merge the rest of John's changes
-                * TODO: allow inserts/updates with functions for arguments
+                * Add more alias handling cases
+                * Handle ordinal functions in select project clauses correctly
+                * Add explicit join support
                 * TODO: Add SQL writer / XML writer
-                * TODO: column_tables doesn't populate correctly
         </notes>
         <filelist>
             <dir name="/" baseinstalldir="/SQL">
                 <file role="php">Parser.php</file>
                 <file role="php">Lexer.php</file>
                 <file role="php">Dialect_ANSI.php</file>
+                <file role="php">Dialect_MySQL.php</file>
                 <file role="php">ctype.php</file>
                 <dir name="tests" role="test">
                     <file role="test">test_parser.php</file>

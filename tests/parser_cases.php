@@ -32,8 +32,8 @@ class SqlParserTest extends PHPUnit_TestCase {
                 $result = $result->getMessage();
                 $message .= "\nError:\n".$result;
             } else {
-                $message .= "\nExpected:\n".$this->dumper->r_display($expected);
-                $message .= "\nResult:\n".$this->dumper->r_display($result);
+                $message .= "\nExpected:\n".$this->dumper->display($expected);
+                $message .= "\nResult:\n".$this->dumper->display($result);
             }
             $message .= "\n*********************\n";
             $this->assertEquals($expected, $result, $message, $number);
