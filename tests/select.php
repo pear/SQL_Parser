@@ -1,3 +1,6 @@
+Content-type: text/html
+X-Powered-By: PHP/4.3.3
+
 <?php
 $tests = array(
 array(
@@ -407,6 +410,43 @@ array(
                     'value' => 'Jason',
                     'type' => 'text_val'
                     )
+                )
+            )
+        )
+),
+array(
+'sql' => 'select table_1.id, table_2.name from table_1, table_2 where table_2.table_1_id = table_1.id',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => 'table_1',
+            1 => 'table_2'
+            ),
+        'column_names' => array(
+            0 => 'id',
+            1 => 'name'
+            ),
+        'column_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
+        'table_names' => array(
+            0 => 'table_1',
+            1 => 'table_2'
+            ),
+        'table_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'value' => 'table_2.table_1_id',
+                'type' => 'ident'
+                ),
+            'op' => '=',
+            'arg_2' => array(
+                'value' => 'table_1.id',
+                'type' => 'ident'
                 )
             )
         )

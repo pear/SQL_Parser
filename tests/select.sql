@@ -11,5 +11,6 @@ select a from foo as bar;
 SELECT * FROM PERSON WHERE SURNAME IS not NULL AND FIRSTNAME = 'Jason';
 SELECT * FROM PERSON WHERE SURNAME IS NULL;
 SELECT * FROM PERSON WHERE SURNAME = '' AND FIRSTNAME = 'Jason';
+select table_1.id, table_2.name from table_1, table_2 where table_2.table_1_id = table_1.id;
 -- Test Comment;
 # Test Comment;
