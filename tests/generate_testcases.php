@@ -26,8 +26,7 @@
 // test functionality of the sql parser
 
 require_once 'PEAR.php';
-require_once 'DB/DBA/Sql_parse.php';
-require_once 'Console/Getopt.php';
+require_once 'SQL/Parser.php';
 
 // based on DataDumper by Matt Durell <matt@specialsource.net>
 function dump($input, $tab = "\t", $newline = "\n",
@@ -70,22 +69,13 @@ $parser = new Sql_Parser();
 
 $progname = basename(array_shift($argv));
 
-$options = Console_Getopt::getopt($argv, "f:");
-if (PEAR::isError($options)) {
-    usage($options);
+echo(count($argv));
+if (count($argv) != 2) {
+    echo("Usage: generate_testcases.php test_cases.sql\n");
+    exit(-1);
 }
 
-$opts = $options[0];
-foreach ($opts as $opt) {
-    switch ($opt[0]) {
-        case 'f':
-            $file = $opt[1];
-            break;
-        default:
-            echo "Unknown option :".$opt[0];
-            exit;
-    }
-}
+$file = $argv[1];
 
 if (!$fd = @fopen($file, 'r')) {
     echo("Could not load the SQL source file: $file\n");

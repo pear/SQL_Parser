@@ -1,4 +1,4 @@
-<?php
+2<?php
 $tests = array(
 array(
 'sql' => 'select * from dog where cat <> 4',
@@ -9,6 +9,9 @@ array(
             ),
         'table_names' => array(
             0 => 'dog'
+            ),
+        'table_aliases' => array(
+            0 => ''
             ),
         'where_clause' => array(
             'arg_1' => array(
@@ -27,12 +30,23 @@ array(
 'sql' => 'select legs, hairy from dog',
 'expect' => array(
         'command' => 'select',
+        'column_tables' => array(
+            0 => '',
+            1 => ''
+            ),
         'column_names' => array(
             0 => 'legs',
             1 => 'hairy'
             ),
+        'column_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
         'table_names' => array(
             0 => 'dog'
+            ),
+        'table_aliases' => array(
+            0 => ''
             )
         )
 ),
@@ -46,6 +60,9 @@ array(
             ),
         'table_names' => array(
             0 => 'dog'
+            ),
+        'table_aliases' => array(
+            0 => ''
             )
         )
 ),
@@ -60,6 +77,9 @@ array(
             ),
         'table_names' => array(
             0 => 'publishers'
+            ),
+        'table_aliases' => array(
+            0 => ''
             )
         )
 ),
@@ -67,12 +87,23 @@ array(
 'sql' => 'select one, two from hairy where two <> 4 and one = 2',
 'expect' => array(
         'command' => 'select',
+        'column_tables' => array(
+            0 => '',
+            1 => ''
+            ),
         'column_names' => array(
             0 => 'one',
             1 => 'two'
             ),
+        'column_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
         'table_names' => array(
             0 => 'hairy'
+            ),
+        'table_aliases' => array(
+            0 => ''
             ),
         'where_clause' => array(
             'arg_1' => array(
@@ -105,12 +136,23 @@ array(
 'sql' => 'select one, two from hairy where two <> 4 and one = 2 order by two',
 'expect' => array(
         'command' => 'select',
+        'column_tables' => array(
+            0 => '',
+            1 => ''
+            ),
         'column_names' => array(
             0 => 'one',
             1 => 'two'
             ),
+        'column_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
         'table_names' => array(
             0 => 'hairy'
+            ),
+        'table_aliases' => array(
+            0 => ''
             ),
         'where_clause' => array(
             'arg_1' => array(
@@ -146,12 +188,23 @@ array(
 'sql' => 'select one, two from hairy where two <> 4 and one = 2 limit 4 order by two ascending, dog descending',
 'expect' => array(
         'command' => 'select',
+        'column_tables' => array(
+            0 => '',
+            1 => ''
+            ),
         'column_names' => array(
             0 => 'one',
             1 => 'two'
             ),
+        'column_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
         'table_names' => array(
             0 => 'hairy'
+            ),
+        'table_aliases' => array(
+            0 => ''
             ),
         'where_clause' => array(
             'arg_1' => array(
@@ -185,6 +238,69 @@ array(
         'sort_order' => array(
             'two' => 'asc',
             'dog' => 'desc'
+            )
+        )
+),
+array(
+'sql' => 'select foo.a from foo',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => 'foo'
+            ),
+        'column_names' => array(
+            0 => 'a'
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
+        'table_names' => array(
+            0 => 'foo'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            )
+        )
+),
+array(
+'sql' => 'select a as b from foo',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_names' => array(
+            0 => 'a'
+            ),
+        'column_aliases' => array(
+            0 => 'b'
+            ),
+        'table_names' => array(
+            0 => 'foo'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            )
+        )
+),
+array(
+'sql' => 'select a from foo as bar',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_names' => array(
+            0 => 'a'
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
+        'table_names' => array(
+            0 => 'foo'
+            ),
+        'table_aliases' => array(
+            0 => 'bar'
             )
         )
 ),
