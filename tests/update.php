@@ -1,17 +1,20 @@
-1<?php
+Content-type: text/html
+X-Powered-By: PHP/4.3.4RC3
+
+<?php
 $tests = array(
 array(
 'sql' => 'update dogmeat set horse=2 dog=\'forty\' where moose <> \'howdydoo\'',
 'expect' => 'Parse error: Expected "where" or "," on line 1
 update dogmeat set horse=2 dog=\'forty\' where moose <> \'howdydoo\'
-                           ^ found: dog'
+                           ^ found: "dog"'
 
 ),
 array(
 'sql' => 'update dogmeat set horse=2, dog=\'forty\' where moose != \'howdydoo\'',
 'expect' => 'Parse error: Expected an operator on line 1
 update dogmeat set horse=2, dog=\'forty\' where moose != \'howdydoo\'
-                                                    ^ found: !='
+                                                    ^ found: "!="'
 
 ),
 array(

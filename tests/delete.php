@@ -1,4 +1,7 @@
-2<?php
+Content-type: text/html
+X-Powered-By: PHP/4.3.4RC3
+
+<?php
 $tests = array(
 array(
 'sql' => 'delete from dog where cat = 4 and horse <> "dead meat" or mouse = \'furry\'',
@@ -50,28 +53,28 @@ array(
 'sql' => 'delete from',
 'expect' => 'Parse error: Expected a table name on line 1
 delete from
-  ^ found: *end of input*'
+            ^ found: "*end of input*"'
 
 ),
 array(
 'sql' => 'delete from cat',
 'expect' => 'Parse error: Expected "where" on line 1
 delete from cat
-  ^ found: *end of input*'
+                ^ found: "*end of input*"'
 
 ),
 array(
 'sql' => 'delete from where cat = 53',
 'expect' => 'Parse error: Expected a table name on line 1
 delete from where cat = 53
-            ^ found: where'
+            ^ found: "where"'
 
 ),
 array(
 'sql' => 'delete from dog where mouse is happy',
 'expect' => 'Parse error: Expected "null" on line 1
 delete from dog where mouse is happy
-                               ^ found: happy'
+                               ^ found: "happy"'
 
 ),
 );

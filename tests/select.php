@@ -1,5 +1,5 @@
 Content-type: text/html
-X-Powered-By: PHP/4.3.3
+X-Powered-By: PHP/4.3.4RC3
 
 <?php
 $tests = array(
@@ -70,7 +70,7 @@ array(
         )
 ),
 array(
-'sql' => 'SELECT COUNT(DISTINCT country) FROM publishers',
+'sql' => 'select count(distinct country) from publishers',
 'expect' => array(
         'command' => 'select',
         'set_function' => array(
@@ -249,10 +249,10 @@ array(
 'expect' => array(
         'command' => 'select',
         'column_tables' => array(
-            0 => 'foo'
+            0 => ''
             ),
         'column_names' => array(
-            0 => 'a'
+            0 => 'foo.a'
             ),
         'column_aliases' => array(
             0 => ''
@@ -308,14 +308,14 @@ array(
         )
 ),
 array(
-'sql' => 'SELECT * FROM PERSON WHERE SURNAME IS not NULL AND FIRSTNAME = \'Jason\'',
+'sql' => 'select * from person where surname is not null and firstname = \'jason\'',
 'expect' => array(
         'command' => 'select',
         'column_names' => array(
             0 => '*'
             ),
         'table_names' => array(
-            0 => 'PERSON'
+            0 => 'person'
             ),
         'table_aliases' => array(
             0 => ''
@@ -323,7 +323,7 @@ array(
         'where_clause' => array(
             'arg_1' => array(
                 'arg_1' => array(
-                    'value' => 'SURNAME',
+                    'value' => 'surname',
                     'type' => 'ident'
                     ),
                 'op' => 'is',
@@ -336,12 +336,12 @@ array(
             'op' => 'and',
             'arg_2' => array(
                 'arg_1' => array(
-                    'value' => 'FIRSTNAME',
+                    'value' => 'firstname',
                     'type' => 'ident'
                     ),
                 'op' => '=',
                 'arg_2' => array(
-                    'value' => 'Jason',
+                    'value' => 'jason',
                     'type' => 'text_val'
                     )
                 )
@@ -349,21 +349,21 @@ array(
         )
 ),
 array(
-'sql' => 'SELECT * FROM PERSON WHERE SURNAME IS NULL',
+'sql' => 'select * from person where surname is null',
 'expect' => array(
         'command' => 'select',
         'column_names' => array(
             0 => '*'
             ),
         'table_names' => array(
-            0 => 'PERSON'
+            0 => 'person'
             ),
         'table_aliases' => array(
             0 => ''
             ),
         'where_clause' => array(
             'arg_1' => array(
-                'value' => 'SURNAME',
+                'value' => 'surname',
                 'type' => 'ident'
                 ),
             'op' => 'is',
@@ -375,14 +375,14 @@ array(
         )
 ),
 array(
-'sql' => 'SELECT * FROM PERSON WHERE SURNAME = \'\' AND FIRSTNAME = \'Jason\'',
+'sql' => 'select * from person where surname = \'\' and firstname = \'jason\'',
 'expect' => array(
         'command' => 'select',
         'column_names' => array(
             0 => '*'
             ),
         'table_names' => array(
-            0 => 'PERSON'
+            0 => 'person'
             ),
         'table_aliases' => array(
             0 => ''
@@ -390,7 +390,7 @@ array(
         'where_clause' => array(
             'arg_1' => array(
                 'arg_1' => array(
-                    'value' => 'SURNAME',
+                    'value' => 'surname',
                     'type' => 'ident'
                     ),
                 'op' => '=',
@@ -402,12 +402,12 @@ array(
             'op' => 'and',
             'arg_2' => array(
                 'arg_1' => array(
-                    'value' => 'FIRSTNAME',
+                    'value' => 'firstname',
                     'type' => 'ident'
                     ),
                 'op' => '=',
                 'arg_2' => array(
-                    'value' => 'Jason',
+                    'value' => 'jason',
                     'type' => 'text_val'
                     )
                 )
@@ -419,12 +419,12 @@ array(
 'expect' => array(
         'command' => 'select',
         'column_tables' => array(
-            0 => 'table_1',
-            1 => 'table_2'
+            0 => '',
+            1 => ''
             ),
         'column_names' => array(
-            0 => 'id',
-            1 => 'name'
+            0 => 'table_1.id',
+            1 => 'table_2.name'
             ),
         'column_aliases' => array(
             0 => '',
@@ -452,17 +452,273 @@ array(
         )
 ),
 array(
+'sql' => 'select a from table_1 where a not in (select b from table_2)',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_names' => array(
+            0 => 'a'
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
+        'table_names' => array(
+            0 => 'table_1'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'value' => 'a',
+                'type' => 'ident'
+                ),
+            'op' => 'not',
+            'neg' => true,
+            'arg_2' => array(
+                'value' => array(
+                    'command' => 'select',
+                    'column_tables' => array(
+                        0 => ''
+                        ),
+                    'column_names' => array(
+                        0 => 'b'
+                        ),
+                    'column_aliases' => array(
+                        0 => ''
+                        ),
+                    'table_names' => array(
+                        0 => 'table_2'
+                        ),
+                    'table_aliases' => array(
+                        0 => ''
+                        )
+                    ),
+                'type' => 'command'
+                )
+            )
+        )
+),
+array(
+'sql' => 'select a from table_1 where a in (select b from table_2 where c not in (select d from table_3))',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_names' => array(
+            0 => 'a'
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
+        'table_names' => array(
+            0 => 'table_1'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'value' => 'a',
+                'type' => 'ident'
+                ),
+            'op' => 'in',
+            'arg_2' => array(
+                'value' => array(
+                    'command' => 'select',
+                    'column_tables' => array(
+                        0 => ''
+                        ),
+                    'column_names' => array(
+                        0 => 'b'
+                        ),
+                    'column_aliases' => array(
+                        0 => ''
+                        ),
+                    'table_names' => array(
+                        0 => 'table_2'
+                        ),
+                    'table_aliases' => array(
+                        0 => ''
+                        ),
+                    'where_clause' => array(
+                        'arg_1' => array(
+                            'value' => 'c',
+                            'type' => 'ident'
+                            ),
+                        'op' => 'not',
+                        'neg' => true,
+                        'arg_2' => array(
+                            'value' => array(
+                                'command' => 'select',
+                                'column_tables' => array(
+                                    0 => ''
+                                    ),
+                                'column_names' => array(
+                                    0 => 'd'
+                                    ),
+                                'column_aliases' => array(
+                                    0 => ''
+                                    ),
+                                'table_names' => array(
+                                    0 => 'table_3'
+                                    ),
+                                'table_aliases' => array(
+                                    0 => ''
+                                    )
+                                ),
+                            'type' => 'command'
+                            )
+                        )
+                    ),
+                'type' => 'command'
+                )
+            )
+        )
+),
+array(
+'sql' => 'select a from table_1 where a in (1, 2, 3)',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_names' => array(
+            0 => 'a'
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
+        'table_names' => array(
+            0 => 'table_1'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'value' => 'a',
+                'type' => 'ident'
+                ),
+            'op' => 'in',
+            'arg_2' => array(
+                'value' => array(
+                    0 => 1,
+                    1 => 2,
+                    2 => 3
+                    ),
+                'type' => array(
+                    0 => 'int_val',
+                    1 => 'int_val',
+                    2 => 'int_val'
+                    )
+                )
+            )
+        )
+),
+array(
+'sql' => 'select count(child_table.name) from parent_table ,child_table where parent_table.id = child_table.id',
+'expect' => array(
+        'command' => 'select',
+        'set_function' => array(
+            'name' => 'count',
+            'arg' => 'child_table.name'
+            ),
+        'table_names' => array(
+            0 => 'parent_table',
+            1 => 'child_table'
+            ),
+        'table_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'value' => 'parent_table.id',
+                'type' => 'ident'
+                ),
+            'op' => '=',
+            'arg_2' => array(
+                'value' => 'child_table.id',
+                'type' => 'ident'
+                )
+            )
+        )
+),
+array(
+'sql' => 'select parent_table.name, count(child_table.name) from parent_table ,child_table where parent_table.id = child_table.id group by parent_table.name',
+'expect' => 'Parse error: Expected "from" on line 1
+select parent_table.name, count(child_table.name) from parent_table ,child_table where parent_table.id = child_table.id group by parent_table.name
+                          ^ found: "count"'
+
+),
+array(
+'sql' => 'select * from cats where furry = 1 group by name, type',
+'expect' => array(
+        'command' => 'select',
+        'column_names' => array(
+            0 => '*'
+            ),
+        'table_names' => array(
+            0 => 'cats'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'value' => 'furry',
+                'type' => 'ident'
+                ),
+            'op' => '=',
+            'arg_2' => array(
+                'value' => 1,
+                'type' => 'int_val'
+                )
+            ),
+        'group_by' => array(
+            0 => 'name',
+            1 => 'type'
+            )
+        )
+),
+array(
+'sql' => 'select a, max(b) as x, sum(c) as y, min(d) as z from e',
+'expect' => 'Parse error: Expected "from" on line 1
+select a, max(b) as x, sum(c) as y, min(d) as z from e
+          ^ found: "max"'
+
+),
+array(
+'sql' => 'select clients_translation.id_clients_prefix, clients_translation.rule_number,
+       clients_translation.pattern, clients_translation.rule
+       from clients, clients_prefix, clients_translation
+       where (clients.id_softswitch = 5)
+         and (clients.id_clients = clients_prefix.id_clients)
+         and clients.enable=\'y\'
+         and clients.unused=\'n\'
+         and (clients_translation.id_clients_prefix = clients_prefix.id_clients_prefix)
+         order by clients_translation.id_clients_prefix,clients_translation.rule_number',
+'expect' => 'Parse error: Expected an operator on line 4
+       where (clients.id_softswitch = 5)
+              ^ found: "clients.id_softswitch"'
+
+),
+array(
 'sql' => '-- Test Comment',
 'expect' => 'Parse error: Nothing to do on line 1
 -- Test Comment
-  ^ found: *end of input*'
+                ^ found: "*end of input*"'
 
 ),
 array(
 'sql' => '# Test Comment',
 'expect' => 'Parse error: Nothing to do on line 1
 # Test Comment
- ^ found: *end of input*'
+               ^ found: "*end of input*"'
 
 ),
 );
