@@ -76,8 +76,9 @@ class Lexer
     }
     
     function get() {
+        ++$this->tokPtr;
         ++$this->tokLen;
-        return $this->string{$this->tokPtr++};
+        return ($this->tokPtr < $this->stringLen) ? $this->string{$this->tokPtr - 1} : false;
     }
 
     function unget() {
