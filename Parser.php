@@ -362,6 +362,7 @@ class SQL_Parser
                     if ($this->token != 'in') {
                         return $this->raiseError('Expected "in"');
                     }
+                    $clause['op'] = $this->token;
                     $clause['neg'] = true;
                     $this->getTok();
                 case 'in':
