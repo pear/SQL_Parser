@@ -78,7 +78,7 @@ class Lexer
     function get() {
         ++$this->tokPtr;
         ++$this->tokLen;
-        return ($this->tokPtr < $this->stringLen) ? $this->string{$this->tokPtr - 1} : false;
+        return ($this->tokPtr <= $this->stringLen) ? $this->string{$this->tokPtr - 1} : null;
     }
 
     function unget() {
@@ -186,6 +186,12 @@ function nextToken()
                 $this->tokText = '';
                 $this->tokLen = 0;
                 $c = $this->get();
+
+                if (is_null($c)) { // End Of Input
+                    $state = 1000;
+                    break;
+                }
+
                 while (($c == ' ') || ($c == "\t")
                     || ($c == "\n") || ($c == "\r")) {
                     if ($c == "\n" || $c == "\r") {
@@ -280,10 +286,6 @@ function nextToken()
 
                 if ($this->isCompop($c)) { // comparison operator
                     $state = 10;
-                    break;
-                }
-                if ($c == false) { // End Of Input
-                    $state = 1000;
                     break;
                 }
                 // Unknown token.  Revert to single char
