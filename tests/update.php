@@ -1,6 +1,3 @@
-Content-type: text/html
-X-Powered-By: PHP/4.3.4RC3
-
 <?php
 $tests = array(
 array(
@@ -21,7 +18,9 @@ array(
 'sql' => 'update dogmeat set horse=2, dog=\'forty\' where moose <> \'howdydoo\'',
 'expect' => array(
         'command' => 'update',
-        'table_name' => 'dogmeat',
+        'table_names' => array(
+            0 => 'dogmeat'
+            ),
         'column_names' => array(
             0 => 'horse',
             1 => 'dog'
@@ -53,7 +52,9 @@ array(
 'sql' => 'update table1 set col=1 where not col = 2',
 'expect' => array(
         'command' => 'update',
-        'table_name' => 'table1',
+        'table_names' => array(
+            0 => 'table1'
+            ),
         'column_names' => array(
             0 => 'col'
             ),
@@ -81,7 +82,9 @@ array(
 'sql' => 'update table2 set col=1 where col > 2 and col <> 4',
 'expect' => array(
         'command' => 'update',
-        'table_name' => 'table2',
+        'table_names' => array(
+            0 => 'table2'
+            ),
         'column_names' => array(
             0 => 'col'
             ),
@@ -122,7 +125,9 @@ array(
 'sql' => 'update table2 set col=1 where col > 2 and col <> 4 or dog="Hello"',
 'expect' => array(
         'command' => 'update',
-        'table_name' => 'table2',
+        'table_names' => array(
+            0 => 'table2'
+            ),
         'column_names' => array(
             0 => 'col'
             ),
@@ -177,7 +182,9 @@ array(
 'sql' => 'update table3 set col=1 where col > 2 and col < 30',
 'expect' => array(
         'command' => 'update',
-        'table_name' => 'table3',
+        'table_names' => array(
+            0 => 'table3'
+            ),
         'column_names' => array(
             0 => 'col'
             ),

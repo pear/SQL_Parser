@@ -1,13 +1,12 @@
-Content-type: text/html
-X-Powered-By: PHP/4.3.4RC3
-
 <?php
 $tests = array(
 array(
 'sql' => 'drop table dishes cascade',
 'expect' => array(
         'command' => 'drop_table',
-        'table_name' => 'dishes',
+        'table_names' => array(
+            0 => 'dishes'
+            ),
         'drop_behavior' => 'cascade'
         )
 ),
@@ -15,7 +14,9 @@ array(
 'sql' => 'drop table bondage restrict',
 'expect' => array(
         'command' => 'drop_table',
-        'table_name' => 'bondage',
+        'table_names' => array(
+            0 => 'bondage'
+            ),
         'drop_behavior' => 'restrict'
         )
 ),

@@ -1,13 +1,12 @@
-Content-type: text/html
-X-Powered-By: PHP/4.3.4RC3
-
 <?php
 $tests = array(
 array(
 'sql' => 'delete from dog where cat = 4 and horse <> "dead meat" or mouse = \'furry\'',
 'expect' => array(
         'command' => 'delete',
-        'table_name' => 'dog',
+        'table_names' => array(
+            0 => 'dog'
+            ),
         'where_clause' => array(
             'arg_1' => array(
                 'arg_1' => array(

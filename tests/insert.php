@@ -4,7 +4,9 @@ array(
 'sql' => 'insert into dogmeat (\'horse\', \'hair\') values (2, 4)',
 'expect' => array(
         'command' => 'insert',
-        'table_name' => 'dogmeat',
+        'table_names' => array(
+            0 => 'dogmeat'
+            ),
         'column_names' => array(
             0 => 'horse',
             1 => 'hair'
@@ -25,7 +27,9 @@ array(
 'sql' => 'inSERT into dogmeat (horse, hair) values (2, 4)',
 'expect' => array(
         'command' => 'insert',
-        'table_name' => 'dogmeat',
+        'table_names' => array(
+            0 => 'dogmeat'
+            ),
         'column_names' => array(
             0 => 'horse',
             1 => 'hair'
@@ -41,6 +45,13 @@ array(
                 )
             )
         )
+),
+array(
+'sql' => 'INSERT INTO mytable (foo, bar, baz) VALUES (NOW(), 1, \'text\')',
+'expect' => 'Parse error: Expected , or ) on line 1
+INSERT INTO mytable (foo, bar, baz) VALUES (NOW(), 1, \'text\')
+                                               ^ found: "("'
+
 ),
 );
 ?>

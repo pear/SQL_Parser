@@ -1,6 +1,3 @@
-Content-type: text/html
-X-Powered-By: PHP/4.3.4RC3
-
 <?php
 $tests = array(
 array(
@@ -14,7 +11,9 @@ array(
 )',
 'expect' => array(
         'command' => 'create_table',
-        'table_name' => 'albums',
+        'table_names' => array(
+            0 => 'albums'
+            ),
         'column_defs' => array(
             'name' => array(
                 'type' => 'varchar',
@@ -85,7 +84,9 @@ array(
 )',
 'expect' => array(
         'command' => 'create_table',
-        'table_name' => 'photos',
+        'table_names' => array(
+            0 => 'photos'
+            ),
         'column_defs' => array(
             'filename' => array(
                 'type' => 'varchar',
@@ -150,7 +151,9 @@ array(
 )',
 'expect' => array(
         'command' => 'create_table',
-        'table_name' => 'brent',
+        'table_names' => array(
+            0 => 'brent'
+            ),
         'column_defs' => array(
             'filename' => array(
                 'type' => 'varchar',
@@ -175,7 +178,9 @@ array(
 )',
 'expect' => array(
         'command' => 'create_table',
-        'table_name' => 'films',
+        'table_names' => array(
+            0 => 'films'
+            ),
         'column_defs' => array(
             'code' => array(
                 'type' => 'char',
@@ -256,7 +261,9 @@ array(
 )',
 'expect' => array(
         'command' => 'create_table',
-        'table_name' => 'distributors',
+        'table_names' => array(
+            0 => 'distributors'
+            ),
         'column_defs' => array(
             'did' => array(
                 'type' => 'numeric',
@@ -331,7 +338,9 @@ array(
 )',
 'expect' => array(
         'command' => 'create_table',
-        'table_name' => 'distributors',
+        'table_names' => array(
+            0 => 'distributors'
+            ),
         'column_defs' => array(
             'did' => array(
                 'type' => 'numeric',
@@ -354,7 +363,9 @@ array(
 'sql' => 'CREATE TABLE msgs ( user_id integer, msg_id integer, msg_text varchar, msg_title varchar(30), msg_date time)',
 'expect' => array(
         'command' => 'create_table',
-        'table_name' => 'msgs',
+        'table_names' => array(
+            0 => 'msgs'
+            ),
         'column_defs' => array(
             'user_id' => array(
                 'type' => 'int'
