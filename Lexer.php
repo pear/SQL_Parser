@@ -230,7 +230,8 @@ function nextToken()
                     if ($t == '.') { // ellipsis
                         if ($this->get() == '.') {
                             $this->tokText = '...';
-                            return $this->tokText();
+                            $this->tokStart = $this->tokPtr;
+                            return $this->tokText;
                         } else {
                             $state = 999;
                             break;
