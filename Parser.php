@@ -116,8 +116,7 @@ class SQL_Parser
        return (($this->token == 'real_val') ||
                ($this->token == 'int_val') ||
                ($this->token == 'text_val') ||
-               // Identify NULL as a value type
-               ($$this->token == 'null'));
+               ($this->token == 'null'));
     }
     // }}}
 
