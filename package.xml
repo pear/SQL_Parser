@@ -34,6 +34,7 @@ This class is primarily an SQL parser, written with influences from a variety of
                 * TODO: merge the rest of John's changes
                 * TODO: allow inserts/updates with functions for arguments
                 * TODO: Add SQL writer / XML writer
+                * TODO: column_tables doesn't populate correctly
         </notes>
         <filelist>
             <dir name="/" baseinstalldir="/SQL">

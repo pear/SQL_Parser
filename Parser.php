@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2002-2003 Brent Cook                                        |
+// | Copyright (c) 2002-2004 Brent Cook                                        |
 // +----------------------------------------------------------------------+
 // | This library is free software; you can redistribute it and/or        |
 // | modify it under the terms of the GNU Lesser General Public           |
@@ -20,6 +20,7 @@
 // | Authors: Brent Cook <busterbcook@yahoo.com>                          |
 // |          Jason Pell <jasonpell@hotmail.com>                          |
 // |          Lauren Matheson <inan@canada.com>                           |
+// |          John Griffin <jgriffin316@netscape.net>                     |
 // +----------------------------------------------------------------------+
 //
 // $Id$
@@ -32,7 +33,7 @@ require_once 'SQL/Lexer.php';
  * A sql parser
  *
  * @author  Brent Cook <busterbcook@yahoo.com>
- * @version 0.4
+ * @version 0.5
  * @access  public
  * @package SQL_Parser
  */
@@ -543,7 +544,7 @@ class SQL_Parser
         $opts['name'] = $function;
         $this->getTok();
         if ($this->token != '(') {
-            return $this->raiseError('Expected ")"');
+            return $this->raiseError('Expected "("');
         }
         switch ($function) {
             case 'count':
@@ -556,7 +557,7 @@ class SQL_Parser
                             return $this->raiseError('Expected a column name');
                         }
                     case 'ident': case '*':
-                        $opts['arg'] = $this->lexer->tokText;
+                        $opts['arg'][] = $this->lexer->tokText;
                         break;
                     default:
                         return $this->raiseError('Invalid argument');
@@ -603,7 +604,7 @@ class SQL_Parser
                 $tree = array('command' => 'create_table');
                 $this->getTok();
                 if ($this->token == 'ident') {
-                    $tree['table_name'] = $this->lexer->tokText;
+                    $tree['table_names'][] = $this->lexer->tokText;
                     $fields = $this->parseFieldList();
                     if (PEAR::isError($fields)) {
                         return $fields;
@@ -637,7 +638,7 @@ class SQL_Parser
             $tree = array('command' => 'insert');
             $this->getTok();
             if ($this->token == 'ident') {
-                $tree['table_name'] = $this->lexer->tokText;
+                $tree['table_names'][] = $this->lexer->tokText;
                 $this->getTok();
             } else {
                 return $this->raiseError('Expected table name');
@@ -687,8 +688,8 @@ class SQL_Parser
     function parseUpdate() {
         $this->getTok();
         if ($this->token == 'ident') {
-            $tree = array('command' => 'update',
-                          'table_name' => $this->lexer->tokText);
+            $tree = array('command' => 'update');
+            $tree['table_names'][] = $this->lexer->tokText;
         } else {
             return $this->raiseError('Expected table name');
         }
@@ -739,7 +740,7 @@ class SQL_Parser
         if ($this->token != 'ident') {
             return $this->raiseError('Expected a table name');
         }
-        $tree['table_name'] = $this->lexer->tokText;
+        $tree['table_names'][] = $this->lexer->tokText;
         $this->getTok();
         if ($this->token != 'where') {
             return $this->raiseError('Expected "where"');
@@ -763,7 +764,7 @@ class SQL_Parser
                 if ($this->token != 'ident') {
                     return $this->raiseError('Expected a table name');
                 }
-                $tree['table_name'] = $this->lexer->tokText;
+                $tree['table_names'][] = $this->lexer->tokText;
                 $this->getTok();
                 if (($this->token == 'restrict') ||
                     ($this->token == 'cascade')) {
@@ -896,7 +897,8 @@ class SQL_Parser
                 break;
             }
         }
-        while (!is_null($this->token) && (!$subSelect || $this->token != ')')) {
+        while (!is_null($this->token) && (!$subSelect || $this->token != ')')
+               && $this->token != ')') {
             switch ($this->token) {
                 case 'where':
                     $clause = $this->parseSearchClause();
@@ -921,7 +923,7 @@ class SQL_Parser
                             }
                             $this->getTok();
                         } else {
-                            $order = 'desc';
+                            $order = 'asc';
                         }
                         if ($this->token == ',') {
                             $this->getTok();

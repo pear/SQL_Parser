@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2002-2003 Brent Cook                                        |
+// | Copyright (c) 2002-2004 Brent Cook                                        |
 // +----------------------------------------------------------------------+
 // | This library is free software; you can redistribute it and/or        |
 // | modify it under the terms of the GNU Lesser General Public           |
@@ -35,7 +35,7 @@ include 'SQL/ctype.php';
  * A lexigraphical analyser inspired by the msql lexer
  *
  * @author  Brent Cook <busterbcook@yahoo.com>
- * @version 0.4
+ * @version 0.5
  * @access  public
  * @package SQL_Parser
  */
