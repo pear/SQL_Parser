@@ -414,8 +414,15 @@ class SQL_Parser
                     $this->lexer->unget();
                     break;
                 default:
-                    // parse for in-fix binary operators
-                    if ($this->isReserved()) {
+                    if ($this->isFunc()) {
+                        $result = $this->parseFunctionOpts();
+                        if (PEAR::isError($result)) {
+                            return $result;
+                        }
+                        $clause['arg_2']['value'] = $result;
+                        $clause['arg_2']['type'] = 'function';
+                    } else if ($this->isReserved()) {
+                        // parse for in-fix binary operators
                         return $this->raiseError('Expected a column name or value');
                     }
                     if ($this->token == '(') {
@@ -620,16 +627,20 @@ class SQL_Parser
                     return $this->raiseError('Expected a string or column name');
                 }
                 break;
-            case 'avg': case 'min': case 'max': case 'sum':
             default:
                 $this->getTok();
-                $opts['arg'][] = $this->lexer->tokText;
-                $opts['type'][] = $this->token;
+                if ($this->token != ')') {
+                    $opts['arg'][] = $this->lexer->tokText;
+                    $opts['type'][] = $this->token;
+                } else {
+                    $this->lexer->pushBack();
+                }
                 break;
         }
+        echo $this->token;
         $this->getTok();
         if ($this->token != ')') {
-            return $this->raiseError('Expected ")"');
+            return $this->raiseError('Expected ")" ');
         }
  
         // check for an alias
@@ -643,7 +654,7 @@ class SQL_Parser
             } else {
                 return $this->raiseError('Expected column alias');
             }
-        } else {
+        } elseif ($this->token != null) {
             if ($this->token == 'ident' ) {
                 $opts['alias'] = $this->lexer->tokText;
             } else {
@@ -766,8 +777,8 @@ class SQL_Parser
                 return $this->raiseError('Expected =');
             }
             $this->getTok();
-            if (!$this->isVal($this->token)) {
-                return $this->raiseError('Expected a value');
+            if (!$this->isVal($this->token) && $this->token != 'ident') {
+                return $this->raiseError('Expected a value or column name');
             }
             $tree['values'][] = array('value'=>$this->lexer->tokText,
                                       'type'=>$this->token);
