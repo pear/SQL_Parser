@@ -49,10 +49,10 @@ class SQL_Parser
     var $operators = array();
     var $synonyms = array();
 
-    var $dialects = array("ANSI", "MySQL");
+    var $dialects = array('ANSI', 'MySQL');
 
 // {{{ function SQL_Parser($string = null)
-    function SQL_Parser($string = null, $dialect = "ANSI") {
+    function SQL_Parser($string = null, $dialect = 'ANSI') {
         $this->setDialect($dialect);
 
         if (is_string($string)) {
