@@ -70,12 +70,12 @@ $parser = new Sql_Parser();
 $progname = basename(array_shift($argv));
 
 echo(count($argv));
-if (count($argv) != 2) {
+if (count($argv) != 1) {
     echo("Usage: generate_testcases.php test_cases.sql\n");
     exit(-1);
 }
 
-$file = $argv[1];
+$file = $argv[0];
 
 if (!$fd = @fopen($file, 'r')) {
     echo("Could not load the SQL source file: $file\n");

@@ -1,4 +1,4 @@
-<?php
+1<?php
 $tests = array(
 array(
 'sql' => 'update dogmeat set horse=2 dog=\'forty\' where moose <> \'howdydoo\'',
@@ -11,7 +11,7 @@ array(
 'sql' => 'update dogmeat set horse=2, dog=\'forty\' where moose != \'howdydoo\'',
 'expect' => 'Parse error: Expected an operator on line 1
 update dogmeat set horse=2, dog=\'forty\' where moose != \'howdydoo\'
-                                                    ^ found: !'
+                                                    ^ found: !='
 
 ),
 array(
