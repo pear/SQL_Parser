@@ -51,17 +51,17 @@ class Lexer
     var $lineBegin = 0;
     var $string = '';
     var $stringLen = 0;
-	
-	// Will not be altered by skip()
-	var $tokAbsStart = 0;
-	var $skipText = '';
-	
-	// Provide lookahead capability.
-	var $lookahead = 0;
-	// Specify how many tokens to save in tokenStack, so the
-	// token stream can be pushed back.
-	var $tokenStack = array();
-	var $stackPtr = 0;
+    
+    // Will not be altered by skip()
+    var $tokAbsStart = 0;
+    var $skipText = '';
+    
+    // Provide lookahead capability.
+    var $lookahead = 0;
+    // Specify how many tokens to save in tokenStack, so the
+    // token stream can be pushed back.
+    var $tokenStack = array();
+    var $stackPtr = 0;
 // }}}
 
 // {{{ incidental functions
@@ -69,9 +69,9 @@ class Lexer
     {
         $this->string = $string;
         $this->stringLen = strlen($string);
-		$this->lookahead = $lookahead;
+        $this->lookahead = $lookahead;
     }
-	
+    
     function get() {
         ++$this->tokLen;
         return $this->string{$this->tokPtr++};
@@ -97,78 +97,84 @@ class Lexer
     }
 // }}}
 
+// {{{ pushBack()
 /*
-* Push back a token, so the very next call to lex() will return that token.
-* Calls to this function will be ignored if there is no lookahead specified
-* to the constructor, or the pushBack() function has already been called the
-* maximum number of token's that can be looked ahead.
-*/
+ * Push back a token, so the very next call to lex() will return that token.
+ * Calls to this function will be ignored if there is no lookahead specified
+ * to the constructor, or the pushBack() function has already been called the
+ * maximum number of token's that can be looked ahead.
+ */
 function pushBack()
 {
-	if($this->lookahead>0 && count($this->tokenStack)>0 && $this->stackPtr>0)
-	{
-		$this->stackPtr--;
-	}
+    if($this->lookahead>0 && count($this->tokenStack)>0 && $this->stackPtr>0) {
+        $this->stackPtr--;
+    }
 }
+// }}}
 
 // {{{ lex()
 function lex()
 {
-	if($this->lookahead>0)
-	{
-		// The stackPtr, should always be the same as the count of
-		// elements in the tokenStack.  The stackPtr, can be thought
-		// of as pointing to the next token to be added.  If however
-		// a pushBack() call is made, the stackPtr, will be less than the
-		// count, to indicate that we should take that token from the
-		// stack, instead of calling nextToken for a new token.
-		if($this->stackPtr<count($this->tokenStack))
-		{
-			$this->tokText = $this->tokenStack[$this->stackPtr]['tokText'];
-			$this->skipText = $this->tokenStack[$this->stackPtr]['skipText'];
-			$token = $this->tokenStack[$this->stackPtr]['token'];
-			
-			// We have read the token, so now iterate again.
-			$this->stackPtr++;
-			return $token;
-		}
-		else
-		{
-			// If $tokenStack is full (equal to lookahead), pop the oldest
-			// element off, to make room for the new one.
-			if($this->stackPtr == $this->lookahead)
-			{
-				// For some reason array_shift,array_pop screw up the indexing, so we do it manually.
-				for($i=0; $i<(count($this->tokenStack)-1); $i++)
-				{
-					$this->tokenStack[$i] = $this->tokenStack[$i+1];
-				}
-				
-				// Indicate that we should put the element in, at the stackPtr position.
-				$this->stackPtr--;
-			}
-			
-			$token = $this->nextToken();
-			$this->tokenStack[$this->stackPtr] = array('token'=>$token,'tokText'=>$this->tokText,'skipText'=>$this->skipText);
-			$this->stackPtr++;
-			return $token;
-		}
-	}
-	else
-	{
-		return $this->nextToken();
-	}
-}// }}}
+    if($this->lookahead>0) {
+        // The stackPtr, should always be the same as the count of
+        // elements in the tokenStack.  The stackPtr, can be thought
+        // of as pointing to the next token to be added.  If however
+        // a pushBack() call is made, the stackPtr, will be less than the
+        // count, to indicate that we should take that token from the
+        // stack, instead of calling nextToken for a new token.
+
+        if ($this->stackPtr<count($this->tokenStack)) {
+
+            $this->tokText = $this->tokenStack[$this->stackPtr]['tokText'];
+            $this->skipText = $this->tokenStack[$this->stackPtr]['skipText'];
+            $token = $this->tokenStack[$this->stackPtr]['token'];
+            
+            // We have read the token, so now iterate again.
+            $this->stackPtr++;
+            return $token;
+
+        } else {
+
+            // If $tokenStack is full (equal to lookahead), pop the oldest
+            // element off, to make room for the new one.
+
+            if ($this->stackPtr == $this->lookahead) {
+                // For some reason array_shift and
+                // array_pop screw up the indexing, so we do it manually.
+                for($i=0; $i<(count($this->tokenStack)-1); $i++) {
+                    $this->tokenStack[$i] = $this->tokenStack[$i+1];
+                }
+                
+                // Indicate that we should put the element in
+                // at the stackPtr position.
+                $this->stackPtr--;
+            }
+            
+            $token = $this->nextToken();
+            $this->tokenStack[$this->stackPtr] =
+                array('token'=>$token,
+                      'tokText'=>$this->tokText,
+                      'skipText'=>$this->skipText);
+            $this->stackPtr++;
+            return $token;
+        }
+    }
+    else
+    {
+        return $this->nextToken();
+    }
+}
+// }}}
 
 // {{{ nextToken()
 function nextToken()
 {
-	if ($this->string == '') return;
+    if ($this->string == '') return;
     $state = 0;
-	$this->tokAbsStart = $this->tokStart;
-	
+    $this->tokAbsStart = $this->tokStart;
+    
     while (true){
-		//echo "State: $state, Char: $c\n";
+        //echo "State: $state, Char: $c\n";
         switch($state) {
             // {{{ State 0 : Start of token
             case 0:
@@ -176,25 +182,25 @@ function nextToken()
                 $this->tokText = '';
                 $this->tokLen = 0;
                 $c = $this->get();
-                while (($c == ' ') || ($c == "\t") || ($c == "\n") || ($c == "\r")) {
-					if ($c == "\n" || $c == "\r") {
-						// Handle MAC/Unix/Windows line endings.
-						if($c == "\r")
-						{
-							$c = $this->skip();
-								
-							// If not DOS newline
-							if($c != "\n")
-								$this->unget();
-						}
+                while (($c == ' ') || ($c == "\t")
+                    || ($c == "\n") || ($c == "\r")) {
+                    if ($c == "\n" || $c == "\r") {
+                        // Handle MAC/Unix/Windows line endings.
+                        if($c == "\r") {
+                            $c = $this->skip();
+                                
+                            // If not DOS newline
+                            if($c != "\n")
+                                $this->unget();
+                        }
                         ++$this->lineNo;
                         $this->lineBegin = $this->tokPtr;
                     }
-					
-                   	$c = $this->skip();
-					$this->tokLen = 1;
+                    
+                       $c = $this->skip();
+                    $this->tokLen = 1;
                 }
-				
+                
                 if (($c == '\'') || ($c == '"')) {
                     $quote = $c;
                     $state = 12;
@@ -256,16 +262,19 @@ function nextToken()
             /* {{{ State 2 : Complete keyword or ident */
             case 2:
                 $this->unget();
-                $this->tokText = substr($this->string, $this->tokStart, $this->tokLen);
+                $this->tokText = substr($this->string, $this->tokStart,
+                                        $this->tokLen);
                 
-				$testToken = strtolower($this->tokText);
+                $testToken = strtolower($this->tokText);
                 if (isset($this->symbols[$testToken])) {
-				
-					$this->skipText = substr($this->string, $this->tokAbsStart, $this->tokStart-$this->tokAbsStart);
+                
+                    $this->skipText = substr($this->string, $this->tokAbsStart,
+                                            $this->tokStart-$this->tokAbsStart);
                     $this->tokStart = $this->tokPtr;
                     return $testToken;
                 } else {
-					$this->skipText = substr($this->string, $this->tokAbsStart, $this->tokStart-$this->tokAbsStart);
+                    $this->skipText = substr($this->string, $this->tokAbsStart,
+                                            $this->tokStart-$this->tokAbsStart);
                     $this->tokStart = $this->tokPtr;
                     return 'ident';
                 }
@@ -290,8 +299,10 @@ function nextToken()
             // {{{ State 6: Complete integer number
             case 6:
                 $this->unget();
-                $this->tokText = intval(substr($this->string, $this->tokStart,$this->tokLen));
-				$this->skipText = substr($this->string, $this->tokAbsStart, $this->tokStart-$this->tokAbsStart);
+                $this->tokText = intval(substr($this->string, $this->tokStart,
+                                               $this->tokLen));
+                $this->skipText = substr($this->string, $this->tokAbsStart,
+                                         $this->tokStart-$this->tokAbsStart);
                 $this->tokStart = $this->tokPtr;
                 return 'int_val';
                 break;
@@ -321,7 +332,8 @@ function nextToken()
                 $this->unget();
                 $this->tokText = floatval(substr($this->string, $this->tokStart,
                                         $this->tokLen));
-				$this->skipText = substr($this->string, $this->tokAbsStart, $this->tokStart-$this->tokAbsStart);
+                $this->skipText = substr($this->string, $this->tokAbsStart,
+                                         $this->tokStart-$this->tokAbsStart);
                 $this->tokStart = $this->tokPtr;
                 return 'real_val';
             // }}}
@@ -356,12 +368,13 @@ function nextToken()
             // {{{ State 11: Complete comparison operator
             case 11:
                 $this->unget();
-                $this->tokText = substr($this->string, $this->tokStart, $this->tokLen);
-                if($this->tokText)
-                {
-					$this->skipText = substr($this->string, $this->tokAbsStart, $this->tokStart-$this->tokAbsStart);
+                $this->tokText = substr($this->string, $this->tokStart,
+                                        $this->tokLen);
+                if($this->tokText) {
+                    $this->skipText = substr($this->string, $this->tokAbsStart,
+                                            $this->tokStart-$this->tokAbsStart);
                     $this->tokStart = $this->tokPtr;
-					return $this->tokText;
+                    return $this->tokText;
                 }
                 $state = 999;
                 break;
@@ -400,7 +413,8 @@ function nextToken()
 
             // {{{ State 13: Complete text string
             case 13:
-				$this->skipText = substr($this->string, $this->tokAbsStart, $this->tokStart-$this->tokAbsStart);
+                $this->skipText = substr($this->string, $this->tokAbsStart,
+                                         $this->tokStart-$this->tokAbsStart);
                 $this->tokStart = $this->tokPtr;
                 return 'text_val';
                 break;
@@ -410,14 +424,13 @@ function nextToken()
             case 14:
                 $c = $this->skip();
                 if ($c == "\n" || $c == "\r"){
-					// Handle MAC/Unix/Windows line endings.
-					if($c == "\r")
-					{
-						$c = $this->skip();
-						// If not DOS newline
-						if($c != "\n")
-							$this->unget();
-					}
+                    // Handle MAC/Unix/Windows line endings.
+                    if($c == "\r") {
+                        $c = $this->skip();
+                        // If not DOS newline
+                        if($c != "\n")
+                            $this->unget();
+                    }
                     $state = 0;
                 } else {
                     $state = 14;
@@ -425,7 +438,6 @@ function nextToken()
                 break;
             // }}}
 
-    		// Analogy Start
             // {{{ State 15: Exponent Sign in Scientific Notation
             case 15:
                     $c = $this->get();
@@ -458,7 +470,6 @@ function nextToken()
                     $state = 8;  // At least 1 exponent digit was required
                     break;
             // }}}
-    		// Analogy End
 
             // {{{ State 18 : Incomplete System Variable
             case 18:
@@ -474,8 +485,10 @@ function nextToken()
             // {{{ State 19: Complete Sys Var
             case 19:
                 $this->unget();
-                $this->tokText = substr($this->string, $this->tokStart, $this->tokLen);
-				$this->skipText = substr($this->string, $this->tokAbsStart, $this->tokStart-$this->tokAbsStart);
+                $this->tokText = substr($this->string, $this->tokStart,
+                                        $this->tokLen);
+                $this->skipText = substr($this->string, $this->tokAbsStart,
+                                         $this->tokStart-$this->tokAbsStart);
                 $this->tokStart = $this->tokPtr;
                 return 'sys_var';
             // }}}
@@ -484,7 +497,8 @@ function nextToken()
             case 999:
                 $this->revert();
                 $this->tokText = $this->get();
-				$this->skipText = substr($this->string, $this->tokAbsStart, $this->tokStart-$this->tokAbsStart);
+                $this->skipText = substr($this->string, $this->tokAbsStart,
+                                         $this->tokStart-$this->tokAbsStart);
                 $this->tokStart = $this->tokPtr;
                 return $this->tokText;
             // }}}
@@ -492,7 +506,8 @@ function nextToken()
             // {{{ State 1000 : End Of Input
             case 1000:
                 $this->tokText = '*end of input*';
-				$this->skipText = substr($this->string, $this->tokAbsStart, $this->tokStart-$this->tokAbsStart);
+                $this->skipText = substr($this->string, $this->tokAbsStart,
+                                         $this->tokStart-$this->tokAbsStart);
                 $this->tokStart = $this->tokPtr;
                 return null;
             // }}}
