@@ -372,7 +372,7 @@ function lex()
             // {{{ State 19: Complete Sys Var
             case 19:
                 $this->unget();
-                $this->tokText = substr($this->tokStart,$this->tokLen);
+                $this->tokText = substr($this->string, $this->tokStart,$this->tokLen);
                 $this->tokStart = $this->tokPtr;
                 return 'sys_var';
             // }}}
