@@ -27,6 +27,9 @@ This class is primarily an SQL parser, written with influences from a variety of
             Parser:
                 * Fixed bug in parsing default function arguments
                 * Added more test cases; tests no longer rely on Var_Dump for now
+                * Dialects can pass parser and lexer options to change behavior
+                  beyond just keywords.
+                * Added lexer option to accept idents starting with a number
                 * (TODO) Added PHPDoc comments
         </notes>
         <filelist>
