@@ -134,7 +134,7 @@ function lex()
                         $this->unget();
                     }
                 }
-                if ($c == '-' || $c == '+') {
+                if ($c == '-') {
                     $state = 9;
                     break;
                 }
@@ -234,7 +234,7 @@ function lex()
                 return 'real_val';
             // }}}
 
-            // {{{ State 9: Incomplete signed number
+            // {{{ State 9: Incomplete negative number
             case 9:
                 $c = $this->get();
                 if (ctype_digit(ord($c))) {
