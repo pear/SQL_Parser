@@ -204,32 +204,57 @@ function nextToken()
                     $this->tokLen = 1;
                 }
                 
+                // text string
                 if (($c == '\'') || ($c == '"')) {
                     $quote = $c;
                     $state = 12;
                     break;
                 }
+
+                // system variable
                 if ($c == '_') {
                     $state = 18;
                     break;
                 }
+
+                // keyword or ident
                 if (ctype_alpha(ord($c))) {
                     $state = 1;
                     break;
                 }
+
+                // real or int number
                 if (ctype_digit(ord($c))) {
                     $state = 5;
                     break;
                 }
+
                 if ($c == '.') {
                     $t = $this->get();
-                    if (ctype_digit(ord($t))) {
+                    // ellipsis
+                    if ($t == '.') {
+                        if ($this->get() == '.') {
+                            $this->tokText = '...';
+                            return $this->tokText();
+                        } else {
+                            $state = 999;
+                            break;
+                        }
+                    // real number
+                    } else if (ctype_digit(ord($t))) {
                         $this->unget();
                         $state = 7;
                         break;
                     } else {
+                    // period
                         $this->unget();
                     }
+                }
+
+                // Comments
+                if ($c == '#') {
+                    $state = 14;
+                    break;
                 }
                 if ($c == '-') {
                     $t = $this->get();
@@ -237,23 +262,24 @@ function nextToken()
                         $state = 14;
                         break;
                     } else {
+                        // negative number
                         $this->unget();
-                        $state = 9;
+                        $state = 5;
                         break;
                     }
                 }
+
+                // comparison operator
                 if ($this->isCompop($c)) {
                     $state = 10;
                     break;
                 }
-                if ($c == '#') {
-                    $state = 14;
-                    break;
-                }
+                // End Of Input
                 if ($c == false) {
                     $state = 1000;
                     break;
                 }
+                // Unknown token.  Revert to single char
                 $state = 999;
                 break;
             // }}}
@@ -348,21 +374,6 @@ function nextToken()
                 return 'real_val';
             // }}}
 
-            // {{{ State 9: Incomplete negative number
-            case 9:
-                $c = $this->get();
-                if (ctype_digit(ord($c))) {
-                    $state = 5;
-                    break;
-                }
-                if ($c == '.') {
-                    $state = 7;
-                    break;
-                }
-                $state = 999;
-                break;
-            // }}}
-
             // {{{ State 10: Incomplete comparison operator
             case 10:
                 $c = $this->get();
@@ -442,6 +453,9 @@ function nextToken()
                             $this->unget();
                         }
                     }
+                    ++$this->lineNo;
+                    $this->lineBegin = $this->tokPtr;
+
                     // We need to skip all the text.
                     $this->tokStart = $this->tokPtr;
                     $state = 0;
