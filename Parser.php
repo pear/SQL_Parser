@@ -714,8 +714,41 @@ class SQL_Parser
             $this->getTok();
         } elseif ($this->token == 'ident') {
             while ($this->token == 'ident') {
-                $tree['column_names'][] = $this->lexer->tokText;
+                $prevToken = $this->token;
+                $prevTokText = $this->lexer->tokText;
                 $this->getTok();
+                if ($this->token == '.') {
+                    $columnTable = $prevTokText;
+                    $this->getTok();
+                    $prevTok = $this->token;                   
+                    $prevTokText = $this->lexer->tokText;
+                } else {
+                    $columnTable = '';
+                }
+                
+                if ($prevTok == 'ident') {
+                    $columnName = $prevTokText;
+                } else {
+                    return $this->raiseError('Expected column name');
+                }
+                
+                if ($this->token == 'as') {
+                    $this->getTok();
+                    if ($this->token == 'ident' ) {
+                        $columnAlias = $this->lexer->tokText;
+                    } else {
+                        return $this->raiseError('Expected column alias');
+                    }
+                } else {
+                    $columnAlias = '';
+                }
+                
+                $tree['column_tables'][] = $columnTable;
+                $tree['column_names'][] = $columnName;
+                $tree['column_aliases'][] = $columnAlias;
+                if ($this->token != 'from') {
+                    $this->getTok();
+                }
                 if ($this->token == ',') {
                     $this->getTok();
                 }
@@ -742,6 +775,17 @@ class SQL_Parser
         while ($this->token == 'ident') {
             $tree['table_names'][] = $this->lexer->tokText;
             $this->getTok();
+            if ($this->token == 'as') {
+                $this->getTok();
+                if ($this->token == 'ident') {
+                    $tree['table_aliases'][] = $this->lexer->tokText;
+                } else {
+                    return $this->raiseError('Expected table alias');
+                }
+                $this->getTok();
+            } else {
+                $tree['table_aliases'][] = '';
+            }
             if ($this->token == ',') {
                 $this->getTok();
             } elseif (($this->token == 'where') ||
