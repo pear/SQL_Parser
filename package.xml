@@ -24,21 +24,22 @@ This class is primarily an SQL parser, written with influences from a variety of
         <date>2004-05-02</date>
         <state>devel</state>
         <notes>
-            Lexer:
-                * POSSIBLYTODO: Add MySQL mode for handling names beginning
-                  with numbers
             Parser:
                 * More robust search clause parsing; now handles subsearches
-                  with parentheses in more cases
-                * Add more alias handling cases
+                  with parentheses in more cases (Brent Cook
+                * Add more alias handling cases (John Griffin)
                 * Handle ordinal functions in select project clauses correctly
-                * Add explicit join support
+                * Add explicit join support (John Griffin)
                 * Add initial support for multiple SQL dialects (ANSI, MySQL)
+                  (John Griffin, Brent Cook)
+                * Added SQL Compiler that takes a parse tree and generates a
+                  SQL statement (John Griffin)
         </notes>
         <filelist>
             <dir name="/" baseinstalldir="/SQL">
                 <file role="php">Parser.php</file>
                 <file role="php">Lexer.php</file>
+                <file role="php">Compiler.php</file>
                 <file role="php">Dialect_ANSI.php</file>
                 <file role="php">Dialect_MySQL.php</file>
                 <file role="php">ctype.php</file>
