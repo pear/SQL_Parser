@@ -204,35 +204,30 @@ function nextToken()
                     $this->tokLen = 1;
                 }
                 
-                // text string
-                if (($c == '\'') || ($c == '"')) {
+                if (($c == '\'') || ($c == '"')) { // text string
                     $quote = $c;
                     $state = 12;
                     break;
                 }
 
-                // system variable
-                if ($c == '_') {
+                if ($c == '_') { // system variable
                     $state = 18;
                     break;
                 }
 
-                // keyword or ident
-                if (ctype_alpha(ord($c))) {
+                if (ctype_alpha(ord($c))) { // keyword or ident
                     $state = 1;
                     break;
                 }
 
-                // real or int number
-                if (ctype_digit(ord($c))) {
+                if (ctype_digit(ord($c))) { // real or int number
                     $state = 5;
                     break;
                 }
 
                 if ($c == '.') {
                     $t = $this->get();
-                    // ellipsis
-                    if ($t == '.') {
+                    if ($t == '.') { // ellipsis
                         if ($this->get() == '.') {
                             $this->tokText = '...';
                             return $this->tokText();
@@ -240,19 +235,16 @@ function nextToken()
                             $state = 999;
                             break;
                         }
-                    // real number
-                    } else if (ctype_digit(ord($t))) {
+                    } else if (ctype_digit(ord($t))) { // real number
                         $this->unget();
                         $state = 7;
                         break;
-                    } else {
-                    // period
+                    } else { // period
                         $this->unget();
                     }
                 }
 
-                // Comments
-                if ($c == '#') {
+                if ($c == '#') { // Comments
                     $state = 14;
                     break;
                 }
@@ -261,21 +253,18 @@ function nextToken()
                     if ($t == '-') {
                         $state = 14;
                         break;
-                    } else {
-                        // negative number
+                    } else { // negative number
                         $this->unget();
                         $state = 5;
                         break;
                     }
                 }
 
-                // comparison operator
-                if ($this->isCompop($c)) {
+                if ($this->isCompop($c)) { // comparison operator
                     $state = 10;
                     break;
                 }
-                // End Of Input
-                if ($c == false) {
+                if ($c == false) { // End Of Input
                     $state = 1000;
                     break;
                 }
@@ -323,11 +312,20 @@ function nextToken()
                 if (ctype_digit(ord($c))) {
                     $state = 5;
                     break;
-                }
-                if ($c == '.') {
-                    $state = 7;
                     break;
+                } else if ($c == '.') {
+                    $t = $this->get();
+                    if($t == '.') { // ellipsis
+                        $this->unget();
+                    } else { // real number
+                        $state = 7;
+                        break;
+                    }
+                } else if(ctype_alpha(ord($c))) { // number must end with
+                                                  // non-alpha character
+                    $state = 999;
                 }
+                // complete number
                 $state = 6;
                 break;
             // }}}
