@@ -27,6 +27,15 @@ CREATE TABLE films (
              len       INTERVAL HOUR TO MINUTE
              CONSTRAINT production UNIQUE(date_prod)
 );
+CREATE TABLE films ( 
+             code      CHARACTER(5) CONSTRAINT firstkey PRIMARY KEY, 
+             title     CHARACTER VARYING(40) NOT NULL, 
+             did       DECIMAL(3) NOT NULL, 
+             date_prod DATE, 
+             kind      CHAR(10), 
+             len       INTERVAL minute to hour
+             CONSTRAINT production UNIQUE(date_prod)
+);
 CREATE TABLE distributors ( 
              did      DECIMAL(3) PRIMARY KEY DEFAULT NEXTVAL('serial'), 
              name     VARCHAR(40) NOT NULL CHECK (name <> '') 

@@ -1,3 +1,6 @@
+Content-type: text/html
+X-Powered-By: PHP/4.3.4RC3
+
 <?php
 $tests = array(
 array(
@@ -56,7 +59,7 @@ array(
                 'type' => 'text'
                 ),
             'id' => array(
-                'type' => null,
+                'type' => 'int',
                 'constraints' => array(
                     0 => array(
                         'type' => 'default_value',
@@ -105,7 +108,7 @@ array(
                     )
                 ),
             'album' => array(
-                'type' => null
+                'type' => 'int'
                 ),
             'price' => array(
                 'type' => 'float',
@@ -121,7 +124,7 @@ array(
                     )
                 ),
             'id' => array(
-                'type' => null,
+                'type' => 'int',
                 'constraints' => array(
                     0 => array(
                         'type' => 'default_value',
@@ -205,7 +208,7 @@ array(
                     )
                 ),
             'date_prod' => array(
-                'type' => null
+                'type' => 'date'
                 ),
             'kind' => array(
                 'type' => 'char',
@@ -229,6 +232,21 @@ array(
                 )
             )
         )
+),
+array(
+'sql' => 'CREATE TABLE films ( 
+             code      CHARACTER(5) CONSTRAINT firstkey PRIMARY KEY, 
+             title     CHARACTER VARYING(40) NOT NULL, 
+             did       DECIMAL(3) NOT NULL, 
+             date_prod DATE, 
+             kind      CHAR(10), 
+             len       INTERVAL minute to hour
+             CONSTRAINT production UNIQUE(date_prod)
+)',
+'expect' => 'Parse error: hour is not smaller than minute on line 7
+             len       INTERVAL minute to hour
+                                          ^ found: "hour"'
+
 ),
 array(
 'sql' => 'CREATE TABLE distributors ( 
@@ -352,7 +370,7 @@ array(
                 'length' => 30
                 ),
             'msg_date' => array(
-                'type' => null
+                'type' => 'time'
                 )
             )
         )
@@ -361,42 +379,42 @@ array(
 'sql' => 'create table nodefinitions',
 'expect' => 'Parse error: Expected ( on line 1
 create table nodefinitions
-             ^ found: *end of input*'
+                           ^ found: "*end of input*"'
 
 ),
 array(
 'sql' => 'create dogfood',
 'expect' => 'Parse error: Unknown object to create on line 1
 create dogfood
-       ^ found: dogfood'
+       ^ found: "dogfood"'
 
 ),
 array(
 'sql' => 'create table dunce (name varchar',
 'expect' => 'Parse error: Expected ) on line 1
 create table dunce (name varchar
-                   ^ found: *end of input*'
+                                 ^ found: "*end of input*"'
 
 ),
 array(
 'sql' => 'create table dunce (name varchar(2,3))',
 'expect' => 'Parse error: Expected 1 parameter on line 1
 create table dunce (name varchar(2,3))
-                                    ^ found: )'
+                                    ^ found: ")"'
 
 ),
 array(
 'sql' => 'create table dunce (enum)',
 'expect' => 'Parse error: Expected identifier on line 1
 create table dunce (enum)
-                    ^ found: enum'
+                    ^ found: "enum"'
 
 ),
 array(
 'sql' => 'create table dunce (enum(23))',
 'expect' => 'Parse error: Expected identifier on line 1
 create table dunce (enum(23))
-                    ^ found: enum'
+                    ^ found: "enum"'
 
 ),
 );
