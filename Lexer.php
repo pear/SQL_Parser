@@ -232,8 +232,15 @@ function nextToken()
                     }
                 }
                 if ($c == '-') {
-                    $state = 9;
-                    break;
+                    $t = $this->get();
+                    if ($t == '-') {
+                        $state = 14;
+                        break;
+                    } else {
+                        $this->unget();
+                        $state = 9;
+                        break;
+                    }
                 }
                 if ($this->isCompop($c)) {
                     $state = 10;
@@ -426,14 +433,17 @@ function nextToken()
             // {{{ State 14: Comment
             case 14:
                 $c = $this->skip();
-                if ($c == "\n" || $c == "\r"){
+                if ($c == "\n" || $c == "\r" || $c == "") {
                     // Handle MAC/Unix/Windows line endings.
-                    if($c == "\r") {
+                    if ($c == "\r") {
                         $c = $this->skip();
                         // If not DOS newline
-                        if($c != "\n")
+                        if ($c != "\n") {
                             $this->unget();
+                        }
                     }
+                    // We need to skip all the text.
+                    $this->tokStart = $this->tokPtr;
                     $state = 0;
                 } else {
                     $state = 14;

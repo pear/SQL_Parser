@@ -1,4 +1,4 @@
-2<?php
+<?php
 $tests = array(
 array(
 'sql' => 'select * from dog where cat <> 4',
@@ -410,6 +410,20 @@ array(
                 )
             )
         )
+),
+array(
+'sql' => '-- Test Comment',
+'expect' => 'Parse error: Nothing to do on line 1
+-- Test Comment
+  ^ found: *end of input*'
+
+),
+array(
+'sql' => '# Test Comment',
+'expect' => 'Parse error: Nothing to do on line 1
+# Test Comment
+ ^ found: *end of input*'
+
 ),
 );
 ?>

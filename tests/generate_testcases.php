@@ -69,7 +69,6 @@ $parser = new Sql_Parser();
 
 $progname = basename(array_shift($argv));
 
-echo(count($argv));
 if (count($argv) != 1) {
     echo("Usage: generate_testcases.php test_cases.sql\n");
     exit(-1);
