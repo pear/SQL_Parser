@@ -32,7 +32,7 @@ include 'SQL/ctype.php';
  * A lexigraphical analyser inspired by the msql lexer
  *
  * @author  Brent Cook <busterb@mail.utexas.edu>
- * @version 0.19
+ * @version 0.2
  * @access  public
  * @package DBA
  */

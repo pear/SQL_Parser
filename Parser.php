@@ -28,7 +28,7 @@ require_once 'SQL/Lexer.php';
  * A sql parser
  *
  * @author  Brent Cook <busterb@mail.utexas.edu>
- * @version 0.19
+ * @version 0.2
  * @access  public
  * @package DBA
  */
