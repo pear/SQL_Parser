@@ -312,12 +312,6 @@ class SQL_Parser
         $clause['arg_1']['type'] = $this->token;
 
         $this->getTok();
-        // check for table.field notation
-        if ($this->token == '.') {
-            $this->getTok();
-            $clause['arg_1']['value'] .= '.' . $this->lexer->tokText;
-            $this->getTok();
-        }
 
         // parse the operator
         if (!$this->isOperator()) {
@@ -345,14 +339,8 @@ class SQL_Parser
             $clause['arg_2']['value'] = $this->lexer->tokText;
             $clause['arg_2']['type'] = $this->token;
         }
-        // check for table.field notation
-        $this->getTok();
-        if ($this->token == '.') {
-            $this->getTok();
-            $clause['arg_2']['value'] .= '.' . $this->lexer->tokText;
-            $this->getTok();
-        }
 
+        $this->getTok();
         if (($this->token == 'and') || ($this->token == 'or')) {
             $op = $this->token;
             $subClause = $this->parseSearchClause();
