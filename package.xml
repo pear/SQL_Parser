@@ -13,18 +13,33 @@ This class is primarily an SQL parser, written with influences from a variety of
         <maintainer>
             <user>busterb</user>
             <name>Brent Cook</name>
-            <email>busterb@mail.utexas.edu</email>
+            <email>busterbcook@yahoo.com</email>
             <role>lead</role>
         </maintainer>
     </maintainers>
 
     <release>
         <license>LGPL</license>
-        <version>0.3.1</version>
-        <date>2003-10-15</date>
+        <version>0.4</version>
+        <date>2003-12-21</date>
         <state>devel</state>
         <notes>
-            Minor addition - we can now parse table.field style field names
+            Lexer:
+                Fixed off-by-one error and other accesses of undefined memory
+                Idents can be of the form aaa.bbb
+            Parser:
+                Can now parse table.field style field names
+                Understand some forms of table alias
+                Fix some bugs in error carret display
+                Fix some references to undefined memory
+                Handle some subselects
+                Handle 'in' and 'not in' keywords for sets and subselects
+                Use new features of Lexer
+                Fix quantum comparisons in creates
+                add support for 'group by'
+            Thanks to John Griffin for many of these fixes. There are many more
+            left to merge in the next release - hopefully, it wont be too far
+            in the future.
         </notes>
         <filelist>
             <dir name="/" baseinstalldir="/SQL">
