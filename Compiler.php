@@ -50,6 +50,7 @@ class SQL_Compiler {
             case 'ident':
             case 'real_val':
             case 'int_val':
+            case 'null':
                 $value = $arg['value'];
                 break;
             case 'text_val':
@@ -73,13 +74,14 @@ class SQL_Compiler {
                 case 'ident':
                 case 'real_val':
                 case 'int_val':
+                case 'null':
                     $value[] = $arg['value'][$i];
                     break;
                 case 'text_val':
                     $value[] = '\''.$arg['value'][$i].'\'';
                     break;
                 default:
-                    return PEAR::raiseError('Unknown type: '.$arg['type']);
+                    return PEAR::raiseError('Unknown type: '.$arg['type'][$i]);
             }
         }
         $value ='('.implode(', ', $value).')';
@@ -95,13 +97,14 @@ class SQL_Compiler {
                 case 'ident':
                 case 'real_val':
                 case 'int_val':
+                case 'null':
                     $value[] = $arg['arg'][$i];
                     break;
                 case 'text_val':
                     $value[] = '\''.$arg['arg'][$i].'\'';
                     break;
                 default:
-                    return PEAR::raiseError('Unknown type: '.$arg['type']);
+                    return PEAR::raiseError('Unknown type: '.$arg['type'][$i]);
             }
         }
         $value = implode(', ', $value);
