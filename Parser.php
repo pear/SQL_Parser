@@ -32,7 +32,7 @@ require_once 'SQL/Lexer.php';
  * A sql parser
  *
  * @author  Brent Cook <busterb@mail.utexas.edu>
- * @version 0.3
+ * @version 0.3.1
  * @access  public
  * @package DBA
  */
@@ -54,13 +54,17 @@ class SQL_Parser
         $this->types = array_flip($dialect['types']);
         $this->functions = array_flip($dialect['functions']);
         $this->operators = array_flip($dialect['operators']);
-        $this->symbols = array_merge(array_flip($dialect['reserved']),
-            $this->types, $this->functions, $this->operators,
-            array_flip($dialect['commands']),
-            array_flip($dialect['conjunctions']));
+        $this->commands = array_flip($dialect['commands']);
         $this->synonyms = $dialect['synonyms'];
+        $this->symbols = array_merge(
+            $this->types,
+            $this->functions,
+            $this->operators,
+            $this->commands,
+            array_flip($dialect['reserved']),
+            array_flip($dialect['conjunctions']));
         if (is_string($string)) {
-            $this->lexer = new Lexer($string);
+            $this->lexer = new Lexer($string, 1);
             $this->lexer->symbols =& $this->symbols;
         }
     }
@@ -92,15 +96,16 @@ class SQL_Parser
     function raiseError($message) {
         $end = 0;
         if ($this->lexer->string != '') {
-            while (($this->lexer->string{$this->lexer->lineBegin+$end} != "\n")
-                && ($this->lexer->string{$this->lexer->lineBegin+$end})) {
+            while (($this->lexer->lineBegin+$end < $this->lexer->stringLen)
+               && ($this->lexer->string{$this->lexer->lineBegin+$end} != "\n")){
                 ++$end;
             }
         }
+        
         $message = 'Parse error: '.$message.' on line '.
             ($this->lexer->lineNo+1)."\n";
         $message .= substr($this->lexer->string, $this->lexer->lineBegin, $end)."\n";
-        $length = is_null($this->lexer->tokText)? 0 : strlen($this->lexer->tokText);
+        $length = is_null($this->token) ? 0 : strlen($this->lexer->tokText);
         $message .= str_repeat(' ', abs($this->lexer->tokPtr - 
                                $this->lexer->lineBegin - $length))."^";
         $message .= ' found: '.$this->lexer->tokText;
@@ -127,6 +132,12 @@ class SQL_Parser
     // {{{ isFunc()
     function isFunc() {
         return isset($this->functions[$this->token]);
+    }
+    // }}}
+
+    // {{{ isCommand()
+    function isCommand() {
+        return isset($this->commands[$this->token]);
     }
     // }}}
 
@@ -263,7 +274,7 @@ class SQL_Parser
                                 } 
                                 $constraintOpts['quantum_2'] = $this->token;
                             } else {
-                                $this->lexer->unGet();
+                                $this->lexer->unget();
                             }
                             break;
                         }
@@ -320,24 +331,58 @@ class SQL_Parser
         $clause['op'] = $this->token;
 
         $this->getTok();
-        // parse the special case for 'is' operators
-        if ($clause['op'] == 'is') {
-            if ($this->token == 'not') {
+        switch ($clause['op']) {
+            case 'is':
+                // parse for 'is' operator
+                if ($this->token == 'not') {
+                    $clause['neg'] = true;
+                    $this->getTok();
+                }
+                if ($this->token != 'null') {
+                    return $this->raiseError('Expected "null"');
+                }
+                $clause['arg_2']['value'] = '';
+                $clause['arg_2']['type'] = $this->token;
+                break;
+            case 'not':
+                // parse for 'not in' operator
+                if ($this->token != 'in') {
+                    return $this->raiseError('Expected "in"');
+                }
                 $clause['neg'] = true;
                 $this->getTok();
-            }
-            if ($this->token != 'null') {
-                return $this->raiseError('Expected "null"');
-            }
-            $clause['arg_2']['value'] = '';
-            $clause['arg_2']['type'] = $this->token;
-        } else {
-        // parse for in-fix binary operators
-            if ($this->isReserved()) {
-                return $this->raiseError('Expected a column name or value');
-            }
-            $clause['arg_2']['value'] = $this->lexer->tokText;
-            $clause['arg_2']['type'] = $this->token;
+            case 'in':
+                // parse for 'in' operator 
+                if ($this->token != '(') {
+                    return $this->raiseError('Expected "("');
+                }
+
+                // read the subset
+                $this->getTok();
+                // is this a subselect?
+                if ($this->token == 'select') {
+                    $clause['arg_2']['value'] = $this->parseSelect(true);
+                    $clause['arg_2']['type'] = 'command';
+                } else {
+                    $this->lexer->pushBack();
+                    // parse the set
+                    $result = $this->getParams($clause['arg_2']['value'],
+                                            $clause['arg_2']['type']);
+                    if (PEAR::isError($result)) {
+                        return $result;
+                    }
+                }
+                if ($this->token != ')') {
+                    return $this->raiseError('Expected ")"');
+                }
+                break;
+            default:
+                // parse for in-fix binary operators
+                if ($this->isReserved()) {
+                    return $this->raiseError('Expected a column name or value');
+                }
+                $clause['arg_2']['value'] = $this->lexer->tokText;
+                $clause['arg_2']['type'] = $this->token;
         }
 
         $this->getTok();
@@ -471,7 +516,7 @@ class SQL_Parser
         $opts['name'] = $function;
         $this->getTok();
         if ($this->token != '(') {
-            return $this->raiseError('Expected "("');
+            return $this->raiseError('Expected ")"');
         }
         switch ($function) {
             case 'count':
@@ -701,7 +746,7 @@ class SQL_Parser
     // }}}
 
     // {{{ parseSelect()
-    function parseSelect() {
+    function parseSelect($subSelect = false) {
         $tree = array('command' => 'select');
         $this->getTok();
         if (($this->token == 'distinct') || ($this->token == 'all')) {
@@ -794,7 +839,7 @@ class SQL_Parser
                 break;
             }
         }
-        while (!is_null($this->token)) {
+        while (!is_null($this->token) && (!$subSelect || $this->token != ')')) {
             switch ($this->token) {
                 case 'where':
                     $clause = $this->parseSearchClause();
@@ -858,7 +903,8 @@ class SQL_Parser
     function parse($string = null)
     {
         if (is_string($string)) {
-            $this->lexer = new Lexer($string);
+            // Initialize the Lexer with a 3-level look-back buffer
+            $this->lexer = new Lexer($string, 3);
             $this->lexer->symbols =& $this->symbols;
         } else {
             if (!is_object($this->lexer)) {
