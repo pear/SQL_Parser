@@ -20,26 +20,20 @@ This class is primarily an SQL parser, written with influences from a variety of
 
     <release>
         <license>LGPL</license>
-        <version>0.4</version>
-        <date>2003-12-21</date>
+        <version>0.5</version>
+        <date>2004-05-02</date>
         <state>devel</state>
         <notes>
             Lexer:
-                Fixed off-by-one error and other accesses of undefined memory
-                Idents can be of the form aaa.bbb
+                * POSSIBLYTODO: Add MySQL mode for handling names beginning
+                  with numbers
             Parser:
-                Can now parse table.field style field names
-                Understand some forms of table alias
-                Fix some bugs in error carret display
-                Fix some references to undefined memory
-                Handle some subselects
-                Handle 'in' and 'not in' keywords for sets and subselects
-                Use new features of Lexer
-                Fix quantum comparisons in creates
-                add support for 'group by'
-            Thanks to John Griffin for many of these fixes. There are many more
-            left to merge in the next release - hopefully, it wont be too far
-            in the future.
+                * More robust search clause parsing; now handles subsearches
+                  with parentheses in more cases
+                * Added more alias handling
+                * TODO: merge the rest of John's changes
+                * TODO: allow inserts/updates with functions for arguments
+                * TODO: Add SQL writer / XML writer
         </notes>
         <filelist>
             <dir name="/" baseinstalldir="/SQL">
