@@ -108,7 +108,7 @@ class SQL_Parser
         $length = is_null($this->token) ? 0 : strlen($this->lexer->tokText);
         $message .= str_repeat(' ', abs($this->lexer->tokPtr - 
                                $this->lexer->lineBegin - $length))."^";
-        $message .= ' found: '.$this->lexer->tokText;
+        $message .= ' found: "'.$this->lexer->tokText.'"';
 
         return PEAR::raiseError($message);
     }
@@ -164,7 +164,7 @@ class SQL_Parser
     function parseFieldOptions()
     {
         // parse field options
-        $nextConstraint = false;
+        $namedConstraint = false;
         $options = array();
         while (($this->token != ',') && ($this->token != ')') &&
                 ($this->token != null)) {
@@ -254,20 +254,25 @@ class SQL_Parser
                 case 'month': case 'year': case 'day': case 'hour':
                 case 'minute': case 'second':
                     $intervals = array(
-                                    array('month', 'year'),
-                                    array('second', 'minute', 'hour', 'day'));
+                                    array('month'=>0,
+                                          'year'=>1),
+                                    array('second'=>0,
+                                          'minute'=>1,
+                                          'hour'=>2,
+                                          'day'=>3));
                     foreach ($intervals as $class) {
-                        if (in_array($option, $class)) {
+                        if (isset($class[$option])) {
                             $constraintOpts = array('quantum_1'=>$this->token);
                             $this->getTok();
                             if ($this->token == 'to') {
                                 $this->getTok();
-                                if (!in_array($this->token, $class)) {
+                                if (!isset($class[$this->token])) {
+                                    echo $class[$this->token];
                                     return $this->raiseError(
                                         'Expected interval quanta');
                                 }
                                 if ($class[$this->token] >=
-                                    $constraintOpts['quantum_1']) {
+                                    $class[$constraintOpts['quantum_1']]) {
                                     return $this->raiseError($this->token.
                                         ' is not smaller than '.
                                         $constraintOpts['quantum_1']);
@@ -613,7 +618,7 @@ class SQL_Parser
                 if (PEAR::isError($results)) {
                     return $results;
                 } else {
-                    if ($tree['column_defs'] && 
+                    if (isset($tree['column_defs']) && 
                         (sizeof($tree['column_defs']) != sizeof($values))) {
                         return $this->raiseError('field/value mismatch');
                     }
@@ -805,6 +810,17 @@ class SQL_Parser
                 }
                 $tree['set_function'] = $result;
                 $this->getTok();
+
+                if ($this->token == 'as') {
+                    $this->getTok();
+                    if ($this->token == 'ident' ) {
+                        $columnAlias = $this->lexer->tokText;
+                    } else {
+                        return $this->raiseError('Expected column alias');
+                    }
+                } else {
+                    $columnAlias = '';
+                }
             } else {
                 return $this->raiseError('Cannot use "'.
                         $tree['set_quantifier'].'" with '.$this->token);
@@ -887,6 +903,7 @@ class SQL_Parser
                         }
                         $start = $length;
                         $length = $this->lexer->tokText;
+                        $this->getTok();
                     }
                     $tree['limit_clause'] = array('start'=>$start,
                                                   'length'=>$length);
