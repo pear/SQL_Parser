@@ -267,7 +267,6 @@ class SQL_Parser
                             if ($this->token == 'to') {
                                 $this->getTok();
                                 if (!isset($class[$this->token])) {
-                                    echo $class[$this->token];
                                     return $this->raiseError(
                                         'Expected interval quanta');
                                 }
@@ -311,25 +310,31 @@ class SQL_Parser
     // }}}
 
     // {{{ parseSearchClause()
-    function parseSearchClause()
+    function parseSearchClause($subSearch = false)
     {
         $clause = array();
-        $this->getTok();
         // parse the first argument
+        $this->getTok();
         if ($this->token == 'not') {
             $clause['neg'] = true;
             $this->getTok();
         }
 
-        if ($this->isReserved()) {
+        if ($this->token == '(') {
+            $clause['arg_1']['value'] = $this->parseSearchClause(true);
+            $clause['arg_1']['type'] = 'subclause';
+            if ($this->token != ')') {
+                return $this->raiseError('Expected ")"');
+            }
+        } else if ($this->isReserved()) {
             return $this->raiseError('Expected a column name or value');
+        } else {
+            $clause['arg_1']['value'] = $this->lexer->tokText;
+            $clause['arg_1']['type'] = $this->token;
         }
-        $clause['arg_1']['value'] = $this->lexer->tokText;
-        $clause['arg_1']['type'] = $this->token;
-
-        $this->getTok();
 
         // parse the operator
+        $this->getTok();
         if (!$this->isOperator()) {
             return $this->raiseError('Expected an operator');
         }
@@ -381,13 +386,25 @@ class SQL_Parser
                     return $this->raiseError('Expected ")"');
                 }
                 break;
+            case 'and': case 'or':
+                $this->lexer->unget();
+                break;
             default:
                 // parse for in-fix binary operators
                 if ($this->isReserved()) {
                     return $this->raiseError('Expected a column name or value');
                 }
-                $clause['arg_2']['value'] = $this->lexer->tokText;
-                $clause['arg_2']['type'] = $this->token;
+                if ($this->token == '(') {
+                    $clause['arg_2']['value'] = $this->parseSearchClause(true);
+                    $clause['arg_2']['type'] = 'subclause';
+                    $this->getTok();
+                    if ($this->token != ')') {
+                        return $this->raiseError('Expected ")"');
+                    }
+                } else {
+                    $clause['arg_2']['value'] = $this->lexer->tokText;
+                    $clause['arg_2']['type'] = $this->token;
+                }
         }
 
         $this->getTok();
@@ -397,14 +414,14 @@ class SQL_Parser
             if (PEAR::isError($subClause)) {
                 return $subClause;
             } else {
-                return array('arg_1' => $clause,
-                            'op' => $op,
-                            'arg_2' => $subClause);
+                $clause = array('arg_1' => $clause,
+                                'op' => $op,
+                                'arg_2' => $subClause);
             }
         } else {
             $this->lexer->unget();
-            return $clause;
         }
+        return $clause;
     }
     // }}}
 
