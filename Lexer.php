@@ -17,7 +17,7 @@
 // | License along with this library; if not, write to the Free Software  |
 // | Foundation, Inc., 59 Temple Place, Suite 330,Boston,MA 02111-1307 USA|
 // +----------------------------------------------------------------------+
-// | Authors: Brent Cook <busterb@mail.utexas.edu>                        |
+// | Authors: Brent Cook <busterbcook@yahoo.com>                          |
 // |          Jason Pell <jasonpell@hotmail.com>                          |
 // +----------------------------------------------------------------------+
 //
@@ -34,10 +34,10 @@ include 'SQL/ctype.php';
 /**
  * A lexigraphical analyser inspired by the msql lexer
  *
- * @author  Brent Cook <busterb@mail.utexas.edu>
- * @version 0.3
+ * @author  Brent Cook <busterbcook@yahoo.com>
+ * @version 0.4
  * @access  public
- * @package DBA
+ * @package SQL_Parser
  */
 class Lexer
 {
