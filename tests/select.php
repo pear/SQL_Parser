@@ -65,6 +65,9 @@ array(
                 'name' => 'max',
                 'arg' => array(
                     0 => 'length'
+                    ),
+                'type' => array(
+                    0 => 'ident'
                     )
                 )
             ),
@@ -89,6 +92,9 @@ array(
                 'distinct' => true,
                 'arg' => array(
                     0 => 'country'
+                    ),
+                'type' => array(
+                    0 => 'ident'
                     )
                 )
             ),
@@ -312,6 +318,9 @@ array(
                 'name' => 'min',
                 'arg' => array(
                     0 => 'a'
+                    ),
+                'type' => array(
+                    0 => 'ident'
                     ),
                 'alias' => 'baz'
                 )
@@ -706,6 +715,9 @@ array(
                 'name' => 'count',
                 'arg' => array(
                     0 => 'child_table.name'
+                    ),
+                'type' => array(
+                    0 => 'ident'
                     )
                 )
             ),
@@ -755,6 +767,9 @@ array(
                 'name' => 'count',
                 'arg' => array(
                     0 => 'child_table.name'
+                    ),
+                'type' => array(
+                    0 => 'ident'
                     )
                 )
             ),
@@ -841,6 +856,9 @@ array(
                 'arg' => array(
                     0 => 'b'
                     ),
+                'type' => array(
+                    0 => 'ident'
+                    ),
                 'alias' => 'x'
                 ),
             1 => array(
@@ -848,12 +866,18 @@ array(
                 'arg' => array(
                     0 => 'c'
                     ),
+                'type' => array(
+                    0 => 'ident'
+                    ),
                 'alias' => 'y'
                 ),
             2 => array(
                 'name' => 'min',
                 'arg' => array(
                     0 => 'd'
+                    ),
+                'type' => array(
+                    0 => 'ident'
                     ),
                 'alias' => 'z'
                 )
@@ -1341,6 +1365,14 @@ array(
             1 => 'left outer join'
             )
         )
+),
+array(
+'sql' => 'select 4b from test where 7iModule_Solution = 3
+',
+'expect' => 'Parse error: Expected columns or a set function on line 1
+select 4b from test where 7iModule_Solution = 3
+       ^ found: "4"'
+
 ),
 );
 ?>

@@ -87,6 +87,28 @@ class SQL_Compiler {
     }
 //    }}}
 
+//    {{{ function compileFunctionOpts($arg)
+    function compileFunctionOpts($arg)
+    {
+        for ($i = 0; $i < sizeof ($arg['type']); $i++) {
+            switch ($arg['type'][$i]) {
+                case 'ident':
+                case 'real_val':
+                case 'int_val':
+                    $value[] = $arg['arg'][$i];
+                    break;
+                case 'text_val':
+                    $value[] = '\''.$arg['arg'][$i].'\'';
+                    break;
+                default:
+                    return PEAR::raiseError('Unknown type: '.$arg['type']);
+            }
+        }
+        $value = implode(', ', $value);
+        return $value;
+    }
+//    }}}
+
 //    {{{ function compileSearchClause
     function compileSearchClause($where_clause)
     {
@@ -162,7 +184,7 @@ class SQL_Compiler {
                 $column .= 'distinct ';
             }
             if (isset ($this->tree['set_function'][$i]['arg'])) {
-                $column .= implode (',', $this->tree['set_function'][$i]['arg']);
+                $column .= $this->compileFunctionOpts($this->tree['set_function'][$i]);
             }
             $column .= ')';
             if ($this->tree['set_function'][$i]['alias'] != '') {
@@ -301,7 +323,7 @@ class SQL_Compiler {
                 break;
             case 'create':
             case 'drop':
-            case 'modify':
+            case 'alter':
             default:
                 return PEAR::raiseError('Unknown action: '.$this->tree['command']);
         }    // switch ($this->_tree["command"])
@@ -310,4 +332,3 @@ class SQL_Compiler {
 //    }}}
 }
 ?>
-

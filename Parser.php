@@ -577,6 +577,7 @@ class SQL_Parser
                         }
                     case 'ident': case '*':
                         $opts['arg'][] = $this->lexer->tokText;
+                        $opts['type'][] = $this->token;
                         break;
                     default:
                         return $this->raiseError('Invalid argument');
@@ -588,6 +589,7 @@ class SQL_Parser
                     switch ($this->token) {
                         case 'ident': case 'text_val':
                             $opts['arg'][] = $this->lexer->tokText;
+                            $opts['type'][] = $this->token;
                             break;
                         case ',':
                             // do nothing
@@ -599,10 +601,30 @@ class SQL_Parser
                 }
                 $this->lexer->pushBack();
                 break;
+            case 'date_format':
+                $this->getTok();
+                if ($this->token == 'ident' || $this->token == 'text_val') {
+                    $opts['arg'][] = $this->lexer->tokText;
+                    $opts['type'][] = $this->token;
+                    $this->getTok();
+                    if ($this->token != ',') {
+                        return $this->raiseError('Expected a comma');
+                    }
+                    $this->getTok();
+                    if ($this->token != 'text_val') {
+                        return $this->raiseError('Expected a string value');
+                    }
+                    $opts['arg'][] = $this->lexer->tokText;
+                    $opts['type'][] = $this->token;
+                } else {
+                    return $this->raiseError('Expected a string or column name');
+                }
+                break;
             case 'avg': case 'min': case 'max': case 'sum':
             default:
                 $this->getTok();
                 $opts['arg'][] = $this->lexer->tokText;
+                $opts['type'][] = $this->token;
                 break;
         }
         $this->getTok();
