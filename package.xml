@@ -20,20 +20,14 @@ This class is primarily an SQL parser, written with influences from a variety of
 
     <release>
         <license>LGPL</license>
-        <version>0.5</version>
-        <date>2004-05-02</date>
+        <version>0.5.1</version>
+        <date>2004-05-30</date>
         <state>devel</state>
         <notes>
             Parser:
-                * More robust search clause parsing; now handles subsearches
-                  with parentheses in more cases (Brent Cook
-                * Add more alias handling cases (John Griffin)
-                * Handle ordinal functions in select project clauses correctly
-                * Add explicit join support (John Griffin)
-                * Add initial support for multiple SQL dialects (ANSI, MySQL)
-                  (John Griffin, Brent Cook)
-                * Added SQL Compiler that takes a parse tree and generates a
-                  SQL statement (John Griffin)
+                * Fixed bug in parsing default function arguments
+                * Added more test cases; tests no longer rely on Var_Dump for now
+                * (TODO) Added PHPDoc comments
         </notes>
         <filelist>
             <dir name="/" baseinstalldir="/SQL">
@@ -46,12 +40,16 @@ This class is primarily an SQL parser, written with influences from a variety of
                 <dir name="tests" role="test">
                     <file role="test">test_parser.php</file>
                     <file role="test">parser_cases.php</file>
+                    <file role="test">dumper.php</file>
                     <file role="test">create.php</file>
                     <file role="test">delete.php</file>
                     <file role="test">drop.php</file>
                     <file role="test">insert.php</file>
                     <file role="test">select.php</file>
                     <file role="test">update.php</file>
+                    <file role="test">update.php</file>
+                    <file role="test">employment.php</file>
+                    <file role="test">tables.php</file>
                 </dir>
             </dir>
         </filelist>

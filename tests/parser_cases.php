@@ -80,4 +80,9 @@ class SqlParserTest extends PHPUnit_TestCase {
         include 'employment.php';
         $this->runTests($tests);
     }
+
+    function testTables() {
+        include 'tables.php';
+        $this->runTests($tests);
+    }
 }
