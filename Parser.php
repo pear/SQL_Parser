@@ -563,6 +563,23 @@ class SQL_Parser
                         return $this->raiseError('Invalid argument');
                 }
                 break;
+            case 'concat':
+                $this->getTok();
+                while ($this->token != ')') {
+                    switch ($this->token) {
+                        case 'ident': case 'text_val':
+                            $opts['arg'][] = $this->lexer->tokText;
+                            break;
+                        case ',':
+                            // do nothing
+                            break;
+                        default:
+                            return $this->raiseError('Expected a string or a column name');
+                    }
+                    $this->getTok();
+                }
+                $this->lexer->pushBack();
+                break;
             case 'avg': case 'min': case 'max': case 'sum':
             default:
                 $this->getTok();
@@ -877,7 +894,10 @@ class SQL_Parser
         while ($this->token == 'ident') {
             $tree['table_names'][] = $this->lexer->tokText;
             $this->getTok();
-            if ($this->token == 'as') {
+            if ($this->token == 'ident') {
+                $tree['table_aliases'][] = $this->lexer->tokText;
+                $this->getTok();
+            } elseif ($this->token == 'as') {
                 $this->getTok();
                 if ($this->token == 'ident') {
                     $tree['table_aliases'][] = $this->lexer->tokText;

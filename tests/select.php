@@ -73,7 +73,9 @@ array(
         'set_function' => array(
             'name' => 'count',
             'distinct' => true,
-            'arg' => 'country'
+            'arg' => array(
+                0 => 'country'
+                )
             ),
         'table_names' => array(
             0 => 'publishers'
@@ -180,7 +182,7 @@ array(
                 )
             ),
         'sort_order' => array(
-            'two' => 'desc'
+            'two' => 'asc'
             )
         )
 ),
@@ -458,7 +460,7 @@ array(
                 'value' => 'a',
                 'type' => 'ident'
                 ),
-            'op' => 'not',
+            'op' => 'in',
             'neg' => true,
             'arg_2' => array(
                 'value' => array(
@@ -532,7 +534,7 @@ array(
                             'value' => 'c',
                             'type' => 'ident'
                             ),
-                        'op' => 'not',
+                        'op' => 'in',
                         'neg' => true,
                         'arg_2' => array(
                             'value' => array(
@@ -608,7 +610,9 @@ array(
         'command' => 'select',
         'set_function' => array(
             'name' => 'count',
-            'arg' => 'child_table.name'
+            'arg' => array(
+                0 => 'child_table.name'
+                )
             ),
         'table_names' => array(
             0 => 'parent_table',
@@ -798,8 +802,8 @@ array(
                 )
             ),
         'sort_order' => array(
-            'clients_translation.id_clients_prefix' => 'desc',
-            'clients_translation.rule_number' => 'desc'
+            'clients_translation.id_clients_prefix' => 'asc',
+            'clients_translation.rule_number' => 'asc'
             )
         )
 ),
