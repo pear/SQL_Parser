@@ -451,8 +451,11 @@ function nextToken()
                             $this->unget();
                         }
                     }
-                    ++$this->lineNo;
-                    $this->lineBegin = $this->tokPtr;
+
+                    if ($c != "") {
+                        ++$this->lineNo;
+                        $this->lineBegin = $this->tokPtr;
+                    }
 
                     // We need to skip all the text.
                     $this->tokStart = $this->tokPtr;
