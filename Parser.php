@@ -311,6 +311,10 @@ class SQL_Parser
                 case 'null':
                     $haveValue = false;
                     break;
+                case 'auto_increment':
+                    $constraintOpts = array('type'=>'auto_increment',
+                                            'value'=>true);
+                    break;
                 default:
                     return $this->raiseError('Unexpected token '
                                         .$this->lexer->tokText);
