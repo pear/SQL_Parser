@@ -1,6 +1,6 @@
 <?php
 require_once 'SQL/Parser.php';
-require_once 'PHPUnit/PHPUnit.php';
+require_once 'PHPUnit.php';
 require_once 'Var_Dump.php';
 
 class SqlParserTest extends PHPUnit_TestCase {
