@@ -596,7 +596,7 @@ class SQL_Parser
             case 'avg': case 'min': case 'max': case 'sum':
             default:
                 $this->getTok();
-                $opts['arg'] = $this->lexer->tokText;
+                $opts['arg'][] = $this->lexer->tokText;
                 break;
         }
         $this->getTok();
