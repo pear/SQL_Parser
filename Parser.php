@@ -543,7 +543,7 @@ class SQL_Parser
         }
         $this->getTok();
         if ($this->token != ')') {
-            return $this->raiseError('Expected "("');
+            return $this->raiseError('Expected ")"');
         }
         return $opts;
     }
@@ -890,6 +890,21 @@ class SQL_Parser
                     }
                     $tree['limit_clause'] = array('start'=>$start,
                                                   'length'=>$length);
+                    break;
+                case 'group':
+                    $this->getTok();
+                    if ($this->token != 'by') {
+                        return $this->raiseError('Expected "by"');
+                    }
+                    $this->getTok();
+                    while ($this->token == 'ident') {
+                        $col = $this->lexer->tokText;
+                        $this->getTok();
+                        if ($this->token == ',') {
+                            $this->getTok();
+                        }
+                        $tree['group_by'][] = $col;
+                    }
                     break;
                 default:
                     return $this->raiseError('Unexpected clause');
