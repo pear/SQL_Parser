@@ -28,7 +28,7 @@ $dialect = array(
 
 'commands'=>array('alter','create','drop','select','delete','insert','update'),
 
-'operators'=>array('=','<>','<','<=','>','>=','like','clike','slike','not','is','in','between'),
+'operators'=>array('=','<>','<','<=','>','>=','like','clike','slike','not','is','in','between','and','or'),
 
 'types'=>array('character','char','varchar','nchar','bit','numeric','decimal','dec','integer','int','smallint','float','real','double','date','time','timestamp','interval','bool','boolean','set','enum','text'),
 
