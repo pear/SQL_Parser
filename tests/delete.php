@@ -1,4 +1,4 @@
-<?php
+2<?php
 $tests = array(
 array(
 'sql' => 'delete from dog where cat = 4 and horse <> "dead meat" or mouse = \'furry\'',
@@ -69,7 +69,7 @@ delete from where cat = 53
 ),
 array(
 'sql' => 'delete from dog where mouse is happy',
-'expect' => 'Parse error: Expected an operator on line 1
+'expect' => 'Parse error: Expected "null" on line 1
 delete from dog where mouse is happy
                                ^ found: happy'
 

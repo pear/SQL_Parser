@@ -304,5 +304,112 @@ array(
             )
         )
 ),
+array(
+'sql' => 'SELECT * FROM PERSON WHERE SURNAME IS not NULL AND FIRSTNAME = \'Jason\'',
+'expect' => array(
+        'command' => 'select',
+        'column_names' => array(
+            0 => '*'
+            ),
+        'table_names' => array(
+            0 => 'PERSON'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'arg_1' => array(
+                    'value' => 'SURNAME',
+                    'type' => 'ident'
+                    ),
+                'op' => 'is',
+                'neg' => true,
+                'arg_2' => array(
+                    'value' => '',
+                    'type' => 'null'
+                    )
+                ),
+            'op' => 'and',
+            'arg_2' => array(
+                'arg_1' => array(
+                    'value' => 'FIRSTNAME',
+                    'type' => 'ident'
+                    ),
+                'op' => '=',
+                'arg_2' => array(
+                    'value' => 'Jason',
+                    'type' => 'text_val'
+                    )
+                )
+            )
+        )
+),
+array(
+'sql' => 'SELECT * FROM PERSON WHERE SURNAME IS NULL',
+'expect' => array(
+        'command' => 'select',
+        'column_names' => array(
+            0 => '*'
+            ),
+        'table_names' => array(
+            0 => 'PERSON'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'value' => 'SURNAME',
+                'type' => 'ident'
+                ),
+            'op' => 'is',
+            'arg_2' => array(
+                'value' => '',
+                'type' => 'null'
+                )
+            )
+        )
+),
+array(
+'sql' => 'SELECT * FROM PERSON WHERE SURNAME = \'\' AND FIRSTNAME = \'Jason\'',
+'expect' => array(
+        'command' => 'select',
+        'column_names' => array(
+            0 => '*'
+            ),
+        'table_names' => array(
+            0 => 'PERSON'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'arg_1' => array(
+                    'value' => 'SURNAME',
+                    'type' => 'ident'
+                    ),
+                'op' => '=',
+                'arg_2' => array(
+                    'value' => '',
+                    'type' => 'text_val'
+                    )
+                ),
+            'op' => 'and',
+            'arg_2' => array(
+                'arg_1' => array(
+                    'value' => 'FIRSTNAME',
+                    'type' => 'ident'
+                    ),
+                'op' => '=',
+                'arg_2' => array(
+                    'value' => 'Jason',
+                    'type' => 'text_val'
+                    )
+                )
+            )
+        )
+),
 );
 ?>

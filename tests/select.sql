@@ -8,3 +8,6 @@ select one, two from hairy where two <> 4 and one = 2 limit 4 order by two ascen
 select foo.a from foo;
 select a as b from foo;
 select a from foo as bar;
+SELECT * FROM PERSON WHERE SURNAME IS not NULL AND FIRSTNAME = 'Jason';
+SELECT * FROM PERSON WHERE SURNAME IS NULL;
+SELECT * FROM PERSON WHERE SURNAME = '' AND FIRSTNAME = 'Jason';
