@@ -320,12 +320,14 @@ class SQL_Parser
             $this->getTok();
         }
 
+        $foundSubclause = false;
         if ($this->token == '(') {
             $clause['arg_1']['value'] = $this->parseSearchClause(true);
             $clause['arg_1']['type'] = 'subclause';
             if ($this->token != ')') {
                 return $this->raiseError('Expected ")"');
             }
+            $foundSubclause = true;
         } else if ($this->isReserved()) {
             return $this->raiseError('Expected a column name or value');
         } else {
@@ -334,83 +336,85 @@ class SQL_Parser
         }
 
         // parse the operator
-        $this->getTok();
-        if (!$this->isOperator()) {
-            return $this->raiseError('Expected an operator');
-        }
-        $clause['op'] = $this->token;
+        if (!$foundSubclause) {
+            $this->getTok();
+            if (!$this->isOperator()) {
+                return $this->raiseError('Expected an operator');
+            }
+            $clause['op'] = $this->token;
 
-        $this->getTok();
-        switch ($clause['op']) {
-            case 'is':
-                // parse for 'is' operator
-                if ($this->token == 'not') {
+            $this->getTok();
+            switch ($clause['op']) {
+                case 'is':
+                    // parse for 'is' operator
+                    if ($this->token == 'not') {
+                        $clause['neg'] = true;
+                        $this->getTok();
+                    }
+                    if ($this->token != 'null') {
+                        return $this->raiseError('Expected "null"');
+                    }
+                    $clause['arg_2']['value'] = '';
+                    $clause['arg_2']['type'] = $this->token;
+                    break;
+                case 'not':
+                    // parse for 'not in' operator
+                    if ($this->token != 'in') {
+                        return $this->raiseError('Expected "in"');
+                    }
                     $clause['neg'] = true;
                     $this->getTok();
-                }
-                if ($this->token != 'null') {
-                    return $this->raiseError('Expected "null"');
-                }
-                $clause['arg_2']['value'] = '';
-                $clause['arg_2']['type'] = $this->token;
-                break;
-            case 'not':
-                // parse for 'not in' operator
-                if ($this->token != 'in') {
-                    return $this->raiseError('Expected "in"');
-                }
-                $clause['neg'] = true;
-                $this->getTok();
-            case 'in':
-                // parse for 'in' operator 
-                if ($this->token != '(') {
-                    return $this->raiseError('Expected "("');
-                }
-
-                // read the subset
-                $this->getTok();
-                // is this a subselect?
-                if ($this->token == 'select') {
-                    $clause['arg_2']['value'] = $this->parseSelect(true);
-                    $clause['arg_2']['type'] = 'command';
-                } else {
-                    $this->lexer->pushBack();
-                    // parse the set
-                    $result = $this->getParams($clause['arg_2']['value'],
-                                            $clause['arg_2']['type']);
-                    if (PEAR::isError($result)) {
-                        return $result;
+                case 'in':
+                    // parse for 'in' operator 
+                    if ($this->token != '(') {
+                        return $this->raiseError('Expected "("');
                     }
-                }
-                if ($this->token != ')') {
-                    return $this->raiseError('Expected ")"');
-                }
-                break;
-            case 'and': case 'or':
-                $this->lexer->unget();
-                break;
-            default:
-                // parse for in-fix binary operators
-                if ($this->isReserved()) {
-                    return $this->raiseError('Expected a column name or value');
-                }
-                if ($this->token == '(') {
-                    $clause['arg_2']['value'] = $this->parseSearchClause(true);
-                    $clause['arg_2']['type'] = 'subclause';
+
+                    // read the subset
                     $this->getTok();
+                    // is this a subselect?
+                    if ($this->token == 'select') {
+                        $clause['arg_2']['value'] = $this->parseSelect(true);
+                        $clause['arg_2']['type'] = 'command';
+                    } else {
+                        $this->lexer->pushBack();
+                        // parse the set
+                        $result = $this->getParams($clause['arg_2']['value'],
+                                                $clause['arg_2']['type']);
+                        if (PEAR::isError($result)) {
+                            return $result;
+                        }
+                    }
                     if ($this->token != ')') {
                         return $this->raiseError('Expected ")"');
                     }
-                } else {
-                    $clause['arg_2']['value'] = $this->lexer->tokText;
-                    $clause['arg_2']['type'] = $this->token;
-                }
+                    break;
+                case 'and': case 'or':
+                    $this->lexer->unget();
+                    break;
+                default:
+                    // parse for in-fix binary operators
+                    if ($this->isReserved()) {
+                        return $this->raiseError('Expected a column name or value');
+                    }
+                    if ($this->token == '(') {
+                        $clause['arg_2']['value'] = $this->parseSearchClause(true);
+                        $clause['arg_2']['type'] = 'subclause';
+                        $this->getTok();
+                        if ($this->token != ')') {
+                            return $this->raiseError('Expected ")"');
+                        }
+                    } else {
+                        $clause['arg_2']['value'] = $this->lexer->tokText;
+                        $clause['arg_2']['type'] = $this->token;
+                    }
+            }
         }
 
         $this->getTok();
         if (($this->token == 'and') || ($this->token == 'or')) {
             $op = $this->token;
-            $subClause = $this->parseSearchClause();
+            $subClause = $this->parseSearchClause($subSearch);
             if (PEAR::isError($subClause)) {
                 return $subClause;
             } else {
@@ -566,6 +570,25 @@ class SQL_Parser
         $this->getTok();
         if ($this->token != ')') {
             return $this->raiseError('Expected ")"');
+        }
+ 
+        // check for an alias
+        $this->getTok();
+        if ($this->token == ',' || $this->token == 'from') {
+            $this->lexer->pushBack();
+        } elseif ($this->token == 'as') {
+            $this->getTok();
+            if ($this->token == 'ident' ) {
+                $opts['alias'] = $this->lexer->tokText;
+            } else {
+                return $this->raiseError('Expected column alias');
+            }
+        } else {
+            if ($this->token == 'ident' ) {
+                $opts['alias'] = $this->lexer->tokText;
+            } else {
+                return $this->raiseError('Expected column alias, from or comma');
+            }
         }
         return $opts;
     }

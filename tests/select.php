@@ -1,6 +1,3 @@
-Content-type: text/html
-X-Powered-By: PHP/4.3.4RC3
-
 <?php
 $tests = array(
 array(
@@ -266,25 +263,11 @@ array(
         )
 ),
 array(
-'sql' => 'select a as b from foo',
-'expect' => array(
-        'command' => 'select',
-        'column_tables' => array(
-            0 => ''
-            ),
-        'column_names' => array(
-            0 => 'a'
-            ),
-        'column_aliases' => array(
-            0 => 'b'
-            ),
-        'table_names' => array(
-            0 => 'foo'
-            ),
-        'table_aliases' => array(
-            0 => ''
-            )
-        )
+'sql' => 'select a as b, min(a) as baz from foo',
+'expect' => 'Parse error: Expected "from" on line 1
+select a as b, min(a) as baz from foo
+               ^ found: "min"'
+
 ),
 array(
 'sql' => 'select a from foo as bar',
@@ -702,10 +685,212 @@ array(
          and clients.unused=\'n\'
          and (clients_translation.id_clients_prefix = clients_prefix.id_clients_prefix)
          order by clients_translation.id_clients_prefix,clients_translation.rule_number',
-'expect' => 'Parse error: Expected an operator on line 4
-       where (clients.id_softswitch = 5)
-              ^ found: "clients.id_softswitch"'
-
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => '',
+            1 => '',
+            2 => '',
+            3 => ''
+            ),
+        'column_names' => array(
+            0 => 'clients_translation.id_clients_prefix',
+            1 => 'clients_translation.rule_number',
+            2 => 'clients_translation.pattern',
+            3 => 'clients_translation.rule'
+            ),
+        'column_aliases' => array(
+            0 => '',
+            1 => '',
+            2 => '',
+            3 => ''
+            ),
+        'table_names' => array(
+            0 => 'clients',
+            1 => 'clients_prefix',
+            2 => 'clients_translation'
+            ),
+        'table_aliases' => array(
+            0 => '',
+            1 => '',
+            2 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'arg_1' => array(
+                    'value' => array(
+                        'arg_1' => array(
+                            'value' => 'clients.id_softswitch',
+                            'type' => 'ident'
+                            ),
+                        'op' => '=',
+                        'arg_2' => array(
+                            'value' => 5,
+                            'type' => 'int_val'
+                            )
+                        ),
+                    'type' => 'subclause'
+                    )
+                ),
+            'op' => 'and',
+            'arg_2' => array(
+                'arg_1' => array(
+                    'arg_1' => array(
+                        'value' => array(
+                            'arg_1' => array(
+                                'value' => 'clients.id_clients',
+                                'type' => 'ident'
+                                ),
+                            'op' => '=',
+                            'arg_2' => array(
+                                'value' => 'clients_prefix.id_clients',
+                                'type' => 'ident'
+                                )
+                            ),
+                        'type' => 'subclause'
+                        )
+                    ),
+                'op' => 'and',
+                'arg_2' => array(
+                    'arg_1' => array(
+                        'arg_1' => array(
+                            'value' => 'clients.enable',
+                            'type' => 'ident'
+                            ),
+                        'op' => '=',
+                        'arg_2' => array(
+                            'value' => 'y',
+                            'type' => 'text_val'
+                            )
+                        ),
+                    'op' => 'and',
+                    'arg_2' => array(
+                        'arg_1' => array(
+                            'arg_1' => array(
+                                'value' => 'clients.unused',
+                                'type' => 'ident'
+                                ),
+                            'op' => '=',
+                            'arg_2' => array(
+                                'value' => 'n',
+                                'type' => 'text_val'
+                                )
+                            ),
+                        'op' => 'and',
+                        'arg_2' => array(
+                            'arg_1' => array(
+                                'value' => array(
+                                    'arg_1' => array(
+                                        'value' => 'clients_translation.id_clients_prefix',
+                                        'type' => 'ident'
+                                        ),
+                                    'op' => '=',
+                                    'arg_2' => array(
+                                        'value' => 'clients_prefix.id_clients_prefix',
+                                        'type' => 'ident'
+                                        )
+                                    ),
+                                'type' => 'subclause'
+                                )
+                            )
+                        )
+                    )
+                )
+            ),
+        'sort_order' => array(
+            'clients_translation.id_clients_prefix' => 'desc',
+            'clients_translation.rule_number' => 'desc'
+            )
+        )
+),
+array(
+'sql' => 'SELECT column1,column2
+FROM table1
+WHERE (column1=\'1\' AND column2=\'1\') OR (column3=\'1\' AND column4=\'1\')',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => '',
+            1 => ''
+            ),
+        'column_names' => array(
+            0 => 'column1',
+            1 => 'column2'
+            ),
+        'column_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
+        'table_names' => array(
+            0 => 'table1'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'arg_1' => array(
+                    'value' => array(
+                        'arg_1' => array(
+                            'arg_1' => array(
+                                'value' => 'column1',
+                                'type' => 'ident'
+                                ),
+                            'op' => '=',
+                            'arg_2' => array(
+                                'value' => '1',
+                                'type' => 'text_val'
+                                )
+                            ),
+                        'op' => 'and',
+                        'arg_2' => array(
+                            'arg_1' => array(
+                                'value' => 'column2',
+                                'type' => 'ident'
+                                ),
+                            'op' => '=',
+                            'arg_2' => array(
+                                'value' => '1',
+                                'type' => 'text_val'
+                                )
+                            )
+                        ),
+                    'type' => 'subclause'
+                    )
+                ),
+            'op' => 'or',
+            'arg_2' => array(
+                'arg_1' => array(
+                    'value' => array(
+                        'arg_1' => array(
+                            'arg_1' => array(
+                                'value' => 'column3',
+                                'type' => 'ident'
+                                ),
+                            'op' => '=',
+                            'arg_2' => array(
+                                'value' => '1',
+                                'type' => 'text_val'
+                                )
+                            ),
+                        'op' => 'and',
+                        'arg_2' => array(
+                            'arg_1' => array(
+                                'value' => 'column4',
+                                'type' => 'ident'
+                                ),
+                            'op' => '=',
+                            'arg_2' => array(
+                                'value' => '1',
+                                'type' => 'text_val'
+                                )
+                            )
+                        ),
+                    'type' => 'subclause'
+                    )
+                )
+            )
+        )
 ),
 array(
 'sql' => '-- Test Comment',
@@ -720,6 +905,130 @@ array(
 # Test Comment
                ^ found: "*end of input*"'
 
+),
+array(
+'sql' => 'SELECT name FROM people WHERE id > 1 AND (name = \'arjan\' OR name = \'john\')',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_names' => array(
+            0 => 'name'
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
+        'table_names' => array(
+            0 => 'people'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'arg_1' => array(
+                    'value' => 'id',
+                    'type' => 'ident'
+                    ),
+                'op' => '>',
+                'arg_2' => array(
+                    'value' => 1,
+                    'type' => 'int_val'
+                    )
+                ),
+            'op' => 'and',
+            'arg_2' => array(
+                'arg_1' => array(
+                    'value' => array(
+                        'arg_1' => array(
+                            'arg_1' => array(
+                                'value' => 'name',
+                                'type' => 'ident'
+                                ),
+                            'op' => '=',
+                            'arg_2' => array(
+                                'value' => 'arjan',
+                                'type' => 'text_val'
+                                )
+                            ),
+                        'op' => 'or',
+                        'arg_2' => array(
+                            'arg_1' => array(
+                                'value' => 'name',
+                                'type' => 'ident'
+                                ),
+                            'op' => '=',
+                            'arg_2' => array(
+                                'value' => 'john',
+                                'type' => 'text_val'
+                                )
+                            )
+                        ),
+                    'type' => 'subclause'
+                    )
+                )
+            )
+        )
+),
+array(
+'sql' => 'select * from test where (field1 = \'x\' and field2 <>\'y\') or field3 = \'z\'',
+'expect' => array(
+        'command' => 'select',
+        'column_names' => array(
+            0 => '*'
+            ),
+        'table_names' => array(
+            0 => 'test'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'arg_1' => array(
+                    'value' => array(
+                        'arg_1' => array(
+                            'arg_1' => array(
+                                'value' => 'field1',
+                                'type' => 'ident'
+                                ),
+                            'op' => '=',
+                            'arg_2' => array(
+                                'value' => 'x',
+                                'type' => 'text_val'
+                                )
+                            ),
+                        'op' => 'and',
+                        'arg_2' => array(
+                            'arg_1' => array(
+                                'value' => 'field2',
+                                'type' => 'ident'
+                                ),
+                            'op' => '<>',
+                            'arg_2' => array(
+                                'value' => 'y',
+                                'type' => 'text_val'
+                                )
+                            )
+                        ),
+                    'type' => 'subclause'
+                    )
+                ),
+            'op' => 'or',
+            'arg_2' => array(
+                'arg_1' => array(
+                    'value' => 'field3',
+                    'type' => 'ident'
+                    ),
+                'op' => '=',
+                'arg_2' => array(
+                    'value' => 'z',
+                    'type' => 'text_val'
+                    )
+                )
+            )
+        )
 ),
 );
 ?>

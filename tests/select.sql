@@ -6,7 +6,7 @@ select one, two from hairy where two <> 4 and one = 2;
 select one, two from hairy where two <> 4 and one = 2 order by two;
 select one, two from hairy where two <> 4 and one = 2 limit 4 order by two ascending, dog descending;
 select foo.a from foo;
-select a as b from foo;
+select a as b, min(a) as baz from foo;
 select a from foo as bar;
 select * from person where surname is not null and firstname = 'jason';
 select * from person where surname is null;
@@ -28,5 +28,10 @@ select clients_translation.id_clients_prefix, clients_translation.rule_number,
          and clients.unused='n'
          and (clients_translation.id_clients_prefix = clients_prefix.id_clients_prefix)
          order by clients_translation.id_clients_prefix,clients_translation.rule_number;
+SELECT column1,column2
+FROM table1
+WHERE (column1='1' AND column2='1') OR (column3='1' AND column4='1');
 -- Test Comment;
 # Test Comment;
+SELECT name FROM people WHERE id > 1 AND (name = 'arjan' OR name = 'john');
+select * from test where (field1 = 'x' and field2 <>'y') or field3 = 'z';
