@@ -134,27 +134,7 @@ class SQL_Parser
 
     // {{{ isOperator()
     function isOperator() {
-        if (isset($this->operators[$this->token])) {
-            if ($this->token == 'is') {
-                $this->getTok();
-                if ($this->token == 'null') {
-                    $this->token = 'is null';
-                    return true;
-                } elseif ($this->token == 'not') {
-                    $this->getTok();
-                    if ($this->token == 'null') {
-                        $this->token = 'is not null';
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            } else {
-                return true;
-            }
-        } else {
-            return false;
-        }
+        return isset($this->operators[$this->token]);
     }
     // }}}
 
@@ -320,6 +300,7 @@ class SQL_Parser
             $clause['neg'] = true;
             $this->getTok();
         }
+
         if ($this->isReserved()) {
             return $this->raiseError('Expected a column name or value');
         }
@@ -333,13 +314,26 @@ class SQL_Parser
         }
         $clause['op'] = $this->token;
 
-        // parse the second argument
         $this->getTok();
-        if ($this->isReserved()) {
-            return $this->raiseError('Expected a column name or value');
+        // parse the special case for 'is' operators
+        if ($clause['op'] == 'is') {
+            if ($this->token == 'not') {
+                $clause['neg'] = true;
+                $this->getTok();
+            }
+            if ($this->token != 'null') {
+                return $this->raiseError('Expected "null"');
+            }
+            $clause['arg_2']['value'] = '';
+            $clause['arg_2']['type'] = $this->token;
+        } else {
+        // parse for in-fix binary operators
+            if ($this->isReserved()) {
+                return $this->raiseError('Expected a column name or value');
+            }
+            $clause['arg_2']['value'] = $this->lexer->tokText;
+            $clause['arg_2']['type'] = $this->token;
         }
-        $clause['arg_2']['value'] = $this->lexer->tokText;
-        $clause['arg_2']['type'] = $this->token;
         $this->getTok();
         if (($this->token == 'and') || ($this->token == 'or')) {
             $op = $this->token;
