@@ -204,6 +204,22 @@ function nextToken()
                     $this->tokLen = 1;
                 }
                 
+                // Escape quotes and backslashes
+                if ($c == '\\') {
+                     $t = $this->get();
+                    if ($t == '\'' || $t == '\\' || $t == '"') {
+                        $this->tokText = $t;
+                        $this->tokStart = $this->tokPtr;
+                        return $this->tokText;
+                    } else {
+                        $this->unget();
+                        
+                        // Unknown token.  Revert to single char
+                        $state = 999;
+                        break;
+                    }
+                }
+                
                 if (($c == '\'') || ($c == '"')) { // text string
                     $quote = $c;
                     $state = 12;
@@ -313,7 +329,6 @@ function nextToken()
                 if (ctype_digit(ord($c))) {
                     $state = 5;
                     break;
-                    break;
                 } else if ($c == '.') {
                     $t = $this->get();
                     if($t == '.') { // ellipsis
@@ -322,13 +337,14 @@ function nextToken()
                         $state = 7;
                         break;
                     }
-                } else if(ctype_alpha(ord($c))) { // number must end with
-                                                  // non-alpha character
+                } else if(ctype_alpha(ord($c))) { // number must end with non-alpha character
                     $state = 999;
-                }
+                    break;
+                } else {
                 // complete number
                 $state = 6;
                 break;
+                }
             // }}}
 
             // {{{ State 6: Complete integer number
