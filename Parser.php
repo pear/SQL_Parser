@@ -49,24 +49,37 @@ class SQL_Parser
     var $operators = array();
     var $synonyms = array();
 
+    var $dialects = array("ANSI", "MySQL");
+
 // {{{ function SQL_Parser($string = null)
-    function SQL_Parser($string = null) {
-        include 'SQL/Dialect_ANSI.php';
-        $this->types = array_flip($dialect['types']);
-        $this->functions = array_flip($dialect['functions']);
-        $this->operators = array_flip($dialect['operators']);
-        $this->commands = array_flip($dialect['commands']);
-        $this->synonyms = $dialect['synonyms'];
-        $this->symbols = array_merge(
-            $this->types,
-            $this->functions,
-            $this->operators,
-            $this->commands,
-            array_flip($dialect['reserved']),
-            array_flip($dialect['conjunctions']));
+    function SQL_Parser($string = null, $dialect = "ANSI") {
+        $this->setDialect($dialect);
+
         if (is_string($string)) {
             $this->lexer = new Lexer($string, 1);
             $this->lexer->symbols =& $this->symbols;
+        }
+    }
+// }}}
+
+// {{{ function setDialect($dialect)
+    function setDialect($dialect) {
+        if (in_array($dialect, $this->dialects)) {
+            include 'SQL/Dialect_'.$dialect.'.php';
+            $this->types = array_flip($dialect['types']);
+            $this->functions = array_flip($dialect['functions']);
+            $this->operators = array_flip($dialect['operators']);
+            $this->commands = array_flip($dialect['commands']);
+            $this->synonyms = $dialect['synonyms'];
+            $this->symbols = array_merge(
+                $this->types,
+                $this->functions,
+                $this->operators,
+                $this->commands,
+                array_flip($dialect['reserved']),
+                array_flip($dialect['conjunctions']));
+        } else {
+            return $this->raiseError('Unknown SQL dialect:'.$dialect);
         }
     }
 // }}}

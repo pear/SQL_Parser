@@ -33,7 +33,7 @@ This class is primarily an SQL parser, written with influences from a variety of
                 * Add more alias handling cases
                 * Handle ordinal functions in select project clauses correctly
                 * Add explicit join support
-                * TODO: Add SQL writer / XML writer
+                * Add initial support for multiple SQL dialects (ANSI, MySQL)
         </notes>
         <filelist>
             <dir name="/" baseinstalldir="/SQL">
