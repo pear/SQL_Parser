@@ -6,8 +6,7 @@
     <name>SQL_Parser</name>
     <summary>An SQL parser</summary>
     <description>
-An SQL parser, uses a lexer to tokenize a statement, returns an array of the
-statement structure
+This class is primarily an SQL parser, written with influences from a variety of sources (mSQL, CPAN's SQL-Statement, mySQL). It also includes a tokenizer (lexer) class and a reimplementation of the ctype extension in PHP.
     </description>
 
     <maintainers>
@@ -21,11 +20,11 @@ statement structure
 
     <release>
         <license>LGPL</license>
-        <version>0.19</version>
-        <date>2002-09-24</date>
+        <version>0.2</version>
+        <date>2002-10-22</date>
         <state>devel</state>
         <notes>
-No notes is good notes.
+ * Add support for null as a value type (thanks to Jason Pell)
         </notes>
         <filelist>
             <dir name="/" baseinstalldir="/SQL">
