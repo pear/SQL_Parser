@@ -20,11 +20,11 @@ This class is primarily an SQL parser, written with influences from a variety of
 
     <release>
         <license>LGPL</license>
-        <version>0.3</version>
-        <date>2003-01-11</date>
+        <version>0.3.1</version>
+        <date>2003-10-15</date>
         <state>devel</state>
         <notes>
-* Add support for pushing tokens back (Jason Pell)
+            Minor addition - we can now parse table.field style field names
         </notes>
         <filelist>
             <dir name="/" baseinstalldir="/SQL">
