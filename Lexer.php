@@ -81,8 +81,34 @@ class Lexer
     }
 
     function isCompop($c) {
-        return (($c == '<') || ($c == '>') || ($c == '='));
+        return (($c == '<') || ($c == '>') || ($c == '=') || ($c == '!'));
     }
+
+    function isWhiteSpace($c) {
+        return (($c == ' ') || ($c == "\t") || ($c == "\n") || ($c == "\r"));
+    }
+
+    function skipWhiteSpace() {
+        $c = $this->get();
+        while ($this->isWhiteSpace($c)) {
+            // Handle Unix line endings
+            if ($c == "\n") {
+                ++$this->lineNo;
+                $this->lineBegin = $this->tokPtr;
+            // Handle Mac/Windows line endings
+            } elseif ($c == "\r") {
+                $c = $this->skip;
+                if ($c != "\n")
+                    $this->unget();
+                ++$this->lineNo;
+                $this->lineBegin = $this->tokPtr;
+            }
+            $c = $this->skip();
+            $this->tokLen = 1;
+        }
+        return $c;
+    }
+
 // }}}
 
 // {{{ lex()
@@ -98,15 +124,7 @@ function lex()
                 $this->tokPtr = $this->tokStart;
                 $this->tokText = '';
                 $this->tokLen = 0;
-                $c = $this->get();
-                while (($c == ' ') || ($c == "\t") || ($c == "\n")) {
-                    if ($c == "\n") {
-                        ++$this->lineNo;
-                        $this->lineBegin = $this->tokPtr;
-                    }
-                    $c = $this->skip();
-                    $this->tokLen = 1;
-                }
+                $c = $this->skipWhiteSpace();
                 if (($c == '\'') || ($c == '"')) {
                     $quote = $c;
                     $state = 12;
@@ -315,8 +333,15 @@ function lex()
             // {{{ State 14: Comment
             case 14:
                 $c = $this->skip();
-                if ($c == '\n') {
+                // Handle Unix line endings
+                if ($c == "\n") {
                     $state = 0;
+                // Handle Mac/Windows line endings
+                } elseif ($c == "\r") {
+                    $c = $this->skip();
+                    if ($c != "\n") {
+                        $this->unget();
+                    }
                 } else {
                     $state = 14;
                 }
