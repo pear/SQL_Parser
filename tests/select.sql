@@ -37,3 +37,4 @@ SELECT name FROM people WHERE id > 1 AND (name = 'arjan' OR name = 'john');
 select * from test where (field1 = 'x' and field2 <>'y') or field3 = 'z';
 select a, d from b inner join c on b.a = c.a;
 select a, d from b inner join c on b.a = c.a left outer join q on r < m;
+select 4b from test where 7iModule_Solution = 3

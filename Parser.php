@@ -49,14 +49,18 @@ class SQL_Parser
     var $operators = array();
     var $synonyms = array();
 
+    var $lexeropts = array();
+    var $parseropts = array();
+
     var $dialects = array('ANSI', 'MySQL');
 
-// {{{ function SQL_Parser($string = null)
+// {{{ function SQL_Parser($string = null, $dialect = 'ANSI')
     function SQL_Parser($string = null, $dialect = 'ANSI') {
         $this->setDialect($dialect);
 
         if (is_string($string)) {
-            $this->lexer = new Lexer($string, 1);
+            // Initialize the Lexer with a 3-level look-back buffer
+            $this->lexer = new Lexer($string, 3, $this->lexeropts);
             $this->lexer->symbols =& $this->symbols;
         }
     }
@@ -78,6 +82,8 @@ class SQL_Parser
                 $this->commands,
                 array_flip($dialect['reserved']),
                 array_flip($dialect['conjunctions']));
+            $this->lexeropts = $dialect['lexeropts'];
+            $this->parseropts = $dialect['parseropts'];
         } else {
             return $this->raiseError('Unknown SQL dialect:'.$dialect);
         }
@@ -1086,7 +1092,7 @@ class SQL_Parser
     {
         if (is_string($string)) {
             // Initialize the Lexer with a 3-level look-back buffer
-            $this->lexer = new Lexer($string, 3);
+            $this->lexer = new Lexer($string, 3, $this->lexeropts);
             $this->lexer->symbols =& $this->symbols;
         } else {
             if (!is_object($this->lexer)) {

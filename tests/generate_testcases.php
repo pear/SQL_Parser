@@ -33,13 +33,14 @@ $parser = new Sql_Parser();
 
 $progname = basename(array_shift($argv));
 
-if (count($argv) != 1) {
-    echo("Usage: generate_testcases.php test_cases.sql\n");
+$argc = count($argv);
+if ($argc < 1 || $argc > 3) {
+    echo("Usage: generate_testcases.php test_cases.sql <dialect>\n");
     exit(-1);
 }
 
+// Preprocess the input file
 $file = $argv[0];
-
 if (!$fd = @fopen($file, 'r')) {
     echo("Could not load the SQL source file: $file\n");
     exit;
@@ -49,6 +50,19 @@ while ($data = fread($fd, 2048)) {
     $source .= $data;
 }
 fclose($fd);
+
+// Set the dialect
+if ($argc == 2) {
+    $dialect = $argv[1];
+} else {
+    $dialect = 'ANSI';
+}
+
+$results = $parser->setDialect($dialect);
+if (PEAR::isError($results)) {
+    echo $results->getMessage();
+    exit;
+}
 
 $queries = explode(";\n", $source);
 

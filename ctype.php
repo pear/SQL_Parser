@@ -2,13 +2,14 @@
 /**
  * PHP ctype compatibility functions. See the PHP ctype module for more
  * information on usage.
- *
- * @author John Millaway
- * @author Brent Cook
- * 
  * Note: These functions expect an integer argument, like the C versions
  * To use with a PHP character, use ord($c). These functions do not support
  * string arguments like their PHP extension counterparts
+ *
+ * @author John Millaway
+ * @author Brent Cook <busterbcook@yahoo.com
+ * @access  public
+ * @package SQL_Parser
  */
 if (!extension_loaded('ctype')) {
     function ctype_alnum($c) {

@@ -68,11 +68,12 @@ class Lexer
 // }}}
 
 // {{{ incidental functions
-    function Lexer($string = '', $lookahead=0)
+    function Lexer($string = '', $lookahead=0, $lexeropts)
     {
         $this->string = $string;
         $this->stringLen = strlen($string);
         $this->lookahead = $lookahead;
+        $this->allowIdentFirstDigit = $lexeropts['allowIdentFirstDigit'];
     }
     
     function get() {
@@ -340,8 +341,13 @@ function nextToken()
                         $state = 7;
                         break;
                     }
-                } else if(ctype_alpha(ord($c))) { // number must end with non-alpha character
-                    $state = 999;
+                } else if(ctype_alpha(ord($c))) {
+                    // Do we allow idents to begin with a digit?
+                    if ($this->allowIdentFirstDigit) {
+                        $state = 1;
+                    } else { // a number must end with non-alpha character
+                        $state = 999;
+                    }
                     break;
                 } else {
                 // complete number
@@ -366,12 +372,10 @@ function nextToken()
             case 7:
                 $c = $this->get();
 
-                /* Analogy Start */
                 if ($c == 'e' || $c == 'E') {
                         $state = 15;
                         break;
                 }
-                /* Analogy End   */
 
                 if (ctype_digit(ord($c))) {
                     $state = 7;
@@ -381,7 +385,7 @@ function nextToken()
                 break;
             // }}}
 
-            // {{{ State 8: Complete real number */
+            // {{{ State 8: Complete real number
             case 8:
                 $this->unget();
                 $this->tokText = floatval(substr($this->string, $this->tokStart,
