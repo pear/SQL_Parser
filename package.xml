@@ -20,12 +20,11 @@ This class is primarily an SQL parser, written with influences from a variety of
 
     <release>
         <license>LGPL</license>
-        <version>0.2</version>
-        <date>2002-12-18</date>
+        <version>0.3</version>
+        <date>2003-01-11</date>
         <state>devel</state>
         <notes>
- * Add support for column and table aliases (thanks to Lauren Matheson)
- * Add support for null as a value type (thanks to Jason Pell)
+* Add support for pushing tokens back (Jason Pell)
         </notes>
         <filelist>
             <dir name="/" baseinstalldir="/SQL">

@@ -17,6 +17,10 @@
 // | License along with this library; if not, write to the Free Software  |
 // | Foundation, Inc., 59 Temple Place, Suite 330,Boston,MA 02111-1307 USA|
 // +----------------------------------------------------------------------+
+// | Authors: Brent Cook <busterb@mail.utexas.edu>                        |
+// |          Jason Pell <jasonpell@hotmail.com>                          |
+// |          Lauren Matheson <inan@canada.com>
+// +----------------------------------------------------------------------+
 //
 // $Id$
 //
@@ -28,7 +32,7 @@ require_once 'SQL/Lexer.php';
  * A sql parser
  *
  * @author  Brent Cook <busterb@mail.utexas.edu>
- * @version 0.2
+ * @version 0.3
  * @access  public
  * @package DBA
  */
