@@ -55,8 +55,10 @@ array(
 'expect' => array(
         'command' => 'select',
         'set_function' => array(
-            'name' => 'max',
-            'arg' => 'length'
+            0 => array(
+                'name' => 'max',
+                'arg' => 'length'
+                )
             ),
         'table_names' => array(
             0 => 'dog'
@@ -71,10 +73,12 @@ array(
 'expect' => array(
         'command' => 'select',
         'set_function' => array(
-            'name' => 'count',
-            'distinct' => true,
-            'arg' => array(
-                0 => 'country'
+            0 => array(
+                'name' => 'count',
+                'distinct' => true,
+                'arg' => array(
+                    0 => 'country'
+                    )
                 )
             ),
         'table_names' => array(
@@ -266,10 +270,31 @@ array(
 ),
 array(
 'sql' => 'select a as b, min(a) as baz from foo',
-'expect' => 'Parse error: Expected "from" on line 1
-select a as b, min(a) as baz from foo
-               ^ found: "min"'
-
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_names' => array(
+            0 => 'a'
+            ),
+        'column_aliases' => array(
+            0 => 'b'
+            ),
+        'set_function' => array(
+            0 => array(
+                'name' => 'min',
+                'arg' => 'a',
+                'alias' => 'baz'
+                )
+            ),
+        'table_names' => array(
+            0 => 'foo'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            )
+        )
 ),
 array(
 'sql' => 'select a from foo as bar',
@@ -609,9 +634,11 @@ array(
 'expect' => array(
         'command' => 'select',
         'set_function' => array(
-            'name' => 'count',
-            'arg' => array(
-                0 => 'child_table.name'
+            0 => array(
+                'name' => 'count',
+                'arg' => array(
+                    0 => 'child_table.name'
+                    )
                 )
             ),
         'table_names' => array(
@@ -637,10 +664,48 @@ array(
 ),
 array(
 'sql' => 'select parent_table.name, count(child_table.name) from parent_table ,child_table where parent_table.id = child_table.id group by parent_table.name',
-'expect' => 'Parse error: Expected "from" on line 1
-select parent_table.name, count(child_table.name) from parent_table ,child_table where parent_table.id = child_table.id group by parent_table.name
-                          ^ found: "count"'
-
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_names' => array(
+            0 => 'parent_table.name'
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
+        'set_function' => array(
+            0 => array(
+                'name' => 'count',
+                'arg' => array(
+                    0 => 'child_table.name'
+                    )
+                )
+            ),
+        'table_names' => array(
+            0 => 'parent_table',
+            1 => 'child_table'
+            ),
+        'table_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'value' => 'parent_table.id',
+                'type' => 'ident'
+                ),
+            'op' => '=',
+            'arg_2' => array(
+                'value' => 'child_table.id',
+                'type' => 'ident'
+                )
+            ),
+        'group_by' => array(
+            0 => 'parent_table.name'
+            )
+        )
 ),
 array(
 'sql' => 'select * from cats where furry = 1 group by name, type',
@@ -674,10 +739,41 @@ array(
 ),
 array(
 'sql' => 'select a, max(b) as x, sum(c) as y, min(d) as z from e',
-'expect' => 'Parse error: Expected "from" on line 1
-select a, max(b) as x, sum(c) as y, min(d) as z from e
-          ^ found: "max"'
-
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_names' => array(
+            0 => 'a'
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
+        'set_function' => array(
+            0 => array(
+                'name' => 'max',
+                'arg' => 'b',
+                'alias' => 'x'
+                ),
+            1 => array(
+                'name' => 'sum',
+                'arg' => 'c',
+                'alias' => 'y'
+                ),
+            2 => array(
+                'name' => 'min',
+                'arg' => 'd',
+                'alias' => 'z'
+                )
+            ),
+        'table_names' => array(
+            0 => 'e'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            )
+        )
 ),
 array(
 'sql' => 'select clients_translation.id_clients_prefix, clients_translation.rule_number,

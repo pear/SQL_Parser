@@ -820,69 +820,77 @@ class SQL_Parser
         if ($this->token == '*') {
             $tree['column_names'][] = '*';
             $this->getTok();
-        } elseif ($this->token == 'ident') {
-            while ($this->token == 'ident') {
-                $prevTok = $this->token;
-                $prevTokText = $this->lexer->tokText;
-                $this->getTok();
-                if ($this->token == '.') {
-                    $columnTable = $prevTokText;
-                    $this->getTok();
-                    $prevTok = $this->token;                   
+        } elseif ($this->token == 'ident' || $this->isFunc()) {
+            while ($this->token != 'from') {
+                if ($this->token == 'ident') {
+                    $prevTok = $this->token;
                     $prevTokText = $this->lexer->tokText;
-                } else {
-                    $columnTable = '';
-                }
-                
-                if ($prevTok == 'ident') {
-                    $columnName = $prevTokText;
-                } else {
-                    return $this->raiseError('Expected column name');
-                }
-                
-                if ($this->token == 'as') {
                     $this->getTok();
-                    if ($this->token == 'ident' ) {
-                        $columnAlias = $this->lexer->tokText;
+                    if ($this->token == '.') {
+                        $columnTable = $prevTokText;
+                        $this->getTok();
+                        $prevTok = $this->token;
+                        $prevTokText = $this->lexer->tokText;
                     } else {
-                        return $this->raiseError('Expected column alias');
+                        $columnTable = '';
                     }
-                } else {
-                    $columnAlias = '';
-                }
-                
-                $tree['column_tables'][] = $columnTable;
-                $tree['column_names'][] = $columnName;
-                $tree['column_aliases'][] = $columnAlias;
-                if ($this->token != 'from') {
-                    $this->getTok();
-                }
-                if ($this->token == ',') {
-                    $this->getTok();
-                }
-            }
-        } elseif ($this->isFunc()) {
-            if (!isset($tree['set_quantifier'])) {
-                $result = $this->parseFunctionOpts();
-                if (PEAR::isError($result)) {
-                    return $result;
-                }
-                $tree['set_function'] = $result;
-                $this->getTok();
 
-                if ($this->token == 'as') {
-                    $this->getTok();
-                    if ($this->token == 'ident' ) {
+                    if ($prevTok == 'ident') {
+                        $columnName = $prevTokText;
+                    } else {
+                        return $this->raiseError('Expected column name');
+                    }
+
+                    if ($this->token == 'as') {
+                        $this->getTok();
+                        if ($this->token == 'ident' ) {
+                            $columnAlias = $this->lexer->tokText;
+                        } else {
+                            return $this->raiseError('Expected column alias');
+                        }
+                    } elseif ($this->token == 'ident') {
                         $columnAlias = $this->lexer->tokText;
                     } else {
-                        return $this->raiseError('Expected column alias');
+                        $columnAlias = '';
                     }
+
+                    $tree['column_tables'][] = $columnTable;
+                    $tree['column_names'][] = $columnName;
+                    $tree['column_aliases'][] = $columnAlias;
+                    if ($this->token != 'from') {
+                        $this->getTok();
+                    }
+                    if ($this->token == ',') {
+                        $this->getTok();
+                    }
+                } elseif ($this->isFunc()) {
+                    if (!isset($tree['set_quantifier'])) {
+                        $result = $this->parseFunctionOpts();
+                        if (PEAR::isError($result)) {
+                            return $result;
+                        }
+                        $tree['set_function'][] = $result;
+                        $this->getTok();
+
+                        if ($this->token == 'as') {
+                            $this->getTok();
+                            if ($this->token == 'ident' ) {
+                                $columnAlias = $this->lexer->tokText;
+                            } else {
+                                return $this->raiseError('Expected column alias');
+                            }
+                        } else {
+                            $columnAlias = '';
+                        }
+                    } else {
+                        return $this->raiseError('Cannot use "'.
+                                $tree['set_quantifier'].'" with '.$this->token);
+                    }
+                } elseif ($this->token == ',') {
+                    $this->getTok();
                 } else {
-                    $columnAlias = '';
+                        return $this->raiseError('Unexpected token "'.$this->token.'"');
                 }
-            } else {
-                return $this->raiseError('Cannot use "'.
-                        $tree['set_quantifier'].'" with '.$this->token);
             }
         } else {
             return $this->raiseError('Expected columns or a set function');
