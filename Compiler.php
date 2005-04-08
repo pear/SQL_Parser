@@ -135,6 +135,9 @@ class SQL_Compiler {
                 if (PEAR::isError($value)) {
                     return $value;
                 }
+                if (isset($where_clause['neg'])) {
+                    $sql .= ' not';
+                }
                 $sql .= ' '.$where_clause['op'].' '.$value;
             } elseif ($where_clause['op'] == 'is') {
                 if (isset ($where_clause['neg'])) {
