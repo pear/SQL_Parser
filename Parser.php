@@ -28,6 +28,7 @@
 
 require_once 'PEAR.php';
 require_once 'SQL/Lexer.php';
+require_once 'Expressions/include.php';
 
 /**
  * A sql parser
