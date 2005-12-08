@@ -1,7 +1,8 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2002-2004 Brent Cook                                        |
+// | Copyright (c) 2002-2004 Brent Cook                                   |
+// | Copyright (c) 2005 Erich Enke                                        |
 // +----------------------------------------------------------------------+
 // | This library is free software; you can redistribute it and/or        |
 // | modify it under the terms of the GNU Lesser General Public           |
@@ -17,7 +18,8 @@
 // | License along with this library; if not, write to the Free Software  |
 // | Foundation, Inc., 59 Temple Place, Suite 330,Boston,MA 02111-1307 USA|
 // +----------------------------------------------------------------------+
-// | Authors: Brent Cook <busterbcook@yahoo.com>                          |
+// | Authors: Erich Enke <erich.Enke@gmail.com>                           |
+// |          Brent Cook <busterbcook@yahoo.com>                          |
 // |          Jason Pell <jasonpell@hotmail.com>                          |
 // |          Lauren Matheson <inan@canada.com>                           |
 // |          John Griffin <jgriffin316@netscape.net>                     |
