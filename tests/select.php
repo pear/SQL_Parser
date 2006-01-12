@@ -281,10 +281,10 @@ array(
 'expect' => array(
         'command' => 'select',
         'column_tables' => array(
-            0 => ''
+            0 => 'foo'
             ),
         'column_names' => array(
-            0 => 'foo.a'
+            0 => 'a'
             ),
         'column_aliases' => array(
             0 => ''
@@ -481,12 +481,12 @@ array(
 'expect' => array(
         'command' => 'select',
         'column_tables' => array(
-            0 => '',
-            1 => ''
+            0 => 'table_1',
+            1 => 'table_2'
             ),
         'column_names' => array(
-            0 => 'table_1.id',
-            1 => 'table_2.name'
+            0 => 'id',
+            1 => 'name'
             ),
         'column_aliases' => array(
             0 => '',
@@ -754,10 +754,10 @@ array(
 'expect' => array(
         'command' => 'select',
         'column_tables' => array(
-            0 => ''
+            0 => 'parent_table'
             ),
         'column_names' => array(
-            0 => 'parent_table.name'
+            0 => 'name'
             ),
         'column_aliases' => array(
             0 => ''
@@ -906,16 +906,16 @@ array(
 'expect' => array(
         'command' => 'select',
         'column_tables' => array(
-            0 => '',
-            1 => '',
-            2 => '',
-            3 => ''
+            0 => 'clients_translation',
+            1 => 'clients_translation',
+            2 => 'clients_translation',
+            3 => 'clients_translation'
             ),
         'column_names' => array(
-            0 => 'clients_translation.id_clients_prefix',
-            1 => 'clients_translation.rule_number',
-            2 => 'clients_translation.pattern',
-            3 => 'clients_translation.rule'
+            0 => 'id_clients_prefix',
+            1 => 'rule_number',
+            2 => 'pattern',
+            3 => 'rule'
             ),
         'column_aliases' => array(
             0 => '',
@@ -1367,12 +1367,97 @@ array(
         )
 ),
 array(
-'sql' => 'select 4b from test where 7iModule_Solution = 3
-',
+'sql' => 'select 4b from test where 7iModule_Solution = 3',
 'expect' => 'Parse error: Expected columns or a set function on line 1
 select 4b from test where 7iModule_Solution = 3
        ^ found: "4"'
 
+),
+array(
+'sql' => 'select Courses.* 
+    from Courses, Student_Courses 
+    where Courses.id=Student_Courses.courseid 
+        and Student_Courses.studentid=\'10\'',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => 'Courses'
+            ),
+        'column_names' => array(
+            0 => '*'
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
+        'table_names' => array(
+            0 => 'Courses',
+            1 => 'Student_Courses'
+            ),
+        'table_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
+        'table_join_clause' => array(
+            0 => '',
+            1 => ''
+            ),
+        'table_join' => array(
+            0 => ','
+            ),
+        'where_clause' => array(
+            'arg_1' => array(
+                'arg_1' => array(
+                    'value' => 'Courses.id',
+                    'type' => 'ident'
+                    ),
+                'op' => '=',
+                'arg_2' => array(
+                    'value' => 'Student_Courses.courseid',
+                    'type' => 'ident'
+                    )
+                ),
+            'op' => 'and',
+            'arg_2' => array(
+                'arg_1' => array(
+                    'value' => 'Student_Courses.studentid',
+                    'type' => 'ident'
+                    ),
+                'op' => '=',
+                'arg_2' => array(
+                    'value' => '10',
+                    'type' => 'text_val'
+                    )
+                )
+            )
+        )
+),
+array(
+'sql' => 'SELECT *,a from Foo
+',
+'expect' => array(
+        'command' => 'select',
+        'column_tables' => array(
+            0 => '',
+            1 => ''
+            ),
+        'column_names' => array(
+            0 => '*',
+            1 => 'a'
+            ),
+        'column_aliases' => array(
+            0 => '',
+            1 => ''
+            ),
+        'table_names' => array(
+            0 => 'Foo'
+            ),
+        'table_aliases' => array(
+            0 => ''
+            ),
+        'table_join_clause' => array(
+            0 => ''
+            )
+        )
 ),
 );
 ?>
