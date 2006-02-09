@@ -1120,21 +1120,21 @@ class SQL_Parser
                     }
                     $this->getTok();
                     while ($this->token == 'ident') {
-			$arg = $this->lexer->tokText;
-			$this->getTok();
-			if ($this->token == '.') {
-			    $this->getTok();
-			    if ($this->token == 'ident') {
-				$arg .= '.'.$this->lexer->tokText;
-			    }
-			    else {
-				return $this->raiseError('Expected a column name');
-			    }
-			}
-			else {
-			    $this->lexer->pushBack();
-			}
-			$col = $arg;
+                        $arg = $this->lexer->tokText;
+                        $this->getTok();
+                        if ($this->token == '.') {
+                            $this->getTok();
+                            if ($this->token == 'ident') {
+                            $arg .= '.'.$this->lexer->tokText;
+                            }
+                            else {
+                            return $this->raiseError('Expected a column name');
+                            }
+                        }
+                        else {
+                            $this->lexer->pushBack();
+                        }
+                        $col = $arg;
                         //$col = $this->lexer->tokText;
                         $this->getTok();
                         if (isset($this->synonyms[$this->token])) {
@@ -1179,21 +1179,21 @@ class SQL_Parser
                     }
                     $this->getTok();
                     while ($this->token == 'ident') {
-			$arg = $this->lexer->tokText;
-			$this->getTok();
-			if ($this->token == '.') {
-			    $this->getTok();
-			    if ($this->token == 'ident') {
-				$arg .= '.'.$this->lexer->tokText;
-			    }
-			    else {
-				return $this->raiseError('Expected a column name');
-			    }
-			}
-			else {
-			    $this->lexer->pushBack();
-			}
-			$col = $arg;
+                        $arg = $this->lexer->tokText;
+                        $this->getTok();
+                        if ($this->token == '.') {
+                            $this->getTok();
+                            if ($this->token == 'ident') {
+                            $arg .= '.'.$this->lexer->tokText;
+                            }
+                            else {
+                            return $this->raiseError('Expected a column name');
+                            }
+                        }
+                        else {
+                            $this->lexer->pushBack();
+                        }
+                        $col = $arg;
                         //$col = $this->lexer->tokText;
                         $this->getTok();
                         if ($this->token == ',') {
