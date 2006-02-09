@@ -7,6 +7,12 @@ array(
         'column_names' => array(
             0 => '*'
             ),
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
         'table_names' => array(
             0 => 'dog'
             ),
@@ -367,6 +373,12 @@ array(
         'column_names' => array(
             0 => '*'
             ),
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
         'table_names' => array(
             0 => 'person'
             ),
@@ -411,6 +423,12 @@ array(
         'column_names' => array(
             0 => '*'
             ),
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
         'table_names' => array(
             0 => 'person'
             ),
@@ -439,6 +457,12 @@ array(
         'command' => 'select',
         'column_names' => array(
             0 => '*'
+            ),
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_aliases' => array(
+            0 => ''
             ),
         'table_names' => array(
             0 => 'person'
@@ -810,6 +834,12 @@ array(
         'command' => 'select',
         'column_names' => array(
             0 => '*'
+            ),
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_aliases' => array(
+            0 => ''
             ),
         'table_names' => array(
             0 => 'cats'
@@ -1211,6 +1241,12 @@ array(
         'column_names' => array(
             0 => '*'
             ),
+        'column_tables' => array(
+            0 => ''
+            ),
+        'column_aliases' => array(
+            0 => ''
+            ),
         'table_names' => array(
             0 => 'test'
             ),
@@ -1436,13 +1472,13 @@ array(
 ',
 'expect' => array(
         'command' => 'select',
-        'column_tables' => array(
-            0 => '',
-            1 => ''
-            ),
         'column_names' => array(
             0 => '*',
             1 => 'a'
+            ),
+        'column_tables' => array(
+            0 => '',
+            1 => ''
             ),
         'column_aliases' => array(
             0 => '',

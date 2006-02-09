@@ -358,8 +358,23 @@ class SQL_Parser
         } else if ($this->isReserved()) {
             return $this->raiseError('Expected a column name or value');
         } else {
-            $clause['arg_1']['value'] = $this->lexer->tokText;
-            $clause['arg_1']['type'] = $this->token;
+	    $arg = $this->lexer->tokText;
+	    $argtype = $this->token;
+	    $this->getTok();
+	    if ($this->token == '.') {
+		$this->getTok();
+		if ($this->token == 'ident') {
+		    $arg .= '.'.$this->lexer->tokText;
+		}
+		else {
+		    return $this->raisError('Expected a column name');
+		}
+	    }
+	    else {
+		$this->lexer->pushBack();
+	    }
+            $clause['arg_1']['value'] = $arg;
+            $clause['arg_1']['type'] = $argtype;
         }
 
         // parse the operator
@@ -440,8 +455,23 @@ class SQL_Parser
                             return $this->raiseError('Expected ")"');
                         }
                     } else {
-                        $clause['arg_2']['value'] = $this->lexer->tokText;
-                        $clause['arg_2']['type'] = $this->token;
+			$arg = $this->lexer->tokText;
+			$argtype = $this->token;
+			$this->getTok();
+			if ($this->token == '.') {
+			    $this->getTok();
+			    if ($this->token == 'ident') {
+				$arg .= '.'.$this->lexer->tokText;
+			    }
+			    else {
+				return $this->raisError('Expected a column name');
+			    }
+			}
+			else {
+			    $this->lexer->pushBack();
+			}
+			$clause['arg_2']['value'] = $arg;
+			$clause['arg_2']['type'] = $argtype;
                     }
             }
         }
@@ -591,8 +621,23 @@ class SQL_Parser
                             return $this->raiseError('Expected a column name');
                         }
                     case 'ident': case '*':
-                        $opts['arg'][] = $this->lexer->tokText;
-                        $opts['type'][] = $this->token;
+			$arg = $this->lexer->tokText;
+			$argtype = $this->token;
+			$this->getTok();
+			if ($this->token == '.') {
+			    $this->getTok();
+			    if ($this->token == 'ident') {
+				$arg .= '.'.$this->lexer->tokText;
+			    }
+			    else {
+				return $this->raisError('Expected a column name');
+			    }
+			}
+			else {
+			    $this->lexer->pushBack();
+			}
+			$opts['arg'][] = $arg;
+			$opts['type'][] = $argtype;
                         break;
                     default:
                         return $this->raiseError('Invalid argument');
@@ -638,14 +683,29 @@ class SQL_Parser
             default:
                 $this->getTok();
                 if ($this->token != ')') {
-                    $opts['arg'][] = $this->lexer->tokText;
-                    $opts['type'][] = $this->token;
+		    $arg = $this->lexer->tokText;
+		    $argtype = $this->token;
+		    $this->getTok();
+		    if ($this->token == '.') {
+		    	$this->getTok();
+			if ($this->token == 'ident') {
+			    $arg .= '.'.$this->lexer->tokText;
+			}
+			else {
+			    return $this->raisError('Expected a column name');
+			}
+		    }
+		    else {
+		    	$this->lexer->pushBack();
+		    }
+                    $opts['arg'][] = $arg;
+                    $opts['type'][] = $argtype;
                 } else {
                     $this->lexer->pushBack();
                 }
                 break;
         }
-        echo $this->token;
+        //echo $this->token;
         $this->getTok();
         if ($this->token != ')') {
             return $this->raiseError('Expected ")" ');
@@ -877,10 +937,7 @@ class SQL_Parser
             $tree['set_quantifier'] = $this->token;
             $this->getTok();
         }
-        if ($this->token == '*') {
-            $tree['column_names'][] = '*';
-            $this->getTok();
-        } elseif ($this->token == 'ident' || $this->isFunc()) {
+        if ($this->token == 'ident' || $this->isFunc() || $this->token == '*') {
             while ($this->token != 'from') {
                 if ($this->token == 'ident') {
                     $prevTok = $this->token;
@@ -895,7 +952,7 @@ class SQL_Parser
                         $columnTable = '';
                     }
 
-                    if ($prevTok == 'ident') {
+                    if ($prevTok == 'ident' || $this->token == '*') {
                         $columnName = $prevTokText;
                     } else {
                         return $this->raiseError('Expected column name');
@@ -908,8 +965,6 @@ class SQL_Parser
                         } else {
                             return $this->raiseError('Expected column alias');
                         }
-                    } elseif ($this->token == 'ident') {
-                        $columnAlias = $this->lexer->tokText;
                     } else {
                         $columnAlias = '';
                     }
@@ -923,6 +978,11 @@ class SQL_Parser
                     if ($this->token == ',') {
                         $this->getTok();
                     }
+		} else if ($this->token == '*') {
+		    $tree['column_names'][] = '*';
+		    $tree['column_tables'][] = '';
+		    $tree['column_aliases'][] = '';
+		    $this->getTok();
                 } elseif ($this->isFunc()) {
                     if (!isset($tree['set_quantifier'])) {
                         $result = $this->parseFunctionOpts();
@@ -1068,7 +1128,22 @@ class SQL_Parser
                     }
                     $this->getTok();
                     while ($this->token == 'ident') {
-                        $col = $this->lexer->tokText;
+			$arg = $this->lexer->tokText;
+			$this->getTok();
+			if ($this->token == '.') {
+			    $this->getTok();
+			    if ($this->token == 'ident') {
+				$arg .= '.'.$this->lexer->tokText;
+			    }
+			    else {
+				return $this->raisError('Expected a column name');
+			    }
+			}
+			else {
+			    $this->lexer->pushBack();
+			}
+			$col = $arg;
+                        //$col = $this->lexer->tokText;
                         $this->getTok();
                         if (isset($this->synonyms[$this->token])) {
                             $order = $this->synonyms[$this->token];
@@ -1112,7 +1187,22 @@ class SQL_Parser
                     }
                     $this->getTok();
                     while ($this->token == 'ident') {
-                        $col = $this->lexer->tokText;
+			$arg = $this->lexer->tokText;
+			$this->getTok();
+			if ($this->token == '.') {
+			    $this->getTok();
+			    if ($this->token == 'ident') {
+				$arg .= '.'.$this->lexer->tokText;
+			    }
+			    else {
+				return $this->raisError('Expected a column name');
+			    }
+			}
+			else {
+			    $this->lexer->pushBack();
+			}
+			$col = $arg;
+                        //$col = $this->lexer->tokText;
                         $this->getTok();
                         if ($this->token == ',') {
                             $this->getTok();

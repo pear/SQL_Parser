@@ -416,19 +416,5 @@ create table dunce (name varchar(2,3))
                                     ^ found: ")"'
 
 ),
-array(
-'sql' => 'create table dunce (enum)',
-'expect' => 'Parse error: Expected identifier on line 1
-create table dunce (enum)
-                    ^ found: "enum"'
-
-),
-array(
-'sql' => 'create table dunce (enum(23))',
-'expect' => 'Parse error: Expected identifier on line 1
-create table dunce (enum(23))
-                    ^ found: "enum"'
-
-),
 );
 ?>

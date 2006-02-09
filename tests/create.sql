@@ -50,5 +50,3 @@ create table nodefinitions;
 create dogfood;
 create table dunce (name varchar;
 create table dunce (name varchar(2,3));
-create table dunce (enum);
-create table dunce (enum(23));

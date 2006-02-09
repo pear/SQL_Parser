@@ -297,7 +297,7 @@ function nextToken()
             // {{{ State 1 : Incomplete keyword or ident
             case 1:
                 $c = $this->get();
-                if (ctype_alnum(ord($c)) || ($c == '_') || ($c == '.')) {
+                if (ctype_alnum(ord($c)) || ($c == '_')) {
                     $state = 1;
                     break;
                 }
