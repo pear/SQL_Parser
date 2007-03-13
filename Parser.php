@@ -511,7 +511,27 @@ class SQL_Parser
             // parse field identifier
             $this->getTok();
             // In this context, field names can be reserved words or function names
-            if ($this->token == 'ident' || $this->isFunc() || $this->isReserved()) {
+            if ($this->token == 'primary') {
+                $this->getTok();
+                if ($this->token != 'key') {
+                    $this->raiseError('Expected key');
+                }
+                $this->getTok();
+                if ($this->token != '(') {
+                    $this->raiseError('Expected (');
+                }
+                $this->getTok();
+                if ($this->token != 'ident') {
+                    $this->raiseError('Expected identifier');
+                }
+                $name = $this->lexer->tokText;
+                $this->getTok();
+                if ($this->token != ')')  {
+                    $this->raiseError('Expected )');
+                }
+                $fields[$name]['constraints'][] = array('type'=>'primary_key', 'value'=>true);
+                continue;
+            } elseif ($this->token == 'ident' || $this->isFunc() || $this->isReserved()) {
                 $name = $this->lexer->tokText;
             } elseif ($this->token == ')') {
                 return $fields;
