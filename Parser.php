@@ -564,7 +564,7 @@ class SQL_Parser
                         $fields[$name]['length'] = $values[0];
                         break;
                     case 'char': case 'varchar':
-                    case 'integer': case 'int':
+                    case 'integer': case 'int': case 'tinyint' :
                         if (sizeof($values) != 1) {
                             return $this->raiseError('Expected 1 parameter');
                         }
