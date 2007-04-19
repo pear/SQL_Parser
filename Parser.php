@@ -64,7 +64,8 @@ class SQL_Parser
     var $dialects = array('ANSI', 'MySQL');
 
     // {{{ function SQL_Parser($string = null, $dialect = 'ANSI')
-    function SQL_Parser($string = null, $dialect = 'ANSI') {
+    function SQL_Parser($string = null, $dialect = 'ANSI')
+    {
         $this->setDialect($dialect);
 
         if (is_string($string)) {
@@ -76,31 +77,33 @@ class SQL_Parser
     // }}}
 
     // {{{ function setDialect($dialect)
-    function setDialect($dialect) {
-        if (in_array($dialect, $this->dialects)) {
-            include 'SQL/Dialect_'.$dialect.'.php';
-            $this->types = array_flip($dialect['types']);
-            $this->functions = array_flip($dialect['functions']);
-            $this->operators = array_flip($dialect['operators']);
-            $this->commands = array_flip($dialect['commands']);
-            $this->synonyms = $dialect['synonyms'];
-            $this->symbols = array_merge(
-                    $this->types,
-                    $this->functions,
-                    $this->operators,
-                    $this->commands,
-                    array_flip($dialect['reserved']),
-                    array_flip($dialect['conjunctions']));
-            $this->lexeropts = $dialect['lexeropts'];
-            $this->parseropts = $dialect['parseropts'];
-        } else {
+    function setDialect($dialect)
+    {
+        if (!in_array($dialect, $this->dialects)) {
             return $this->raiseError('Unknown SQL dialect:'.$dialect);
         }
+
+        include 'SQL/Dialect_'.$dialect.'.php';
+        $this->types     = array_flip($dialect['types']);
+        $this->functions = array_flip($dialect['functions']);
+        $this->operators = array_flip($dialect['operators']);
+        $this->commands  = array_flip($dialect['commands']);
+        $this->synonyms  = $dialect['synonyms'];
+        $this->symbols   = array_merge(
+                $this->types,
+                $this->functions,
+                $this->operators,
+                $this->commands,
+                array_flip($dialect['reserved']),
+                array_flip($dialect['conjunctions']));
+        $this->lexeropts = $dialect['lexeropts'];
+        $this->parseropts = $dialect['parseropts'];
     }
     // }}}
 
     // {{{ getParams(&$values, &$types)
-    function getParams(&$values, &$types) {
+    function getParams(&$values, &$types)
+    {
         $values = array();
         $types = array();
         while ($this->token != ')') {
@@ -113,8 +116,9 @@ class SQL_Parser
             } else {
                 return $this->raiseError('Expected a value');
             }
+
             $this->getTok();
-            if (($this->token != ',') && ($this->token != ')')) {
+            if ($this->token != ',' && $this->token != ')') {
                 return $this->raiseError('Expected , or )');
             }
         }
@@ -122,7 +126,8 @@ class SQL_Parser
     // }}}
 
     // {{{ raiseError($message)
-    function raiseError($message) {
+    function raiseError($message)
+    {
         $end = 0;
         if ($this->lexer->string != '') {
             while (($this->lexer->lineBegin+$end < $this->lexer->stringLen)
@@ -136,7 +141,7 @@ class SQL_Parser
             ($this->lexer->lineNo+1)."\n";
         $message .= substr($this->lexer->string, $this->lexer->lineBegin, $end)."\n";
         $length = is_null($this->token) ? 0 : strlen($this->lexer->tokText);
-        $message .= str_repeat(' ', abs($this->lexer->tokPtr - 
+        $message .= str_repeat(' ', abs($this->lexer->tokPtr -
                     $this->lexer->lineBegin - $length))."^";
         $message .= ' found: "'.$this->lexer->tokText.'"';
 
@@ -145,13 +150,15 @@ class SQL_Parser
     // }}}
 
     // {{{ isType()
-    function isType() {
+    function isType()
+    {
         return isset($this->types[$this->token]);
     }
     // }}}
 
     // {{{ isVal()
-    function isVal() {
+    function isVal()
+    {
         return (($this->token == 'real_val') ||
                 ($this->token == 'int_val') ||
                 ($this->token == 'text_val') ||
@@ -160,31 +167,36 @@ class SQL_Parser
     // }}}
 
     // {{{ isFunc()
-    function isFunc() {
+    function isFunc()
+    {
         return isset($this->functions[$this->token]);
     }
     // }}}
 
     // {{{ isCommand()
-    function isCommand() {
+    function isCommand()
+    {
         return isset($this->commands[$this->token]);
     }
     // }}}
 
     // {{{ isReserved()
-    function isReserved() {
+    function isReserved()
+    {
         return isset($this->symbols[$this->token]);
     }
     // }}}
 
     // {{{ isOperator()
-    function isOperator() {
+    function isOperator()
+    {
         return isset($this->operators[$this->token]);
     }
     // }}}
 
     // {{{ getTok()
-    function getTok() {
+    function getTok()
+    {
         $this->token = $this->lexer->lex();
         //echo $this->token."\t".$this->lexer->tokText."\n";
     }
@@ -305,7 +317,7 @@ class SQL_Parser
                                                             return $this->raiseError($this->token.
                                                                     ' is not smaller than '.
                                                                     $constraintOpts['quantum_1']);
-                                                        } 
+                                                        }
                                                         $constraintOpts['quantum_2'] = $this->token;
                                                     } else {
                                                         $this->lexer->unget();
@@ -416,7 +428,7 @@ class SQL_Parser
                     $clause['neg'] = true;
                     $this->getTok();
                 case 'in':
-                    // parse for 'in' operator 
+                    // parse for 'in' operator
                     if ($this->token != '(') {
                         return $this->raiseError('Expected "("');
                     }
@@ -488,7 +500,7 @@ class SQL_Parser
             $subClause = $this->parseSearchClause($subSearch);
             if (PEAR::isError($subClause)) {
                 return $subClause;
-            } 
+            }
             $clause = array('arg_1' => $clause,
                     'op' => $op,
                     'arg_2' => $subClause);
@@ -557,7 +569,7 @@ class SQL_Parser
                         $this->getTok();
                     } elseif ($this->token == 'varying') {
                         // character varying() == varchar()
-                        if ($type != 'character' && $type != 'varchar') 
+                        if ($type != 'character' && $type != 'varchar')
                         {
                             return $this->raiseError('Unexpected token');
                         }
@@ -738,7 +750,7 @@ class SQL_Parser
             $this->getTok();
             if ($this->token != 'ident' ) {
                 return $this->raiseError('Expected column alias');
-            } 
+            }
             $opts['alias'] = $this->lexer->tokText;
         } elseif ($this->token != null) {
             if ($this->token != 'ident' ) {
@@ -751,7 +763,8 @@ class SQL_Parser
     // }}}
 
     // {{{ parseCreate()
-    function parseCreate() {
+    function parseCreate()
+    {
         $this->getTok();
         switch ($this->token) {
             case 'table':
@@ -786,7 +799,8 @@ class SQL_Parser
 
     // {{{ parseInsert()
     // INSERT INTO tablename
-    function parseInsert() {
+    function parseInsert()
+    {
         $this->getTok();
         if ($this->token != 'into') {
             return $this->raiseError('Expected "into"');
@@ -817,11 +831,11 @@ class SQL_Parser
         if (PEAR::isError($results)) {
             return $results;
         }
-        if (isset($tree['column_defs']) && 
+        if (isset($tree['column_defs']) &&
                 (sizeof($tree['column_defs']) != sizeof($values))) {
             return $this->raiseError('field/value mismatch');
         }
-        if (! sizeof($values)) {
+        if (!sizeof($values)) {
             return $this->raiseError('No fields to insert');
         }
         foreach ($values as $key=>$value) {
@@ -836,7 +850,8 @@ class SQL_Parser
     // {{{ parseUpdate()
     // UPDATE tablename SET (colname = (value|colname) (,|WHERE searchclause))+
     // XXX: This is incorrect.  multiple where clauses would parse
-    function parseUpdate() {
+    function parseUpdate()
+    {
         $this->getTok();
         if ($this->token != 'ident') {
             return $this->raiseError('Expected table name');
@@ -882,7 +897,8 @@ class SQL_Parser
 
     // {{{ parseDelete()
     // DELETE FROM tablename WHERE searchclause
-    function parseDelete() {
+    function parseDelete()
+    {
         $this->getTok();
         if ($this->token != 'from') {
             return $this->raiseError('Expected "from"');
@@ -907,7 +923,8 @@ class SQL_Parser
     // }}}
 
     // {{{ parseDrop()
-    function parseDrop() {
+    function parseDrop()
+    {
         $this->getTok();
         switch ($this->token) {
             case 'table':
@@ -945,7 +962,8 @@ class SQL_Parser
     // }}}
 
     // {{{ parseSelect()
-    function parseSelect($subSelect = false) {
+    function parseSelect($subSelect = false)
+    {
         $tree = array('command' => 'select');
         $this->getTok();
         if (($this->token == 'distinct') || ($this->token == 'all')) {
@@ -1206,12 +1224,10 @@ class SQL_Parser
                             $this->getTok();
                             if ($this->token == 'ident') {
                                 $arg .= '.'.$this->lexer->tokText;
-                            }
-                            else {
+                            } else {
                                 return $this->raiseError('Expected a column name');
                             }
-                        }
-                        else {
+                        } else {
                             $this->lexer->pushBack();
                         }
                         $col = $arg;
@@ -1268,4 +1284,3 @@ class SQL_Parser
     }
     // }}}
 }
-?>

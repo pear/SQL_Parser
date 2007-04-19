@@ -68,7 +68,7 @@ class Lexer
     // }}}
 
     // {{{ incidental functions
-    function Lexer($string = '', $lookahead=0, $lexeropts)
+    function Lexer($string = '', $lookahead = 0, $lexeropts)
     {
         $this->string = $string;
         $this->stringLen = strlen($string);
@@ -76,28 +76,33 @@ class Lexer
         $this->allowIdentFirstDigit = $lexeropts['allowIdentFirstDigit'];
     }
 
-    function get() {
+    function get()
+    {
         ++$this->tokPtr;
         ++$this->tokLen;
         return ($this->tokPtr <= $this->stringLen) ? $this->string{$this->tokPtr - 1} : null;
     }
 
-    function unget() {
+    function unget()
+    {
         --$this->tokPtr;
         --$this->tokLen;
     }
 
-    function skip() {
+    function skip()
+    {
         ++$this->tokStart;
         return ($this->tokPtr != $this->stringLen) ? $this->string{$this->tokPtr++} : '';
     }
 
-    function revert() {
+    function revert()
+    {
         $this->tokPtr = $this->tokStart;
         $this->tokLen = 0;
     }
 
-    function isCompop($c) {
+    function isCompop($c)
+    {
         return (($c == '<') || ($c == '>') || ($c == '=') || ($c == '!'));
     }
     // }}}
@@ -111,7 +116,7 @@ class Lexer
      */
     function pushBack()
     {
-        if($this->lookahead>0 && count($this->tokenStack)>0 && $this->stackPtr>0) {
+        if ($this->lookahead > 0 && count($this->tokenStack) > 0 && $this->stackPtr > 0) {
             $this->stackPtr--;
         }
     }
@@ -120,7 +125,7 @@ class Lexer
     // {{{ lex()
     function lex()
     {
-        if($this->lookahead>0) {
+        if ($this->lookahead > 0) {
             // The stackPtr, should always be the same as the count of
             // elements in the tokenStack.  The stackPtr, can be thought
             // of as pointing to the next token to be added.  If however
@@ -128,9 +133,9 @@ class Lexer
             // count, to indicate that we should take that token from the
             // stack, instead of calling nextToken for a new token.
 
-            if ($this->stackPtr<count($this->tokenStack)) {
+            if ($this->stackPtr < count($this->tokenStack)) {
 
-                $this->tokText = $this->tokenStack[$this->stackPtr]['tokText'];
+                $this->tokText  = $this->tokenStack[$this->stackPtr]['tokText'];
                 $this->skipText = $this->tokenStack[$this->stackPtr]['skipText'];
                 $token = $this->tokenStack[$this->stackPtr]['token'];
 
@@ -146,8 +151,8 @@ class Lexer
                 if ($this->stackPtr == $this->lookahead) {
                     // For some reason array_shift and
                     // array_pop screw up the indexing, so we do it manually.
-                    for($i=0; $i<(count($this->tokenStack)-1); $i++) {
-                        $this->tokenStack[$i] = $this->tokenStack[$i+1];
+                    for ($i = 0; $i < (count($this->tokenStack) - 1); $i++) {
+                        $this->tokenStack[$i] = $this->tokenStack[$i + 1];
                     }
 
                     // Indicate that we should put the element in
@@ -163,9 +168,7 @@ class Lexer
                 $this->stackPtr++;
                 return $token;
             }
-        }
-        else
-        {
+        } else {
             return $this->nextToken();
         }
     }
@@ -174,13 +177,15 @@ class Lexer
     // {{{ nextToken()
     function nextToken()
     {
-        if ($this->string == '') return;
+        if ($this->string == '') {
+            return;
+        }
         $state = 0;
         $this->tokAbsStart = $this->tokStart;
 
         while (true){
             //echo "State: $state, Char: $c\n";
-            switch($state) {
+            switch ($state) {
                 // {{{ State 0 : Start of token
                 case 0:
                     $this->tokPtr = $this->tokStart;
@@ -194,15 +199,17 @@ class Lexer
                     }
 
                     while (($c == ' ') || ($c == "\t")
-                            || ($c == "\n") || ($c == "\r")) {
+                            || ($c == "\n") || ($c == "\r")
+                    ) {
                         if ($c == "\n" || $c == "\r") {
                             // Handle MAC/Unix/Windows line endings.
-                            if($c == "\r") {
+                            if ($c == "\r") {
                                 $c = $this->skip();
 
                                 // If not DOS newline
-                                if($c != "\n")
+                                if ($c != "\n") {
                                     $this->unget();
+                                }
                             }
                             ++$this->lineNo;
                             $this->lineBegin = $this->tokPtr;
@@ -399,8 +406,7 @@ class Lexer
                     // {{{ State 10: Incomplete comparison operator
                 case 10:
                     $c = $this->get();
-                    if ($this->isCompop($c))
-                    {
+                    if ($this->isCompop($c)) {
                         $state = 10;
                         break;
                     }
@@ -413,7 +419,7 @@ class Lexer
                     $this->unget();
                     $this->tokText = substr($this->string, $this->tokStart,
                             $this->tokLen);
-                    if($this->tokText) {
+                    if ($this->tokText) {
                         $this->skipText = substr($this->string, $this->tokAbsStart,
                                 $this->tokStart-$this->tokAbsStart);
                         $this->tokStart = $this->tokPtr;
@@ -568,4 +574,3 @@ class Lexer
     }
     // }}}
 }
-?>

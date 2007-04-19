@@ -33,7 +33,8 @@ require_once 'PEAR.php';
  * @access  public
  * @package SQL_Parser
  */
-class SQL_Compiler {
+class SQL_Compiler
+{
     var $tree;
 
 // {{{ function SQL_Compiler($array = null)
@@ -69,7 +70,8 @@ class SQL_Compiler {
 //    {{{ function getParams($arg)
     function getParams($arg)
     {
-        for ($i = 0; $i < sizeof ($arg['type']); $i++) {
+        $types = count($arg['type']);
+        for ($i = 0; $i < $types; $i++) {
             switch ($arg['type'][$i]) {
                 case 'ident':
                 case 'real_val':
@@ -92,7 +94,8 @@ class SQL_Compiler {
 //    {{{ function compileFunctionOpts($arg)
     function compileFunctionOpts($arg)
     {
-        for ($i = 0; $i < sizeof ($arg['type']); $i++) {
+        $types = count($arg['type']);
+        for ($i = 0; $i < $types; $i++) {
             switch ($arg['type'][$i]) {
                 case 'ident':
                 case 'real_val':
@@ -140,11 +143,7 @@ class SQL_Compiler {
                 }
                 $sql .= ' '.$where_clause['op'].' '.$value;
             } elseif ($where_clause['op'] == 'is') {
-                if (isset ($where_clause['neg'])) {
-                    $value = 'not null';
-                } else {
-                    $value = 'null';
-                }
+                $value = isset ($where_clause['neg']) ? 'not null' : 'null';
                 $sql .= ' is '.$value;
             } else {
                 $sql .= ' '.$where_clause['op'].' ';
@@ -175,16 +174,19 @@ class SQL_Compiler {
         if (isset($this->tree['set_quantifier'])) {
             $sql .= $this->tree['set_quantifier'].' ';
         }
-        
+
         // save the column names and set functions
-        for ($i = 0; $i < sizeof ($this->tree['column_names']); $i++) {
+        $cols = count($this->tree['column_names']);
+        for ($i = 0; $i < $cols; $i++) {
             $column = $this->tree['column_names'][$i];
             if ($this->tree['column_aliases'][$i] != '') {
                 $column .= ' as '.$this->tree['column_aliases'][$i];
             }
             $column_names[] = $column;
         }
-        for ($i = 0; $i < sizeof ($this->tree['set_function']); $i++) {
+
+        $funcs = count($this->tree['set_function']);
+        for ($i = 0; $i < $funcs; $i++) {
             $column = $this->tree['set_function'][$i]['name'].'(';
             if (isset ($this->tree['set_function'][$i]['distinct'])) {
                 $column .= 'distinct ';
@@ -201,10 +203,11 @@ class SQL_Compiler {
         if (isset($column_names)) {
             $sql .= implode (", ", $column_names);
         }
-        
+
         // save the tables
         $sql .= ' from ';
-        for ($i = 0; $i < sizeof ($this->tree['table_names']); $i++) {
+        $c_tables = count($this->tree['table_names']);
+        for ($i = 0; $i < $c_tables; $i++) {
             $sql .= $this->tree['table_names'][$i];
             if ($this->tree['table_aliases'][$i] != '') {
                 $sql .= ' as '.$this->tree['table_aliases'][$i];
@@ -220,7 +223,7 @@ class SQL_Compiler {
                 $sql .= ' '.$this->tree['table_join'][$i].' ';
             }
         }
-        
+
         // save the where clause
         if (isset($this->tree['where_clause'])) {
             $search_string = $this->compileSearchClause ($this->tree['where_clause']);
@@ -229,7 +232,7 @@ class SQL_Compiler {
             }
             $sql .= ' where '.$search_string;
         }
-        
+
         // save the group by clause
         if (isset ($this->tree['group_by'])) {
             $sql .= ' group by '.implode(', ', $this->tree['group_by']);
@@ -242,12 +245,12 @@ class SQL_Compiler {
             }
             $sql .= ' order by '.implode(', ', $sort_order);
         }
-        
+
         // save the limit clause
         if (isset ($this->tree['limit_clause'])) {
             $sql .= ' limit '.$this->tree['limit_clause']['start'].','.$this->tree['limit_clause']['length'];
         }
-        
+
         return $sql;
     }
 //    }}}
@@ -256,13 +259,14 @@ class SQL_Compiler {
     function compileUpdate()
     {
         $sql = 'update '.implode(', ', $this->tree['table_names']);
-        
+
         // save the set clause
-        for ($i = 0; $i < sizeof ($this->tree['column_names']); $i++) {
+        $cols = count($this->tree['column_names']);
+        for ($i = 0; $i < $cols; $i++) {
             $set_columns[] = $this->tree['column_names'][$i].' = '.$this->getWhereValue($this->tree['values'][$i]);
         }
         $sql .= ' set '.implode (', ', $set_columns);
-        
+
         // save the where clause
         if (isset($this->tree['where_clause'])) {
             $search_string = $this->compileSearchClause ($this->tree['where_clause']);
@@ -279,7 +283,7 @@ class SQL_Compiler {
     function compileDelete()
     {
         $sql = 'delete from '.implode(', ', $this->tree['table_names']);
-        
+
         // save the where clause
         if (isset($this->tree['where_clause'])) {
             $search_string = $this->compileSearchClause ($this->tree['where_clause']);
@@ -297,7 +301,9 @@ class SQL_Compiler {
     {
         $sql = 'insert into '.$this->tree['table_names'][0].' ('.
                 implode(', ', $this->tree['column_names']).') values (';
-        for ($i = 0; $i < sizeof ($this->tree['values']); $i++) {
+
+        $c_vals = count($this->tree['values']);
+        for ($i = 0; $i < $c_vals; $i++) {
             $value = $this->getWhereValue ($this->tree['values'][$i]);
             if (PEAR::isError($value)) {
                 return $value;
@@ -313,7 +319,7 @@ class SQL_Compiler {
     function compile($array = null)
     {
         $this->tree = $array;
-        
+
         switch ($this->tree['command']) {
             case 'select':
                 return $this->compileSelect();
@@ -337,4 +343,3 @@ class SQL_Compiler {
     }
 //    }}}
 }
-?>
