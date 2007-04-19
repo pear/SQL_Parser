@@ -209,19 +209,19 @@ class SQL_Parser
         $namedConstraint = false;
         $options = array();
         while (($this->token != ',') && ($this->token != ')') &&
-                ($this->token != null)) {
+                ($this->token != null)
+        ) {
             $option = $this->token;
             $haveValue = true;
             switch ($option) {
                 case 'constraint':
                     $this->getTok();
-                    if ($this->token = 'ident') {
-                        $constraintName = $this->lexer->tokText;
-                        $namedConstraint = true;
-                        $haveValue = false;
-                    } else {
+                    if ($this->token != 'ident') {
                         return $this->raiseError('Expected a constraint name');
                     }
+                    $constraintName = $this->lexer->tokText;
+                    $namedConstraint = true;
+                    $haveValue = false;
                     break;
                 case 'default':
                     $this->getTok();
@@ -241,106 +241,123 @@ class SQL_Parser
                     break;
                 case 'primary':
                     $this->getTok();
-                    if ($this->token == 'key') {
-                        $constraintOpts = array('type'=>'primary_key',
-                                'value'=>true);
-                    } else {
+                    if ($this->token != 'key') {
                         return $this->raiseError('Expected "key"');
                     }
+                    $constraintOpts = array(
+                        'type'  => 'primary_key',
+                        'value' => true
+                    );
                     break;
                 case 'not':
                     $this->getTok();
-                    if ($this->token == 'null') {
-                        $constraintOpts = array('type'=>'not_null',
-                                'value' => true);
-                    } else {
+                    if ($this->token != 'null') {
                         return $this->raiseError('Expected "null"');
                     }
+                    $constraintOpts = array(
+                        'type'  => 'not_null',
+                        'value' => true
+                    );
                     break;
                 case 'check':
                     $this->getTok();
                     if ($this->token != '(') {
                         return $this->raiseError('Expected (');
-                                }
-                                $results = $this->parseSearchClause();
-                                if (PEAR::isError($results)) {
-                                return $results;
-                                }
-                                $results['type'] = 'check';
-                                $constraintOpts = $results;
-                                if ($this->token != ')') {
-                                return $this->raiseError('Expected )');
-                                }
-                                break;
+                    }
+
+                    $results = $this->parseSearchClause();
+                    if (PEAR::isError($results)) {
+                        return $results;
+                    }
+
+                    $results['type'] = 'check';
+                    $constraintOpts = $results;
+                    if ($this->token != ')') {
+                        return $this->raiseError('Expected )');
+                    }
+                    break;
                 case 'unique':
-                                $this->getTok();
-                                if ($this->token != '(') {
-                                    return $this->raiseError('Expected (');
-                                            }
-                                            $constraintOpts = array('type'=>'unique');
-                                            $this->getTok();
-                                            while ($this->token != ')') {
-                                            if ($this->token != 'ident') {
-                                            return $this->raiseError('Expected an identifier');
-                                            }
-                                            $constraintOpts['column_names'][] = $this->lexer->tokText;
-                                            $this->getTok();
-                                            if (($this->token != ')') && ($this->token != ',')) {
-                                            return $this->raiseError('Expected ) or ,');
-                                            }
-                                            }
-                                            if ($this->token != ')') {
-                                                return $this->raiseError('Expected )');
-                                            }
-                                            break;
+                    $this->getTok();
+                    if ($this->token != '(') {
+                        return $this->raiseError('Expected (');
+                    }
+
+                    $constraintOpts = array('type'=>'unique');
+                    $this->getTok();
+                    while ($this->token != ')') {
+                        if ($this->token != 'ident') {
+                        return $this->raiseError('Expected an identifier');
+                        }
+                        $constraintOpts['column_names'][] = $this->lexer->tokText;
+                        $this->getTok();
+                        if (($this->token != ')') && ($this->token != ',')) {
+                            return $this->raiseError('Expected ) or ,');
+                        }
+                    }
+
+                    if ($this->token != ')') {
+                        return $this->raiseError('Expected )');
+                    }
+                    break;
                 case 'month': case 'year': case 'day': case 'hour':
                 case 'minute': case 'second':
-                                            $intervals = array(
-                                                    array('month'=>0,
-                                                        'year'=>1),
-                                                    array('second'=>0,
-                                                        'minute'=>1,
-                                                        'hour'=>2,
-                                                        'day'=>3));
-                                            foreach ($intervals as $class) {
-                                                if (isset($class[$option])) {
-                                                    $constraintOpts = array('quantum_1'=>$this->token);
-                                                    $this->getTok();
-                                                    if ($this->token == 'to') {
-                                                        $this->getTok();
-                                                        if (!isset($class[$this->token])) {
-                                                            return $this->raiseError(
-                                                                    'Expected interval quanta');
-                                                        }
-                                                        if ($class[$this->token] >=
-                                                                $class[$constraintOpts['quantum_1']]) {
-                                                            return $this->raiseError($this->token.
-                                                                    ' is not smaller than '.
-                                                                    $constraintOpts['quantum_1']);
-                                                        }
-                                                        $constraintOpts['quantum_2'] = $this->token;
-                                                    } else {
-                                                        $this->lexer->unget();
-                                                    }
-                                                    break;
-                                                }
-                                            }
-                                            if (!isset($constraintOpts['quantum_1'])) {
-                                                return $this->raiseError('Expected interval quanta');
-                                            }
-                                            $constraintOpts['type'] = 'values';
-                                            break;
+                    $intervals = array(
+                        array(
+                            'month' => 0,
+                            'year'  => 1
+                        ),
+                        array(
+                            'second' => 0,
+                            'minute' => 1,
+                            'hour'   => 2,
+                            'day'    => 3
+                        )
+                    );
+
+                    foreach ($intervals as $class) {
+                        if (isset($class[$option])) {
+                            $constraintOpts = array('quantum_1'=>$this->token);
+                            $this->getTok();
+                            if ($this->token == 'to') {
+                                $this->getTok();
+                                if (!isset($class[$this->token])) {
+                                    return $this->raiseError(
+                                            'Expected interval quanta');
+                                }
+
+                                if ($class[$this->token] >=
+                                        $class[$constraintOpts['quantum_1']]
+                                ) {
+                                    return $this->raiseError($this->token.
+                                            ' is not smaller than '.
+                                            $constraintOpts['quantum_1']);
+                                }
+                                $constraintOpts['quantum_2'] = $this->token;
+                            } else {
+                                $this->lexer->unget();
+                            }
+                            break;
+                        }
+                    }
+                    if (!isset($constraintOpts['quantum_1'])) {
+                        return $this->raiseError('Expected interval quanta');
+                    }
+                    $constraintOpts['type'] = 'values';
+                    break;
                 case 'null':
-                                            $haveValue = false;
-                                            break;
+                    $haveValue = false;
+                    break;
                 case 'auto_increment':
-                                            $constraintOpts = array('type'=>'auto_increment',
-                                                    'value'=>true);
-                                            break;
+                    $constraintOpts = array(
+                        'type'  => 'auto_increment',
+                        'value' => true
+                    );
+                    break;
                 default:
-                                            return $this->raiseError('Unexpected token '
-                                                    .$this->lexer->tokText);
+                    return $this->raiseError('Unexpected token '
+                            .$this->lexer->tokText);
             }
+
             if ($haveValue) {
                 if ($namedConstraint) {
                     $options['constraints'][$constraintName] = $constraintOpts;
@@ -389,8 +406,7 @@ class SQL_Parser
                     return $this->raiseError('Expected a column name');
                 }
                 $arg .= '.'.$this->lexer->tokText;
-            }
-            else {
+            } else {
                 $this->lexer->pushBack();
             }
             $clause['arg_1']['value'] = $arg;
@@ -484,8 +500,7 @@ class SQL_Parser
                                 return $this->raiseError('Expected a column name');
                             }
                             $arg .= '.'.$this->lexer->tokText;
-                        }
-                        else {
+                        } else {
                             $this->lexer->pushBack();
                         }
                         $clause['arg_2']['value'] = $arg;
