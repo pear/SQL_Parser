@@ -989,7 +989,7 @@ class SQL_Parser
             return $this->raiseError('Expected columns or a set function');
         }
 
-        while ($this->token != 'from') {
+        while ($this->token != 'from' && $this->token != null) {
             if ($this->token == 'ident') {
                 $prevTok = $this->token;
                 $prevTokText = $this->lexer->tokText;
@@ -1061,7 +1061,9 @@ class SQL_Parser
             }
         }
         if ($this->token != 'from') {
-            return $this->raiseError('Expected "from"');
+            // from is not required in SELECT statements
+            //return $this->raiseError('Expected "from"');
+            return $tree;
         }
         $this->getTok();
         while ($this->token == 'ident') {
