@@ -24,7 +24,7 @@
 // $Id$
 //
 
-include 'SQL/ctype.php';
+include 'SQL/Parser/ctype.php';
 
 // {{{ token definitions
 // variables: 'ident', 'sys_var'
@@ -39,7 +39,7 @@ include 'SQL/ctype.php';
  * @access  public
  * @package SQL_Parser
  */
-class Lexer
+class SQL_Parser_Lexer
 {
     // array of valid tokens for the lexer to recognize
     // format is 'token literal'=>TOKEN_VALUE
@@ -68,7 +68,7 @@ class Lexer
     // }}}
 
     // {{{ incidental functions
-    function Lexer($string = '', $lookahead = 0, $lexeropts)
+    function SQL_Parser_Lexer($string = '', $lookahead = 0, $lexeropts)
     {
         $this->string = $string;
         $this->stringLen = strlen($string);

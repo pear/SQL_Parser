@@ -60,11 +60,15 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <file baseinstalldir="/SQL" name="test_parser.php" role="test" />
     <file baseinstalldir="/SQL" name="update.php" role="test" />
    </dir> <!-- //tests -->
-   <file baseinstalldir="/SQL" name="Compiler.php" role="php" />
-   <file baseinstalldir="/SQL" name="ctype.php" role="php" />
-   <file baseinstalldir="/SQL" name="Dialect_ANSI.php" role="php" />
-   <file baseinstalldir="/SQL" name="Dialect_MySQL.php" role="php" />
-   <file baseinstalldir="/SQL" name="Lexer.php" role="php" />
+   <dir name="Parser">
+    <dir name="Dialect">
+     <file baseinstalldir="/SQL" name="ANSI.php" role="php" />
+     <file baseinstalldir="/SQL" name="MySQL.php" role="php" />
+    </dir>
+    <file baseinstalldir="/SQL" name="Compiler.php" role="php" />
+    <file baseinstalldir="/SQL" name="ctype.php" role="php" />
+    <file baseinstalldir="/SQL" name="Lexer.php" role="php" />
+   </dir>
    <file baseinstalldir="/SQL" name="Parser.php" role="php" />
   </dir> <!-- / -->
  </contents>

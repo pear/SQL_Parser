@@ -33,12 +33,12 @@ require_once 'PEAR.php';
  * @access  public
  * @package SQL_Parser
  */
-class SQL_Compiler
+class SQL_Parser_Compiler
 {
     var $tree;
 
-// {{{ function SQL_Compiler($array = null)
-    function SQL_Compiler($array = null)
+// {{{ function SQL_Parser_Compiler($array = null)
+    function SQL_Parser_Compiler($array = null)
     {
         $this->tree = $array;
     }

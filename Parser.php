@@ -35,8 +35,8 @@
 //   outputting the same parse tree
 
 require_once 'PEAR.php';
-require_once 'SQL/Lexer.php';
-require_once 'Expressions/include.php';
+require_once 'SQL/Parser/Lexer.php';
+require_once 'SQL/Expressions/include.php';
 
 /**
  * A sql parser
@@ -70,7 +70,7 @@ class SQL_Parser
 
         if (is_string($string)) {
             // Initialize the Lexer with a 3-level look-back buffer
-            $this->lexer = new Lexer($string, 3, $this->lexeropts);
+            $this->lexer = new SQL_Parser_Lexer($string, 3, $this->lexeropts);
             $this->lexer->symbols =& $this->symbols;
         }
     }
@@ -83,7 +83,7 @@ class SQL_Parser
             return $this->raiseError('Unknown SQL dialect:'.$dialect);
         }
 
-        include 'SQL/Dialect_'.$dialect.'.php';
+        include 'SQL/Parser/Dialect/' . $dialect . '.php';
         $this->types     = array_flip($dialect['types']);
         $this->functions = array_flip($dialect['functions']);
         $this->operators = array_flip($dialect['operators']);
@@ -1269,7 +1269,7 @@ class SQL_Parser
     {
         if (is_string($string)) {
             // Initialize the Lexer with a 3-level look-back buffer
-            $this->lexer = new Lexer($string, 3, $this->lexeropts);
+            $this->lexer = new SQL_Parser_Lexer($string, 3, $this->lexeropts);
             $this->lexer->symbols =& $this->symbols;
         } else {
             if (!is_object($this->lexer)) {
