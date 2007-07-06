@@ -1,60 +1,182 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<!-- do not use the "Type" attribute here, that one is only for
-     generated package.xml files -->
-<package>
-    <name>SQL_Parser</name>
-    <summary>An SQL parser</summary>
-    <description>
-This class is primarily an SQL parser, written with influences from a variety of sources (mSQL, CPAN's SQL-Statement, mySQL). It also includes a tokenizer (lexer) class and a reimplementation of the ctype extension in PHP.
-    </description>
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.6.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>SQL_Parser</name>
+ <channel>pear.php.net</channel>
+ <summary>An SQL parser</summary>
+ <description>This class is primarily an SQL parser, written with influences from a variety of sources (mSQL, CPAN&apos;s SQL-Statement, mySQL). It also includes a tokenizer (lexer) class and a reimplementation of the ctype extension in PHP.
+ </description>
+ <lead>
+  <name>Sebastian Mendel</name>
+  <user>cybot</user>
+  <email>pear@sebastianmendel.de</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Brent Cook</name>
+  <user>busterb</user>
+  <email>busterbcook@yahoo.com</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Erich Enke</name>
+  <user>epte</user>
+  <email>erich.enke@gmail.com</email>
+  <active>no</active>
+ </lead>
+ <date>2007-06-29</date>
+ <time>08:03:18</time>
+ <version>
+  <release>0.5.1</release>
+  <api>0.5.1</api>
+ </version>
+ <stability>
+  <release>devel</release>
+  <api>devel</api>
+ </stability>
+ <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+ <notes>Parser:
+    * Fixed bug in parsing default function arguments
+    * Added more test cases; tests no longer rely on Var_Dump for now
+    * Dialects can pass parser and lexer options to change behavior
+      beyond just keywords.
+    * Added lexer option to accept idents starting with a number
+    * (TODO) Added PHPDoc comments
+ </notes>
+ <contents>
+  <dir name="/">
+   <dir name="tests">
+    <file baseinstalldir="/SQL" name="create.php" role="test" />
+    <file baseinstalldir="/SQL" name="delete.php" role="test" />
+    <file baseinstalldir="/SQL" name="drop.php" role="test" />
+    <file baseinstalldir="/SQL" name="dumper.php" role="test" />
+    <file baseinstalldir="/SQL" name="employment.php" role="test" />
+    <file baseinstalldir="/SQL" name="insert.php" role="test" />
+    <file baseinstalldir="/SQL" name="parser_cases.php" role="test" />
+    <file baseinstalldir="/SQL" name="select.php" role="test" />
+    <file baseinstalldir="/SQL" name="tables.php" role="test" />
+    <file baseinstalldir="/SQL" name="test_parser.php" role="test" />
+    <file baseinstalldir="/SQL" name="update.php" role="test" />
+   </dir> <!-- //tests -->
+   <file baseinstalldir="/SQL" name="Compiler.php" role="php" />
+   <file baseinstalldir="/SQL" name="ctype.php" role="php" />
+   <file baseinstalldir="/SQL" name="Dialect_ANSI.php" role="php" />
+   <file baseinstalldir="/SQL" name="Dialect_MySQL.php" role="php" />
+   <file baseinstalldir="/SQL" name="Lexer.php" role="php" />
+   <file baseinstalldir="/SQL" name="Parser.php" role="php" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.0.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.5</release>
+    <api>0.5</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2004-05-11</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>Parser:
+* More robust search clause parsing; now handles subsearches
+with parentheses in more cases (Brent Cook
+* Add more alias handling cases (John Griffin)
+* Handle ordinal functions in select project clauses correctly
+* Add explicit join support (John Griffin)
+* Add initial support for multiple SQL dialects (ANSI, MySQL)
+(John Griffin, Brent Cook)
+* Added SQL Compiler that takes a parse tree and generates a
+SQL statement (John Griffin)
+</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4</release>
+    <api>0.4</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2003-12-21</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>Lexer:
+Fixed off-by-one error and other accesses of undefined memory
+Idents can be of the form aaa.bbb
+Parser:
+Can now parse table.field style field names
+Understand some forms of table alias
+Fix some bugs in error carret display
+Fix some references to undefined memory
+Handle some subselects
+Handle 'in' and 'not in' keywords for sets and subselects
+Use new features of Lexer
+Fix quantum comparisons in creates
+add support for 'group by'
+Thanks to John Griffin for many of these fixes. There are many more
+left to merge in the next release - hopefully, it wont be too far
+in the future.</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3</release>
+    <api>0.3</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2003-04-14</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>This is an 'I'm back' release. Did you miss me?
 
-    <maintainers>
-        <maintainer>
-            <user>busterb</user>
-            <name>Brent Cook</name>
-            <email>busterbcook@yahoo.com</email>
-            <role>lead</role>
-        </maintainer>
-    </maintainers>
-
-    <release>
-        <license>LGPL</license>
-        <version>0.5.1</version>
-        <date>2004-05-30</date>
-        <state>devel</state>
-        <notes>
-            Parser:
-                * Fixed bug in parsing default function arguments
-                * Added more test cases; tests no longer rely on Var_Dump for now
-                * Dialects can pass parser and lexer options to change behavior
-                  beyond just keywords.
-                * Added lexer option to accept idents starting with a number
-                * (TODO) Added PHPDoc comments
-        </notes>
-        <filelist>
-            <dir name="/" baseinstalldir="/SQL">
-                <file role="php">Parser.php</file>
-                <file role="php">Lexer.php</file>
-                <file role="php">Compiler.php</file>
-                <file role="php">Dialect_ANSI.php</file>
-                <file role="php">Dialect_MySQL.php</file>
-                <file role="php">ctype.php</file>
-                <dir name="tests" role="test">
-                    <file role="test">test_parser.php</file>
-                    <file role="test">parser_cases.php</file>
-                    <file role="test">dumper.php</file>
-                    <file role="test">create.php</file>
-                    <file role="test">delete.php</file>
-                    <file role="test">drop.php</file>
-                    <file role="test">insert.php</file>
-                    <file role="test">select.php</file>
-                    <file role="test">update.php</file>
-                    <file role="test">update.php</file>
-                    <file role="test">employment.php</file>
-                    <file role="test">tables.php</file>
-                </dir>
-            </dir>
-        </filelist>
-    </release>
+Mostly focusing on the Lexer this time.
+* Add support for pushing tokens back (Jason Pell)
+* Add support for # and -- comments (for real this time)
+* Add support for ellipsis tokens
+* Removed extraneous negative-number parsing</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2</release>
+    <api>0.2</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2002-12-18</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>* Add support for column and table aliases (thanks to Lauren Matheson)
+* Add support for null as a value type (thanks to Jason Pell)
+</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.1</release>
+    <api>0.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2002-09-30</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>Initial release as a stand-alone package. Lots of documentation is needed (e.g. grammar notes), but it is already pretty robust and easy to extend. The lexer could use some optimization for speed too.</notes>
+  </release>
+ </changelog>
 </package>
