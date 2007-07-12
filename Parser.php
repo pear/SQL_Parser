@@ -1273,11 +1273,13 @@ class SQL_Parser
             $tree['set_quantifier'] = $this->token;
             $this->getTok();
         }
+        /*
         if ($this->token != 'ident'
          && ! $this->isFunc()
          && $this->token != '*') {
             return $this->raiseError('Expected columns or a set function');
         }
+        */
 
         while ($this->token != 'from' && $this->token != null) {
             if ($this->token == 'ident') {
@@ -1347,7 +1349,12 @@ class SQL_Parser
             } elseif ($this->token == ',') {
                 $this->getTok();
             } else {
-                return $this->raiseError('Unexpected token "'.$this->token.'"');
+                $tree['column_values'][] = $this->lexer->tokText;
+                $tree['column_names'][] = $this->lexer->tokText;
+                $tree['column_tables'][] = '';
+                $tree['column_aliases'][] = '';
+                //return $this->raiseError('Unexpected token "'.$this->token.'"');
+                $this->getTok();
             }
         }
         if ($this->token != 'from') {
