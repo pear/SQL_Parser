@@ -208,8 +208,9 @@ class SQL_Parser
     /**
      * extracts parameters from a function call
      *
-     * @param array &$values to set it
-     * @param array &$types  to set it
+     * @param array   &$values to set it
+     * @param array   &$types  to set it
+     * @param integer $i       position
      * @return mixed true on success, otherwise Error
      * @uses  SQL_Parser::$token  R
      * @uses  SQL_Parser::$lexer  R
@@ -218,24 +219,25 @@ class SQL_Parser
      * @uses  SQL_Parser::raiseError()
      * @uses  SQL_Parser_Lexer::$tokText R
      */
-    public function getParams(&$values, &$types)
+    public function getParams(&$values, &$types, $i = 0)
     {
         $values = array();
         $types  = array();
+        
+        //$this->getTok();
         while ($this->token != ')') {
-            $this->getTok();
-            if ($this->isVal() || ($this->token == 'ident')) {
-                $values[] = $this->lexer->tokText;
-                $types[]  = $this->token;
-            } elseif ($this->token == ')') {
-                return false;
+            if (isset($values[$i])) {
+                $values[$i] .= ' ' . $this->lexer->tokText;
+                $types[$i]  = 'expression';
             } else {
-                return $this->raiseError('Expected a value');
+                $values[$i] = $this->lexer->tokText;
+                $types[$i]  = $this->token;
             }
 
             $this->getTok();
-            if ($this->token != ',' && $this->token != ')') {
-                return $this->raiseError('Expected , or )');
+            if ($this->token === ',') {
+                $i++;
+                $this->getTok();
             }
         }
         
@@ -896,6 +898,8 @@ class SQL_Parser
 
     // {{{ parseFunctionOpts()
     /**
+     * Parses parameters in a function call
+     * 
      * @access  public
      * @return mixed array parsed function options on success, otherwise Error
      */
@@ -914,6 +918,7 @@ class SQL_Parser
                     case 'distinct':
                         $opts['distinct'] = true;
                         $this->getTok();
+                        /*
                         if ($this->token != 'ident') {
                             return $this->raiseError('Expected a column name');
                         }
@@ -936,10 +941,11 @@ class SQL_Parser
                         break;
                     default:
                         return $this->raiseError('Invalid argument');
+                        */
                 }
-                break;
+                //break;
             case 'concat':
-                $this->getTok();
+                /*
                 while ($this->token != ')') {
                     switch ($this->token) {
                         case 'ident':
@@ -957,8 +963,9 @@ class SQL_Parser
                 }
                 $this->lexer->pushBack();
                 break;
+                */
             case 'date_format':
-                $this->getTok();
+                /*
                 if ($this->token != 'ident' && $this->token != 'text_val') {
                     return $this->raiseError('Expected a string or column name');
                 }
@@ -976,8 +983,11 @@ class SQL_Parser
                 $opts['arg'][] = $this->lexer->tokText;
                 $opts['type'][] = $this->token;
                 break;
+                */
             default:
                 $this->getTok();
+                $this->getParams($opts['arg'], $opts['type']);
+                /*
                 if ($this->token != ')') {
                     $arg = $this->lexer->tokText;
                     $argtype = $this->token;
@@ -997,12 +1007,15 @@ class SQL_Parser
                     $this->lexer->pushBack();
                 }
                 break;
+                */
         }
         //echo $this->token;
+        /*
         $this->getTok();
         if ($this->token != ')') {
             return $this->raiseError('Expected ")" ');
         }
+        */
 
         // check for an alias
         $this->getTok();
@@ -1328,8 +1341,8 @@ class SQL_Parser
                         $columnAlias = '';
                     }
                 } else {
-                    return $this->raiseError('Cannot use "'.
-                    $tree['set_quantifier'].'" with '.$this->token);
+                    return $this->raiseError('Cannot use "'
+                        . $tree['set_quantifier'] . '" with ' . $this->token);
                 }
             } elseif ($this->token == ',') {
                 $this->getTok();
