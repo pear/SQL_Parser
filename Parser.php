@@ -3,10 +3,12 @@
 
 /**
  *
+ * PHP versions 5
+ * 
  * LICENSE: This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * version 3 of the License, or (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -14,27 +16,26 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330,Boston,MA 02111-1307 USA
+ * License along with this library; If not, see <http://www.gnu.org/licenses/>.
  *
- * @todo       Refactor sentinel conditions to show flow
- * @todo       Document EBNF of what each major block is actually doing
- * @todo       Document getToken/pushBack assumptions of each major block
- * @todo       Refactor into Expression classes, keeping the Tokenizer the same,
- *             outputting the same parse tree
- * @category   Database
- * @package    SQL_Parser
- * @author     Erich Enke <erich.Enke@gmail.com>
- * @author     Brent Cook <busterbcook@yahoo.com>
- * @author     Jason Pell <jasonpell@hotmail.com>
- * @author     Lauren Matheson <inan@canada.com>
- * @author     John Griffin <jgriffin316@netscape.net>
- * @copyright  Copyright (c) 2002-2004 Brent Cook
- * @copyright  Copyright (c) 2005 Erich Enke
- * @license    LGPL
- * @version    CVS: $Id$
- * @link       http://pear.php.net/package/SQL_Parser
- * @since      File available since Release 0.1.0
+ * @todo      Refactor sentinel conditions to show flow
+ * @todo      Document EBNF of what each major block is actually doing
+ * @todo      Document getToken/pushBack assumptions of each major block
+ * @todo      Refactor into Expression classes, keeping the Tokenizer the same,
+ *            outputting the same parse tree
+ * @category  Database
+ * @package   SQL_Parser
+ * @author    Erich Enke <erich.Enke@gmail.com>
+ * @author    Brent Cook <busterbcook@yahoo.com>
+ * @author    Jason Pell <jasonpell@hotmail.com>
+ * @author    Lauren Matheson <inan@canada.com>
+ * @author    John Griffin <jgriffin316@netscape.net>
+ * @copyright 2002-2004 Brent Cook
+ *            2005 Erich Enke
+ * @license   http://www.gnu.org/licenses/lgpl.html GNU Lesser GPL 3
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/SQL_Parser
+ * @since     File available since Release 0.1.0
  */
 
 /**
@@ -47,15 +48,15 @@ require_once 'SQL/Expressions/include.php';
 /**
  * A sql parser
  *
- * @category   DB
- * @package    SQL_Parser
- * @author     Brent Cook <busterbcook@yahoo.com>
- * @copyright  Copyright (c) 2002-2004 Brent Cook
- * @copyright  Copyright (c) 2005 Erich Enke
- * @license    LGPL
- * @version    Devel: @package_version@
- * @link       http://pear.php.net/package/SQL_Parser
- * @since      File available since Release 0.1.0
+ * @category  Database
+ * @package   SQL_Parser
+ * @author    Brent Cook <busterbcook@yahoo.com>
+ * @copyright 2002-2004 Brent Cook
+ *            2005 Erich Enke
+ * @license   http://www.gnu.org/licenses/lgpl.html GNU Lesser GPL 3
+ * @version   Devel: 0.5
+ * @link      http://pear.php.net/package/SQL_Parser
+ * @since     File available since Release 0.1.0
  */
 class SQL_Parser
 {
@@ -137,15 +138,15 @@ class SQL_Parser
     /**
      * Constructor
      *
-     * @uses    SQL_Parser::setDialect()
-     * @uses    SQL_Parser::$lexer      W to create it
-     * @uses    SQL_Parser::$symbols    R
-     * @uses    SQL_Parser::$lexeropts  R
-     * @uses    SQL_Parser_Lexer        to create an Object
-     * @uses    SQL_Parser_Lexer::$symbols W to set it
-     * @uses    is_string()
-     * @param   string  $string     the SQL query to parse
-     * @param   string  $dialect    the SQL dialect
+     * @param string $string the SQL query to parse
+     * @param string $dialect the SQL dialect
+     * @uses  SQL_Parser::setDialect()
+     * @uses  SQL_Parser::$lexer      W to create it
+     * @uses  SQL_Parser::$symbols    R
+     * @uses  SQL_Parser::$lexeropts  R
+     * @uses  SQL_Parser_Lexer        to create an Object
+     * @uses  SQL_Parser_Lexer::$symbols W to set it
+     * @uses  is_string()
      */
     public function __construct($string = null, $dialect = 'ANSI')
     {
@@ -163,18 +164,19 @@ class SQL_Parser
     /**
      * loads SQL dialect specific data
      *
-     * @uses    in_array()
-     * @uses    SQL_Parser::$dialects   R
-     * @uses    SQL_Parser::$types      W to set it
-     * @uses    SQL_Parser::$functions  W to set it
-     * @uses    SQL_Parser::$operators  W to set it
-     * @uses    SQL_Parser::$commands   W to set it
-     * @uses    SQL_Parser::$synonyms   W to set it
-     * @uses    SQL_Parser::$symbols    W to set it
-     * @uses    SQL_Parser::$lexeropts  W to set it
-     * @uses    SQL_Parser::$parseropts W to set it
-     * @uses    SQL_Parser::raiseError()
-     * @param   string  $dialect    the SQL dialect to use
+     * @param string $dialect the SQL dialect to use
+     * @return mixed true on success, otherwise Error
+     * @uses  in_array()
+     * @uses  SQL_Parser::$dialects   R
+     * @uses  SQL_Parser::$types      W to set it
+     * @uses  SQL_Parser::$functions  W to set it
+     * @uses  SQL_Parser::$operators  W to set it
+     * @uses  SQL_Parser::$commands   W to set it
+     * @uses  SQL_Parser::$synonyms   W to set it
+     * @uses  SQL_Parser::$symbols    W to set it
+     * @uses  SQL_Parser::$lexeropts  W to set it
+     * @uses  SQL_Parser::$parseropts W to set it
+     * @uses  SQL_Parser::raiseError()
      */
     public function setDialect($dialect)
     {
@@ -183,20 +185,22 @@ class SQL_Parser
         }
 
         include 'SQL/Parser/Dialect/' . $dialect . '.php';
-        $this->types     = array_flip($dialect['types']);
-        $this->functions = array_flip($dialect['functions']);
-        $this->operators = array_flip($dialect['operators']);
-        $this->commands  = array_flip($dialect['commands']);
-        $this->synonyms  = $dialect['synonyms'];
-        $this->symbols   = array_merge(
-        $this->types,
-        $this->functions,
-        $this->operators,
-        $this->commands,
-        array_flip($dialect['reserved']),
-        array_flip($dialect['conjunctions']));
-        $this->lexeropts = $dialect['lexeropts'];
+        $this->types      = array_flip($dialect['types']);
+        $this->functions  = array_flip($dialect['functions']);
+        $this->operators  = array_flip($dialect['operators']);
+        $this->commands   = array_flip($dialect['commands']);
+        $this->synonyms   = $dialect['synonyms'];
+        $this->symbols    = array_merge(
+            $this->types,
+            $this->functions,
+            $this->operators,
+            $this->commands,
+            array_flip($dialect['reserved']),
+            array_flip($dialect['conjunctions']));
+        $this->lexeropts  = $dialect['lexeropts'];
         $this->parseropts = $dialect['parseropts'];
+        
+        return true;
     }
     // }}}
 
@@ -204,24 +208,25 @@ class SQL_Parser
     /**
      * extracts parameters from a function call
      *
-     * @uses    SQL_Parser::$token  R
-     * @uses    SQL_Parser::$lexer  R
-     * @uses    SQL_Parser::getTok()
-     * @uses    SQL_Parser::isVal()
-     * @uses    SQL_Parser::raiseError()
-     * @uses    SQL_Parser_Lexer::$tokText R
-     * @param   array   $values to set it
-     * @param   array   $types  to set it
+     * @param array &$values to set it
+     * @param array &$types  to set it
+     * @return mixed true on success, otherwise Error
+     * @uses  SQL_Parser::$token  R
+     * @uses  SQL_Parser::$lexer  R
+     * @uses  SQL_Parser::getTok()
+     * @uses  SQL_Parser::isVal()
+     * @uses  SQL_Parser::raiseError()
+     * @uses  SQL_Parser_Lexer::$tokText R
      */
     public function getParams(&$values, &$types)
     {
         $values = array();
-        $types = array();
+        $types  = array();
         while ($this->token != ')') {
             $this->getTok();
             if ($this->isVal() || ($this->token == 'ident')) {
                 $values[] = $this->lexer->tokText;
-                $types[] = $this->token;
+                $types[]  = $this->token;
             } elseif ($this->token == ')') {
                 return false;
             } else {
@@ -233,45 +238,48 @@ class SQL_Parser
                 return $this->raiseError('Expected , or )');
             }
         }
+        
+        return true;
     }
     // }}}
 
     // {{{ raiseError($message)
     /**
      *
-     * @uses    is_null()
-     * @uses    substr()
-     * @uses    strlen()
-     * @uses    str_repeat()
-     * @uses    abs()
-     * @uses    SQL_Parser::$lexer      R
-     * @uses    SQL_Parser::$token      R
-     * @uses    SQL_Parser_Lexer::$string   R
-     * @uses    SQL_Parser_Lexer::$lineBegin R
-     * @uses    SQL_Parser_Lexer::$stringLen R
-     * @uses    SQL_Parser_Lexer::$lineNo   R
-     * @uses    SQL_Parser_Lexer::$tokText  R
-     * @uses    SQL_Parser_Lexer::$tokPtr   R
-     * @uses    PEAR::raiseError()
-     * @param   string  $message    error message
+     * @param string $message error message
+     * @return Error
+     * @uses  is_null()
+     * @uses  substr()
+     * @uses  strlen()
+     * @uses  str_repeat()
+     * @uses  abs()
+     * @uses  SQL_Parser::$lexer      R
+     * @uses  SQL_Parser::$token      R
+     * @uses  SQL_Parser_Lexer::$string   R
+     * @uses  SQL_Parser_Lexer::$lineBegin R
+     * @uses  SQL_Parser_Lexer::$stringLen R
+     * @uses  SQL_Parser_Lexer::$lineNo   R
+     * @uses  SQL_Parser_Lexer::$tokText  R
+     * @uses  SQL_Parser_Lexer::$tokPtr   R
+     * @uses  PEAR::raiseError()
      */
     public function raiseError($message)
     {
         $end = 0;
         if ($this->lexer->string != '') {
             while ($this->lexer->lineBegin + $end < $this->lexer->stringLen
-            && $this->lexer->string{$this->lexer->lineBegin + $end} != "\n")
-            {
+             && $this->lexer->string{$this->lexer->lineBegin + $end} != "\n") {
                 $end++;
             }
         }
 
         $message = 'Parse error: ' . $message . ' on line ' .
-        ($this->lexer->lineNo + 1) . "\n";
-        $message .= substr($this->lexer->string, $this->lexer->lineBegin, $end) . "\n";
-        $length = is_null($this->token) ? 0 : strlen($this->lexer->tokText);
+            ($this->lexer->lineNo + 1) . "\n";
+        $message .= substr($this->lexer->string, $this->lexer->lineBegin, $end);
+        $message .= "\n";
+        $length   = is_null($this->token) ? 0 : strlen($this->lexer->tokText);
         $message .= str_repeat(' ', abs($this->lexer->tokPtr -
-        $this->lexer->lineBegin - $length)) . "^";
+            $this->lexer->lineBegin - $length)) . "^";
         $message .= ' found: "' . $this->lexer->tokText . '"';
 
         return PEAR::raiseError($message);
@@ -282,8 +290,8 @@ class SQL_Parser
     /**
      * Returns true if current token is a variable type name, otherwise false
      *
-     * @uses    SQL_Parser::$types  R
-     * @uses    SQL_Parser::$token  R
+     * @uses  SQL_Parser::$types  R
+     * @uses  SQL_Parser::$token  R
      * @return  boolean  true if current token is a variable type name
      */
     public function isType()
@@ -296,7 +304,7 @@ class SQL_Parser
     /**
      * Returns true if current token is a value, otherwise false
      *
-     * @uses    SQL_Parser::$token  R
+     * @uses  SQL_Parser::$token  R
      * @return  boolean  true if current token is a value
      */
     public function isVal()
@@ -312,8 +320,8 @@ class SQL_Parser
     /**
      * Returns true if current token is a function, otherwise false
      *
-     * @uses    SQL_Parser::$token  R
-     * @uses    SQL_Parser::$functions R
+     * @uses  SQL_Parser::$token  R
+     * @uses  SQL_Parser::$functions R
      * @return  boolean  true if current token is a function
      */
     public function isFunc()
@@ -326,8 +334,8 @@ class SQL_Parser
     /**
      * Returns true if current token is a command, otherwise false
      *
-     * @uses    SQL_Parser::$token  R
-     * @uses    SQL_Parser::$commands R
+     * @uses  SQL_Parser::$token  R
+     * @uses  SQL_Parser::$commands R
      * @return  boolean  true if current token is a command
      */
     public function isCommand()
@@ -340,8 +348,8 @@ class SQL_Parser
     /**
      * Returns true if current token is a reserved word, otherwise false
      *
-     * @uses    SQL_Parser::$token  R
-     * @uses    SQL_Parser::$symbols R
+     * @uses  SQL_Parser::$token  R
+     * @uses  SQL_Parser::$symbols R
      * @return  boolean  true if current token is a reserved word
      */
     public function isReserved()
@@ -354,8 +362,8 @@ class SQL_Parser
     /**
      * Returns true if current token is an operator, otherwise false
      *
-     * @uses    SQL_Parser::$token  R
-     * @uses    SQL_Parser::$operators R
+     * @uses  SQL_Parser::$token  R
+     * @uses  SQL_Parser::$operators R
      * @return  boolean  true if current token is an operator
      */
     public function isOperator()
@@ -368,9 +376,10 @@ class SQL_Parser
     /**
      * retrieves next token
      *
-     * @uses    SQL_Parser::$token  W to set it
-     * @uses    SQL_Parser::$lexer  R
-     * @uses    SQL_Parser_Lexer::lex()
+     * @uses  SQL_Parser::$token  W to set it
+     * @uses  SQL_Parser::$lexer  R
+     * @uses  SQL_Parser_Lexer::lex()
+     * @return void
      */
     public function getTok()
     {
@@ -383,26 +392,26 @@ class SQL_Parser
     /**
      * Parses field/column options, usually  for an CREATE or ALTER TABLE statement
      *
-     * @uses    PEAR::isError()
-     * @uses    SQL_Parser::$token
-     * @uses    SQL_Parser::getTok()
-     * @uses    SQL_Parser::raiseError()
-     * @uses    SQL_Parser::$lexer
-     * @uses    SQL_Parser_Lexer::$tokText
-     * @uses    SQL_Parser_Lexer::unget()
-     * @uses    SQL_Parser::isVal()
-     * @uses    SQL_Parser::isFunc()
-     * @uses    SQL_Parser::parseFunctionOpts()
-     * @uses    SQL_Parser::parseSearchClause()
+     * @uses  PEAR::isError()
+     * @uses  SQL_Parser::$token
+     * @uses  SQL_Parser::getTok()
+     * @uses  SQL_Parser::raiseError()
+     * @uses  SQL_Parser::$lexer
+     * @uses  SQL_Parser_Lexer::$tokText
+     * @uses  SQL_Parser_Lexer::unget()
+     * @uses  SQL_Parser::isVal()
+     * @uses  SQL_Parser::isFunc()
+     * @uses  SQL_Parser::parseFunctionOpts()
+     * @uses  SQL_Parser::parseSearchClause()
      * @return  array   parsed field options
      */
     public function parseFieldOptions()
     {
         // parse field options
         $namedConstraint = false;
-        $options = array();
+        $options         = array();
         while ($this->token != ',' && $this->token != ')' && $this->token != null ) {
-            $option = $this->token;
+            $option    = $this->token;
             $haveValue = true;
             switch ($option) {
                 case 'constraint':
@@ -418,8 +427,8 @@ class SQL_Parser
                     $this->getTok();
                     if ($this->isVal()) {
                         $constraintOpts = array(
-                        'type' => 'default_value',
-                        'value' => $this->lexer->tokText,
+                            'type' => 'default_value',
+                            'value' => $this->lexer->tokText,
                         );
                     } elseif ($this->isFunc()) {
                         $results = $this->parseFunctionOpts();
@@ -427,7 +436,7 @@ class SQL_Parser
                             return $results;
                         }
                         $results['type'] = 'default_function';
-                        $constraintOpts = $results;
+                        $constraintOpts  = $results;
                     } else {
                         return $this->raiseError('Expected default value');
                     }
@@ -438,8 +447,8 @@ class SQL_Parser
                         return $this->raiseError('Expected "key"');
                     }
                     $constraintOpts = array(
-                    'type'  => 'primary_key',
-                    'value' => true,
+                        'type'  => 'primary_key',
+                        'value' => true,
                     );
                     break;
                 case 'not':
@@ -448,8 +457,8 @@ class SQL_Parser
                         return $this->raiseError('Expected "null"');
                     }
                     $constraintOpts = array(
-                    'type'  => 'not_null',
-                    'value' => true,
+                        'type'  => 'not_null',
+                        'value' => true,
                     );
                     break;
                 case 'check':
@@ -464,7 +473,7 @@ class SQL_Parser
                     }
 
                     $results['type'] = 'check';
-                    $constraintOpts = $results;
+                    $constraintOpts  = $results;
                     if ($this->token != ')') {
                         return $this->raiseError('Expected )');
                     }
@@ -499,16 +508,16 @@ class SQL_Parser
                 case 'minute':
                 case 'second':
                     $intervals = array(
-                    array(
-                    'month' => 0,
-                    'year'  => 1,
-                    ),
-                    array(
-                    'second' => 0,
-                    'minute' => 1,
-                    'hour'   => 2,
-                    'day'    => 3,
-                    )
+                        array(
+                            'month' => 0,
+                            'year'  => 1,
+                        ),
+                        array(
+                            'second' => 0,
+                            'minute' => 1,
+                            'hour'   => 2,
+                            'day'    => 3,
+                        )
                     );
 
                     foreach ($intervals as $class) {
@@ -521,15 +530,15 @@ class SQL_Parser
                                 $this->getTok();
                                 if (! isset($class[$this->token])) {
                                     return $this->raiseError(
-                                    'Expected interval quanta');
+                                        'Expected interval quanta');
                                 }
 
                                 if ($class[$this->token] >=
                                 $class[$constraintOpts['quantum_1']]
                                 ) {
-                                    return $this->raiseError($this->token.
-                                    ' is not smaller than ' .
-                                    $constraintOpts['quantum_1']);
+                                    return $this->raiseError($this->token
+                                        . ' is not smaller than ' .
+                                        $constraintOpts['quantum_1']);
                                 }
                                 $constraintOpts['quantum_2'] = $this->token;
                             } else {
@@ -548,8 +557,8 @@ class SQL_Parser
                     break;
                 case 'auto_increment':
                     $constraintOpts = array(
-                    'type'  => 'auto_increment',
-                    'value' => true,
+                        'type'  => 'auto_increment',
+                        'value' => true,
                     );
                     break;
                 default:
@@ -575,23 +584,23 @@ class SQL_Parser
     /**
      * parses conditions usually used in WHERE or ON
      *
-     * @uses    PEAR::isError()-
-     * @uses    SQL_Parser::$token
-     * @uses    SQL_Parser::$lexer
-     * @uses    SQL_Parser::getTok()
-     * @uses    SQL_Parser::raiseError()
-     * @uses    SQL_Parser::getParams()
-     * @uses    SQL_Parser::isFunc()
-     * @uses    SQL_Parser::parseFunctionOpts()
-     * @uses    SQL_Parser::parseSearchClause()
-     * @uses    SQL_Parser::isReserved()
-     * @uses    SQL_Parser::isOperator()
-     * @uses    SQL_Parser::parseSelect()
-     * @uses    SQL_Parser_Lexer::$tokText
-     * @uses    SQL_Parser_Lexer::unget()
-     * @uses    SQL_Parser_Lexer::pushBack()
-     * @param   boolean $subSearch
+     * @param boolean $subSearch  deprecated?
      * @return  array   parsed condition
+     * @uses  PEAR::isError()-
+     * @uses  SQL_Parser::$token
+     * @uses  SQL_Parser::$lexer
+     * @uses  SQL_Parser::getTok()
+     * @uses  SQL_Parser::raiseError()
+     * @uses  SQL_Parser::getParams()
+     * @uses  SQL_Parser::isFunc()
+     * @uses  SQL_Parser::parseFunctionOpts()
+     * @uses  SQL_Parser::parseSearchClause()
+     * @uses  SQL_Parser::isReserved()
+     * @uses  SQL_Parser::isOperator()
+     * @uses  SQL_Parser::parseSelect()
+     * @uses  SQL_Parser_Lexer::$tokText
+     * @uses  SQL_Parser_Lexer::unget()
+     * @uses  SQL_Parser_Lexer::pushBack()
      */
     public function parseSearchClause($subSearch = false)
     {
@@ -611,7 +620,7 @@ class SQL_Parser
 
         if ($this->token == '(') {
             $clause['arg_1']['value'] = $this->parseSearchClause(true);
-            $clause['arg_1']['type'] = 'subclause';
+            $clause['arg_1']['type']  = 'subclause';
             if ($this->token != ')') {
                 return $this->raiseError('Expected ")"');
             }
@@ -630,7 +639,7 @@ class SQL_Parser
                 $this->lexer->pushBack();
             }
             $clause['arg_1']['value'] = $arg;
-            $clause['arg_1']['type'] = $argtype;
+            $clause['arg_1']['type']  = $argtype;
         }
 
         // parse the operator
@@ -653,14 +662,14 @@ class SQL_Parser
                         return $this->raiseError('Expected "null"');
                     }
                     $clause['arg_2']['value'] = '';
-                    $clause['arg_2']['type'] = $this->token;
+                    $clause['arg_2']['type']  = $this->token;
                     break;
                 case 'not':
                     // parse for 'not in' operator
                     if ($this->token != 'in') {
                         return $this->raiseError('Expected "in"');
                     }
-                    $clause['op'] = $this->token;
+                    $clause['op']  = $this->token;
                     $clause['neg'] = true;
                     $this->getTok();
                 case 'in':
@@ -674,7 +683,7 @@ class SQL_Parser
                     // is this a subselect?
                     if ($this->token == 'select') {
                         $clause['arg_2']['value'] = $this->parseSelect(true);
-                        $clause['arg_2']['type'] = 'command';
+                        $clause['arg_2']['type']  = 'command';
                     } else {
                         $this->lexer->pushBack();
                         // parse the set
@@ -698,14 +707,14 @@ class SQL_Parser
                             return $result;
                         }
                         $clause['arg_2']['value'] = $result;
-                        $clause['arg_2']['type'] = 'function';
+                        $clause['arg_2']['type']  = 'function';
                     } else if ($this->isReserved()) {
                         // parse for in-fix binary operators
                         return $this->raiseError('Expected a column name or value');
                     }
                     if ($this->token == '(') {
                         $clause['arg_2']['value'] = $this->parseSearchClause(true);
-                        $clause['arg_2']['type'] = 'subclause';
+                        $clause['arg_2']['type']  = 'subclause';
                         $this->getTok();
                         if ($this->token != ')') {
                             return $this->raiseError('Expected ")"');
@@ -724,7 +733,7 @@ class SQL_Parser
                             $this->lexer->pushBack();
                         }
                         $clause['arg_2']['value'] = $arg;
-                        $clause['arg_2']['type'] = $argtype;
+                        $clause['arg_2']['type']  = $argtype;
                     }
             }
         }
@@ -750,6 +759,7 @@ class SQL_Parser
     // {{{ parseFieldList()
     /**
      * @access  public
+     * @return mixed array parsed field list on success, otherwise Error
      */
     public function parseFieldList()
     {
@@ -812,8 +822,7 @@ class SQL_Parser
                 $this->getTok();
             } elseif ($this->token == 'varying') {
                 // character varying() == varchar()
-                if ($type != 'character' && $type != 'varchar')
-                {
+                if ($type != 'character' && $type != 'varchar') {
                     return $this->raiseError('Unexpected token');
                 }
                 $this->getTok();
@@ -880,16 +889,19 @@ class SQL_Parser
                 return $this->raiseError('Expected )');
             }
         }
+        
+        return $fields;
     }
     // }}}
 
     // {{{ parseFunctionOpts()
     /**
      * @access  public
+     * @return mixed array parsed function options on success, otherwise Error
      */
     public function parseFunctionOpts()
     {
-        $function = $this->token;
+        $function     = $this->token;
         $opts['name'] = $function;
         $this->getTok();
         if ($this->token != '(') {
@@ -916,11 +928,10 @@ class SQL_Parser
                                 return $this->raiseError('Expected a column name');
                             }
                             $arg .= '.'.$this->lexer->tokText;
-                        }
-                        else {
+                        } else {
                             $this->lexer->pushBack();
                         }
-                        $opts['arg'][] = $arg;
+                        $opts['arg'][]  = $arg;
                         $opts['type'][] = $argtype;
                         break;
                     default:
@@ -933,7 +944,7 @@ class SQL_Parser
                     switch ($this->token) {
                         case 'ident':
                         case 'text_val':
-                            $opts['arg'][] = $this->lexer->tokText;
+                            $opts['arg'][]  = $this->lexer->tokText;
                             $opts['type'][] = $this->token;
                             break;
                         case ',':
@@ -952,7 +963,7 @@ class SQL_Parser
                     return $this->raiseError('Expected a string or column name');
                 }
 
-                $opts['arg'][] = $this->lexer->tokText;
+                $opts['arg'][]  = $this->lexer->tokText;
                 $opts['type'][] = $this->token;
                 $this->getTok();
                 if ($this->token != ',') {
@@ -980,7 +991,7 @@ class SQL_Parser
                     } else {
                         $this->lexer->pushBack();
                     }
-                    $opts['arg'][] = $arg;
+                    $opts['arg'][]  = $arg;
                     $opts['type'][] = $argtype;
                 } else {
                     $this->lexer->pushBack();
@@ -1016,6 +1027,7 @@ class SQL_Parser
     // {{{ parseCreate()
     /**
      * @access  public
+     * @return mixed array parsed create on success, otherwise Error
      */
     public function parseCreate()
     {
@@ -1055,6 +1067,7 @@ class SQL_Parser
     // INSERT INTO tablename
     /**
      * @access  public
+     * @return mixed array parsed insert on success, otherwise Error
      */
     public function parseInsert()
     {
@@ -1088,16 +1101,18 @@ class SQL_Parser
         if (PEAR::isError($results)) {
             return $results;
         }
-        if (isset($tree['column_defs']) &&
-        (sizeof($tree['column_defs']) != sizeof($values))) {
+        if (isset($tree['column_defs'])
+         && sizeof($tree['column_defs']) != sizeof($values)) {
             return $this->raiseError('field/value mismatch');
         }
-        if (!sizeof($values)) {
+        if (! sizeof($values)) {
             return $this->raiseError('No fields to insert');
         }
         foreach ($values as $key=>$value) {
-            $values[$key] = array('value'=>$value,
-            'type'=>$types[$key]);
+            $values[$key] = array(
+                'value' => $value,
+                'type'  => $types[$key],
+            );
         }
         $tree['values'] = $values;
         return $tree;
@@ -1105,10 +1120,12 @@ class SQL_Parser
     // }}}
 
     // {{{ parseUpdate()
-    // UPDATE tablename SET (colname = (value|colname) (,|WHERE searchclause))+
-    // XXX: This is incorrect.  multiple where clauses would parse
     /**
+     * UPDATE tablename SET (colname = (value|colname) (,|WHERE searchclause))+
+     * 
+     * @todo This is incorrect.  multiple where clauses would parse
      * @access  public
+     * @return mixed array parsed update on success, otherwise Error
      */
     public function parseUpdate()
     {
@@ -1156,9 +1173,11 @@ class SQL_Parser
     // }}}
 
     // {{{ parseDelete()
-    // DELETE FROM tablename WHERE searchclause
     /**
+     * DELETE FROM tablename WHERE searchclause
+     * 
      * @access  public
+     * @return mixed array parsed delete on success, otherwise Error
      */
     public function parseDelete()
     {
@@ -1188,6 +1207,7 @@ class SQL_Parser
     // {{{ parseDrop()
     /**
      * @access  public
+     * @return mixed array parsed drop on success, otherwise Error
      */
     public function parseDrop()
     {
@@ -1201,12 +1221,12 @@ class SQL_Parser
                 }
                 $tree['table_names'][] = $this->lexer->tokText;
                 $this->getTok();
-                if (($this->token == 'restrict') ||
-                ($this->token == 'cascade')) {
+                if ($this->token == 'restrict'
+                 || $this->token == 'cascade') {
                     $tree['drop_behavior'] = $this->token;
                 }
                 $this->getTok();
-                if (!is_null($this->token)) {
+                if (! is_null($this->token)) {
                     return $this->raiseError('Unexpected token');
                 }
                 return $tree;
@@ -1230,16 +1250,19 @@ class SQL_Parser
     // {{{ parseSelect()
     /**
      * @access  public
+     * @return mixed array parsed select on success, otherwise Error
      */
     public function parseSelect($subSelect = false)
     {
         $tree = array('command' => 'select');
         $this->getTok();
-        if (($this->token == 'distinct') || ($this->token == 'all')) {
+        if ($this->token == 'distinct' || $this->token == 'all') {
             $tree['set_quantifier'] = $this->token;
             $this->getTok();
         }
-        if ($this->token != 'ident' && ! $this->isFunc() && $this->token != '*') {
+        if ($this->token != 'ident'
+         && ! $this->isFunc()
+         && $this->token != '*') {
             return $this->raiseError('Expected columns or a set function');
         }
 
@@ -1251,7 +1274,7 @@ class SQL_Parser
                 if ($this->token == '.') {
                     $columnTable = $prevTokText;
                     $this->getTok();
-                    $prevTok = $this->token;
+                    $prevTok     = $this->token;
                     $prevTokText = $this->lexer->tokText;
                 } else {
                     $columnTable = '';
@@ -1272,8 +1295,8 @@ class SQL_Parser
                     $columnAlias = '';
                 }
 
-                $tree['column_tables'][] = $columnTable;
-                $tree['column_names'][] = $columnName;
+                $tree['column_tables'][]  = $columnTable;
+                $tree['column_names'][]   = $columnName;
                 $tree['column_aliases'][] = $columnAlias;
                 if ($this->token != 'from') {
                     $this->getTok();
@@ -1282,12 +1305,12 @@ class SQL_Parser
                     $this->getTok();
                 }
             } elseif ($this->token == '*') {
-                $tree['column_names'][] = '*';
-                $tree['column_tables'][] = '';
+                $tree['column_names'][]   = '*';
+                $tree['column_tables'][]  = '';
                 $tree['column_aliases'][] = '';
                 $this->getTok();
             } elseif ($this->isFunc()) {
-                if (!isset($tree['set_quantifier'])) {
+                if (! isset($tree['set_quantifier'])) {
                     $result = $this->parseFunctionOpts();
                     if (PEAR::isError($result)) {
                         return $result;
@@ -1406,10 +1429,10 @@ class SQL_Parser
                     return $this->raiseError('Expected token "left", "right" or "join"');
                 }
                 $this->getTok();
-            } elseif (($this->token == 'where') ||
-            ($this->token == 'order') ||
-            ($this->token == 'limit') ||
-            (is_null($this->token))) {
+            } elseif ($this->token == 'where'
+                   || $this->token == 'order'
+                   || $this->token == 'limit'
+                   || is_null($this->token)) {
                 break;
             }
         }
@@ -1473,7 +1496,7 @@ class SQL_Parser
                         if ($this->token != 'int_val') {
                             return $this->raiseError('Expected an integer value');
                         }
-                        $start = $length;
+                        $start  = $length;
                         $length = $this->lexer->tokText;
                         $this->getTok();
                     }
@@ -1519,23 +1542,23 @@ class SQL_Parser
     // {{{ parse($string)
     /**
      *
-     * SQL_Parser::$lexeropts
-     * SQL_Parser::$lexer
-     * SQL_Parser::$symbols
-     * SQL_Parser::$token
-     * SQL_Parser::raiseError()
-     * SQL_Parser::getTok()
-     * SQL_Parser::parseSelect()
-     * SQL_Parser::parseUpdate()
-     * SQL_Parser::parseInsert()
-     * SQL_Parser::parseDelete()
-     * SQL_Parser::parseCreate()
-     * SQL_Parser::parseDrop()
-     * SQL_Parser_Lexer
-     * SQL_Parser_Lexer::$symbols
-     * @access  public
-     * @param   string  $string the SQL
+     * @param string $string the SQL
      * @return  array   parsed data
+     * @uses  SQL_Parser::$lexeropts
+     * @uses  SQL_Parser::$lexer
+     * @uses  SQL_Parser::$symbols
+     * @uses  SQL_Parser::$token
+     * @uses  SQL_Parser::raiseError()
+     * @uses  SQL_Parser::getTok()
+     * @uses  SQL_Parser::parseSelect()
+     * @uses  SQL_Parser::parseUpdate()
+     * @uses  SQL_Parser::parseInsert()
+     * @uses  SQL_Parser::parseDelete()
+     * @uses  SQL_Parser::parseCreate()
+     * @uses  SQL_Parser::parseDrop()
+     * @uses  SQL_Parser_Lexer
+     * @uses  SQL_Parser_Lexer::$symbols
+     * @access  public
      */
     public function parse($string = null)
     {
