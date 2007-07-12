@@ -1164,11 +1164,21 @@ class SQL_Parser
                 return $this->raiseError('Expected =');
             }
             $this->getTok();
-            if (!$this->isVal($this->token) && $this->token != 'ident') {
-                return $this->raiseError('Expected a value or column name');
+            if ($this->isVal($this->token) || $this->token == 'ident') {
+                $tree['values'][] = array(
+                    'value' => $this->lexer->tokText,
+                    'type'  => $this->token,
+                );
+            } else {
+                $values = array();
+                $types  = array();
+                $this->getTok();
+                $this->getParams($values, $types);
+                $tree['values'][] = array(
+                    'value' => $values[0],
+                    'type'  => $types[0],
+                );
             }
-            $tree['values'][] = array('value'=>$this->lexer->tokText,
-            'type'=>$this->token);
             $this->getTok();
             if ($this->token == 'where') {
                 $clause = $this->parseSearchClause();
