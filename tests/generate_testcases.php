@@ -27,7 +27,6 @@
 
 require_once 'PEAR.php';
 require_once 'SQL/Parser.php';
-require_once 'dumper.php';
 
 $parser = new Sql_Parser();
 
@@ -43,7 +42,7 @@ if ($argc < 1 || $argc > 3) {
 $file = $argv[0];
 if (!$fd = @fopen($file, 'r')) {
     echo("Could not load the SQL source file: $file\n");
-    exit;
+    exit(-1);
 }
 $source = '';
 while ($data = fread($fd, 2048)) {
@@ -78,7 +77,7 @@ foreach ($queries as $query) {
         if (PEAR::isError($results)) {
             echo "'".preg_replace("/([\'\\\])/", "\\\\\\1", $results->getMessage())."'\n";
         } else {
-            echo dump($results, '    ', "\n", ' ', '    ');
+            echo var_export($results, true);
         }
         echo "\n),\n";
     }
