@@ -44,7 +44,7 @@ require_once 'PEAR/Exception.php';
  * path to SQL files
  * @global $GLOBALS['save_path_sql'] string
  */
-$save_path_sql       = 'sql/';
+$GLOBALS['save_path_sql']       = 'sql/';
 
 /**
  * path to SQL-Parser results
@@ -59,9 +59,9 @@ $save_path_result    = 'results/';
 $save_path_testcases = 'testcases/';
 
 /**
- * whether $save_path_sql is writable
+ * whether $GLOBALS['save_path_sql'] is writable
  */
-$can_save_sql        = is_writable($save_path_sql);
+$can_save_sql        = is_writable($GLOBALS['save_path_sql']);
 
 /**
  * whether $$save_path_result is writable
@@ -74,21 +74,21 @@ $can_save_result     = is_writable($save_path_result);
 $can_save_test_case  = is_writable($save_path_testcases);
 
 /**
- * the SQL query to parse/save
- */
-if (! empty($_REQUEST['sql']) && is_string($_REQUEST['sql'])) {
-    $sql = $_REQUEST['sql'];
-} else {
-    $sql = '';
-}
-
-/**
  * the name for the SQL query
  */
 if (! empty($_REQUEST['name']) && is_string($_REQUEST['name'])) {
     $name = preg_replace('/[^a-z0-9]/', '_', strtolower($_REQUEST['name']));
 } else {
     $name = '';
+}
+
+/**
+ * the SQL query to parse/save
+ */
+if (! empty($_REQUEST['sql']) && is_string($_REQUEST['sql'])) {
+    $sql = $_REQUEST['sql'];
+} else {
+    $sql = '';
 }
 
 /**
@@ -109,8 +109,19 @@ unset($_REQUEST, $_POST, $_FILES, $_GET, $_COOKIE);
  * do what was requested to do
  */
 switch ($action) {
+    case 'sql_test_stored':
+        try {
+            $sql = loadSql($name);
+        } catch (PEAR_Exception $e){
+            printMessage($e->getMessage(), 'error');
+        }
     case 'sql_test':
         printPageHeader($name);
+        try {
+            printSqlSelectForm($name);
+        } catch (PEAR_Exception $e){
+            printMessage($e->getMessage(), 'error');
+        }
         printInputForm($sql, $name);
         printResult(parseSql($sql));
         printPageFooter();
@@ -122,12 +133,28 @@ switch ($action) {
         } catch (PEAR_Exception $e){
             printMessage($e->getMessage(), 'error');
         }
+        try {
+            printSqlSelectForm($name);
+        } catch (PEAR_Exception $e){
+            printMessage($e->getMessage(), 'error');
+        }
         printInputForm($sql, $name);
         printPageFooter();
         break;
+    case 'sql_view_stored':
+        try {
+            $sql = loadSql($name);
+        } catch (PEAR_Exception $e){
+            printMessage($e->getMessage(), 'error');
+        }
     default :
-        printPageHeader();
-        printInputForm();
+        printPageHeader($name);
+        try {
+            printSqlSelectForm($name);
+        } catch (PEAR_Exception $e){
+            printMessage($e->getMessage(), 'error');
+        }
+        printInputForm($sql, $name);
         printPageFooter();
 }
 
@@ -156,11 +183,11 @@ function parseSql($sql)
 function printInputForm($sql = '', $name = '')
 {
     echo '<form>';
-    echo '<label>Name';
+    echo '<label>Name<br />';
     echo '<input type="text" name="name" value="' . htmlspecialchars($name) . '" />';
     echo '</label>';
     echo '<br />';
-    echo '<label>SQL';
+    echo '<label>SQL<br />';
     echo '<textarea name="sql">';
     echo  htmlspecialchars($sql);
     echo '</textarea>';
@@ -174,15 +201,66 @@ function printInputForm($sql = '', $name = '')
 /**
  * Print the SQL select from
  * 
- * This form allows to select from the already existant SQL queries in 
- * $save_path_sql
+ * This form allows to select from already existant SQL queries
  * 
- * @uses $GLOBALS['save_path_sql']
  * @return void
+ * @uses $GLOBALS['save_path_sql']
+ * @uses getSqlList()
+ * @uses htmlspecialchars()
  */
-function printSelectForm()
+function printSqlSelectForm($name)
 {
+    $sql_list = getSqlList();
     
+    echo '<form>';
+    echo '<label>SQL<br />';
+    echo '<select name="name">';
+    echo '<option value="">select stored SQL ...</option>';
+    foreach ($sql_list as $sql) {
+        echo '<option value="' . htmlspecialchars($sql) . '"';
+        if ($name === $sql) {
+            echo ' selected="selected"';
+        }
+        echo '>' . htmlspecialchars($sql) . '</option>';
+    }
+    echo '</select>';
+    echo '</label>';
+    echo '<button type="submit" name="action" value="sql_test_stored">Test</button>';
+    echo '<button type="submit" name="action" value="sql_view_stored">View</button>';
+    echo '</form>';    
+}
+
+/**
+ * Retrieves list of stored SQLs from $GLOBALS['save_path_sql']
+ * 
+ * @return array SQL list
+ * @throws PEAR_Exception
+ * @uses $GLOBALS['save_path_sql']
+ * @uses scandir()
+ * @uses substr()
+ */
+function getSqlList()
+{
+    if (! is_readable($GLOBALS['save_path_sql'])) {
+        throw new PEAR_Exception('cannot read from "' . $GLOBALS['save_path_sql'] . '"');
+    }
+    
+    $sql_list = scandir($GLOBALS['save_path_sql']);
+    
+    if (false === $sql_list) {
+        throw new PEAR_Exception('cannot read from "' . $GLOBALS['save_path_sql'] . '"');
+    }
+    
+    // filter all non .sql files
+    foreach ($sql_list as $key => $sql_file) {
+        if (substr($sql_file, -4) !== '.sql') {
+            unset($sql_list[$key]);
+        } else {
+            $sql_list[$key] = substr($sql_file, 0, -4);
+        }
+    }
+    
+    return $sql_list;
 }
 
 /**
@@ -222,6 +300,10 @@ function printMessage($text, $type = 'note')
 function printPageHeader($title = '')
 {
     echo '<html>';
+    echo '<style type="text/css">';
+    echo 'input[type=text], select, textarea { width: 40em; max-width: 75%; }';
+    echo 'textarea { height: 30em; }';
+    echo '</style>';
     echo '<title>';
     echo htmlspecialchars($name);
     echo '</title>';
@@ -268,7 +350,7 @@ function printResult($result)
 function saveSql($sql, $name)
 {
     if (! $GLOBALS['can_save_sql']) {
-        throw PEAR_Exception('cannot write into "' . $GLOBALS['save_path_sql'] . '"');
+        throw new PEAR_Exception('cannot write into "' . $GLOBALS['save_path_sql'] . '"');
     }
     
     if (empty($name)) {
@@ -278,7 +360,7 @@ function saveSql($sql, $name)
     $name = $GLOBALS['save_path_sql'] . $name . '.sql';
     
     if (false === file_put_contents($name, $sql)) {
-        throw PEAR_Exception('cannot write file "' . $name . '"');
+        throw new PEAR_Exception('cannot write file "' . $name . '"');
     }
     
     return true;
@@ -299,11 +381,11 @@ function saveSql($sql, $name)
 function saveResult($result, $name)
 {
     if (! $GLOBALS['can_save_result']) {
-        throw PEAR_Exception('cannot write into "' . $GLOBALS['save_path_result'] . '"');
+        throw new PEAR_Exception('cannot write into "' . $GLOBALS['save_path_result'] . '"');
     }
     
     if (empty($name)) {
-        throw PEAR_Exception('name must not be empty');
+        throw new PEAR_Exception('name must not be empty');
     }
     
     $name = $GLOBALS['save_path_result'] . $name . '.php';
@@ -311,7 +393,7 @@ function saveResult($result, $name)
     $php = "<?php\n" . var_export($result, true) . "\n?>\n";
     
     if (false === file_put_contents($name, $php)) {
-        throw PEAR_Exception('cannot write file "' . $name . '"');
+        throw new PEAR_Exception('cannot write file "' . $name . '"');
     }
     
     return true;
@@ -322,7 +404,7 @@ function saveResult($result, $name)
  * 
  * usually done when SQL_Parser otuput format has changed or enhanced
  * 
- * 
+ * @todo finish
  */
 function updateResult()
 {
@@ -347,5 +429,31 @@ function createTestCase($name, $sql = '')
     }
     
     return saveResult(parseSql($sql), $name);
+}
+
+/**
+ * loads SQL from file
+ * 
+ * @param string $name name of SQL to be loaded
+ * @return string the loaded SQL
+ * @throws PEAR_Exception
+ * @uses $GLOBALS['save_path_sql']
+ * @uses is_readable()
+ * @uses file_get_contents()
+ */
+function loadSql($name)
+{
+    $file_name = $GLOBALS['save_path_sql'] . $name . '.sql';
+    if (! is_readable($file_name)) {
+        throw new PEAR_Exception('cannot read "' . $file_name . '"');
+    }
+    
+    $sql = file_get_contents($file_name);
+    
+    if (false === $sql) {
+        throw new PEAR_Exception('cannot read "' . $file_name . '"');
+    }
+    
+    return $sql;
 }
 ?>
