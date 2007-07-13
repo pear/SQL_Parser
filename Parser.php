@@ -23,6 +23,9 @@
  * @todo      Document getToken/pushBack assumptions of each major block
  * @todo      Refactor into Expression classes, keeping the Tokenizer the same,
  *            outputting the same parse tree
+ * @todo      we need to remember spaces, this is esential to determine whether
+ *            it is a function call: "function("
+ *            or just some expression: "ident ("
  * @category  Database
  * @package   SQL_Parser
  * @author    Erich Enke <erich.Enke@gmail.com>
@@ -245,7 +248,8 @@ class SQL_Parser
         $types  = array();
         
         //$this->getTok();
-        while ($this->token != ')') {
+        $open_braces = 1;
+        while ($open_braces > 0) {
             if (isset($values[$i])) {
                 $values[$i] .= ' ' . $this->lexer->tokText;
                 $types[$i]  = 'expression';
@@ -253,9 +257,13 @@ class SQL_Parser
                 $values[$i] = $this->lexer->tokText;
                 $types[$i]  = $this->token;
             }
-
+            
             $this->getTok();
-            if ($this->token === ',') {
+            if ($this->token === ')') {
+                $open_braces--;
+            } elseif ($this->token === '(') {
+                $open_braces++;
+            } elseif ($this->token === ',') {
                 $i++;
                 $this->getTok();
             }
@@ -1132,6 +1140,7 @@ class SQL_Parser
             return $this->raiseError('Expected "values"');
         }
         $this->getTok();
+        $this->getTok();
         $results = $this->getParams($values, $types);
         if (PEAR::isError($results)) {
             return $results;
@@ -1143,7 +1152,7 @@ class SQL_Parser
         if (! sizeof($values)) {
             return $this->raiseError('No fields to insert');
         }
-        foreach ($values as $key=>$value) {
+        foreach ($values as $key => $value) {
             $values[$key] = array(
                 'value' => $value,
                 'type'  => $types[$key],
