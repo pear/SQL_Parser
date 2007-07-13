@@ -124,6 +124,12 @@ class SQL_Parser
      * @var    array
      * @access public
      */
+    public $quotes = array();
+
+    /**
+     * @var    array
+     * @access public
+     */
     static public $dialects = array(
         'ANSI',
         'MySQL',
@@ -167,8 +173,9 @@ class SQL_Parser
     {
         // Initialize the Lexer with a 3-level look-back buffer
         $this->lexer = new SQL_Parser_Lexer($string, 3, $this->lexeropts);
-        $this->lexer->symbols =& $this->symbols;
+        $this->lexer->symbols  =& $this->symbols;
         $this->lexer->comments =& $this->comments;
+        $this->lexer->quotes   =& $this->quotes;
     }
 
     // {{{ function setDialect($dialect)
@@ -210,7 +217,8 @@ class SQL_Parser
             array_flip($dialect['conjunctions']));
         $this->lexeropts  = $dialect['lexeropts'];
         $this->parseropts = $dialect['parseropts'];
-        $this->comments = $dialect['comments'];
+        $this->comments   = $dialect['comments'];
+        $this->quotes     = $dialect['quotes'];
         
         return true;
     }
@@ -1158,7 +1166,7 @@ class SQL_Parser
     {
         $this->getTok();
         if ($this->token != 'ident') {
-            return $this->raiseError('Expected table name');
+            return $this->raiseError('Expected table name, found: ' . $this->token);
         }
         $tree = array('command' => 'update');
         $tree['table_names'][] = $this->lexer->tokText;

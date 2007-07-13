@@ -235,8 +235,8 @@ class SQL_Parser_Lexer
                             break;
                         }
                     }
-
-                    if (($c == '\'') || ($c == '"')) { // text string
+                    
+                    if (isset($this->quotes[$c])) {
                         $quote = $c;
                         $state = 12;
                         break;
@@ -429,30 +429,34 @@ class SQL_Parser_Lexer
                     break;
                     // }}}
 
-                    // {{{ State 12: Incomplete text string
+                    // {{{ State 12: Incomplete quoted string or ident
                 case 12:
                     $bail = false;
-                    while (!$bail) {
+                    while (! $bail) {
                         switch ($this->get()) {
                             case '':
                                 $this->tokText = null;
                                 $bail = true;
                                 break;
-                                case "\\":
-                                    if (!$this->get()) {
-                                        $this->tokText = null;
-                                        $bail = true;
-                                    }
+                            case "\\":
+                                if (! $this->get()) {
+                                    $this->tokText = null;
+                                    $bail = true;
+                                }
                                 //$bail = true;
                                 break;
                             case $quote:
-                                $this->tokText = stripslashes(substr($this->string,
-                                            ($this->tokStart+1), ($this->tokLen-2)));
-                                $bail = true;
-                                break;
+                                if ($quote != $this->get()) {
+                                    $this->unget();
+                                    $this->tokText = stripslashes(
+                                        substr($this->string, $this->tokStart + 1,
+                                            $this->tokLen - 2));
+                                    $bail = true;
+                                    break;
+                                }
                         }
                     }
-                    if (!is_null($this->tokText)) {
+                    if (! is_null($this->tokText)) {
                         $state = 13;
                         break;
                     }
@@ -460,12 +464,20 @@ class SQL_Parser_Lexer
                     break;
                     // }}}
 
-                    // {{{ State 13: Complete text string
+                    // {{{ State 13: Complete quoted string or ident
                 case 13:
                     $this->skipText = substr($this->string, $this->tokAbsStart,
-                            $this->tokStart-$this->tokAbsStart);
+                            $this->tokStart - $this->tokAbsStart);
                     $this->tokStart = $this->tokPtr;
-                    return 'text_val';
+                    switch ($this->quotes[$quote]) {
+                        case 'ident' :
+                            return 'ident';
+                            break;
+                        case 'string' :
+                        default :
+                            return 'text_val';
+                            break;
+                    }
                     break;
                     // }}}
 

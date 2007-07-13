@@ -570,4 +570,10 @@ $dialect = array(
         '/*'    => '*/',
         '#'     => "\n",
     ),
+
+    'quotes' => array(
+        "'" => 'string',
+        '"' => 'string',
+        '`' => 'ident',
+    ),
 );

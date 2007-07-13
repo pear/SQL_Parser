@@ -336,4 +336,9 @@ $dialect = array(
     'comments' => array(
         '--' => "\n",
     ),
+    
+    'quotes' => array(
+        "'" => 'string',
+        '"' => 'ident',
+    ),
 );
