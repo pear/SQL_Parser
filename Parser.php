@@ -802,6 +802,9 @@ class SQL_Parser
         while (1) {
             // parse field identifier
             $this->getTok();
+            if ($this->token == ',') {
+                continue;
+            }
             // In this context, field names can be reserved words or function names
             if ($this->token == 'primary') {
                 $this->getTok();
@@ -822,9 +825,33 @@ class SQL_Parser
                     $this->raiseError('Expected )');
                 }
                 $fields[$name]['constraints'][] = array(
-                    'type'=>'primary_key',
-                    'value'=>true,
+                    'type'  => 'primary_key',
+                    'value' => true,
                 );
+                continue;
+            } elseif ($this->token == 'key') {
+                $this->getTok();
+                if ($this->token != 'ident') {
+                    $this->raiseError('Expected identifier');
+                }
+                $key = $this->lexer->tokText;
+                $this->getTok();
+                if ($this->token != '(') {
+                    $this->raiseError('Expected (');
+                }
+                $this->getTok();
+                $rows = array();
+                while ($this->token != ')') {
+                    if ($this->token != 'ident') {
+                        $this->raiseError('Expected identifier');
+                    }
+                    $name= $this->lexer->tokText;
+                    $fields[$name]['constraints'][] = array(
+                        'type'  => 'key',
+                        'value' => $key,
+                    );
+                    $this->getTok();
+                }
                 continue;
             } elseif ($this->token == 'ident' || $this->isFunc()
              || $this->isReserved()) {
@@ -832,7 +859,7 @@ class SQL_Parser
             } elseif ($this->token == ')') {
                 return $fields;
             } else {
-                return $this->raiseError('Expected identifier');
+                //return $this->raiseError('Expected identifier');
             }
 
             // parse field type
