@@ -92,6 +92,15 @@ if (! empty($_REQUEST['sql']) && is_string($_REQUEST['sql'])) {
 }
 
 /**
+ * the SQL dialect to use
+ */
+if (! empty($_REQUEST['dialect']) && is_string($_REQUEST['dialect'])) {
+    $dialect = $_REQUEST['dialect'];
+} else {
+    $dialect = 'ANSI';
+}
+
+/**
  * the action requested
  */
 if (! empty($_REQUEST['action']) && is_string($_REQUEST['action'])) {
@@ -165,11 +174,12 @@ switch ($action) {
  * @return array parsed SQL data
  * @uses SQL_Parser
  * @uses SQL_Parser::parse()
+ * @uses $GLOBALS['dialect']
  */
 function parseSql($sql)
 {
-    $parser = new SQL_Parser;
-    return $parser->parse($sql);
+    $parser = new SQL_Parser($sql, $GLOBALS['dialect']);
+    return $parser->parse();
 }
 
 /**
@@ -189,6 +199,7 @@ function printInputForm($sql = '', $name = '')
     echo '</textarea>';
     echo '</label>';
     echo '<br />';
+    printDialectSelection();
     echo '<button type="submit" name="action" value="sql_test">Test</button>';
     echo '<br />';
     echo '<label>Save SQL as:<br />';
@@ -213,7 +224,7 @@ function printSqlSelectForm($name)
     $sql_list = getSqlList();
     
     echo '<form>';
-    echo '<label>Select SQL:<br />';
+    echo '<label>Select SQL: ';
     echo '<select name="name">';
     echo '<option value="">select stored SQL ...</option>';
     foreach ($sql_list as $sql) {
@@ -225,9 +236,32 @@ function printSqlSelectForm($name)
     }
     echo '</select>';
     echo '</label>';
+    printDialectSelection();
     echo '<button type="submit" name="action" value="sql_test_stored">Test</button>';
     echo '<button type="submit" name="action" value="sql_view_stored">View</button>';
     echo '</form>';    
+}
+
+/**
+ * prints dialect select box
+ * 
+ * @return void
+ * @uses $GLOBALS['dialect']
+ * @uses htmlspecialchars()
+ */
+function printDialectSelection()
+{
+    echo '<label>SQL dialect: ';
+    echo '<select name="dialect">';
+    foreach (SQL_Parser::$dialects as $each_dialect) {
+        echo '<option value="' . htmlspecialchars($each_dialect) . '"';
+        if ($GLOBALS['dialect'] === $each_dialect) {
+            echo ' selected="selected"';
+        }
+        echo '>' . htmlspecialchars($each_dialect) . '</option>';
+    }
+    echo '</select>';
+    echo '</label>';
 }
 
 /**
@@ -301,7 +335,7 @@ function printPageHeader($title = '')
 {
     echo '<html>';
     echo '<style type="text/css">';
-    echo 'input[type=text], select, textarea { width: 40em; max-width: 75%; }';
+    echo 'input[type=text], textarea { width: 40em; max-width: 75%; }';
     echo 'textarea { height: 30em; }';
     echo '</style>';
     echo '<title>';
