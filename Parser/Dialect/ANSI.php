@@ -332,4 +332,8 @@ $dialect = array(
 
     'parseropts' => array(
     ),
+
+    'comments' => array(
+        '--' => "\n",
+    ),
 );

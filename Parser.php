@@ -114,6 +114,11 @@ class SQL_Parser
      */
     public $parseropts = array();
 
+    /**
+     * @var    array
+     * @access public
+     */
+    public $comments = array();
 
     /**
      * @var    array
@@ -163,6 +168,7 @@ class SQL_Parser
         // Initialize the Lexer with a 3-level look-back buffer
         $this->lexer = new SQL_Parser_Lexer($string, 3, $this->lexeropts);
         $this->lexer->symbols =& $this->symbols;
+        $this->lexer->comments =& $this->comments;
     }
 
     // {{{ function setDialect($dialect)
@@ -204,6 +210,7 @@ class SQL_Parser
             array_flip($dialect['conjunctions']));
         $this->lexeropts  = $dialect['lexeropts'];
         $this->parseropts = $dialect['parseropts'];
+        $this->comments = $dialect['comments'];
         
         return true;
     }

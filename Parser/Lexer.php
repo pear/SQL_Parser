@@ -92,7 +92,7 @@ class SQL_Parser_Lexer
     function skip()
     {
         ++$this->tokStart;
-        return ($this->tokPtr != $this->stringLen) ? $this->string{$this->tokPtr++} : '';
+        return ($this->tokPtr != $this->stringLen) ? $this->string{$this->tokPtr++} : null;
     }
 
     function revert()
@@ -177,13 +177,14 @@ class SQL_Parser_Lexer
     // {{{ nextToken()
     function nextToken()
     {
+        //echo 'last token: ' . $this->tokText . "\n";
         if ($this->string == '') {
             return;
         }
         $state = 0;
         $this->tokAbsStart = $this->tokStart;
 
-        while (true){
+        while (true) {
             //echo "State: $state, Char: $c\n";
             switch ($state) {
                 // {{{ State 0 : Start of token
@@ -276,20 +277,19 @@ class SQL_Parser_Lexer
                         }
                     }
 
-                    if ($c == '#') { // Comments
-                        $state = 14;
-                        break;
-                    }
-                    if ($c == '-') {
-                        $t = $this->get();
-                        if ($t == '-') {
+                    
+                    // comments
+                    foreach ($this->comments as $comment_start => $comment_end) {
+                        if (substr($this->string, $this->tokPtr - 1, strlen($comment_start)) === $comment_start) {
                             $state = 14;
-                            break;
-                        } else { // negative number
-                            $this->unget();
-                            $state = 5;
-                            break;
+                            break 2;
                         }
+                    }
+
+                    if ($c == '-') {
+                        // negative number
+                        $state = 5;
+                        break;
                     }
 
                     if ($this->isCompop($c)) { // comparison operator
@@ -472,26 +472,18 @@ class SQL_Parser_Lexer
                     // {{{ State 14: Comment
                 case 14:
                     $c = $this->skip();
-                    if ($c == "\n" || $c == "\r" || $c == "") {
-                        // Handle MAC/Unix/Windows line endings.
-                        if ($c == "\r") {
-                            $c = $this->skip();
-                            // If not DOS newline
-                            if ($c != "\n") {
-                                $this->unget();
-                            }
-                        }
-
-                        if ($c != "") {
-                            ++$this->lineNo;
-                            $this->lineBegin = $this->tokPtr;
-                        }
-
-                        // We need to skip all the text.
+                    if (null === $c
+                     || substr($this->string, $this->tokPtr, strlen($comment_end)) === $comment_end) {
+                        $this->tokPtr += strlen($comment_end);
                         $this->tokStart = $this->tokPtr;
+                        $this->tokLen = 0;
                         $state = 0;
                     } else {
                         $state = 14;
+                    }
+                    if ($c == "\n") {
+                        ++$this->lineNo;
+                        $this->lineBegin = $this->tokPtr;
                     }
                     break;
                     // }}}
