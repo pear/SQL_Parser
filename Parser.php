@@ -119,7 +119,7 @@ class SQL_Parser
      * @var    array
      * @access public
      */
-    public $dialects = array(
+    static public $dialects = array(
         'ANSI',
         'MySQL',
     );
@@ -153,12 +153,17 @@ class SQL_Parser
         $this->setDialect($dialect);
 
         if (is_string($string)) {
-            // Initialize the Lexer with a 3-level look-back buffer
-            $this->lexer = new SQL_Parser_Lexer($string, 3, $this->lexeropts);
-            $this->lexer->symbols =& $this->symbols;
+            $this->initLexer($string);
         }
     }
     // }}}
+
+    function initLexer($string)
+    {
+        // Initialize the Lexer with a 3-level look-back buffer
+        $this->lexer = new SQL_Parser_Lexer($string, 3, $this->lexeropts);
+        $this->lexer->symbols =& $this->symbols;
+    }
 
     // {{{ function setDialect($dialect)
     /**
@@ -180,7 +185,7 @@ class SQL_Parser
      */
     public function setDialect($dialect)
     {
-        if (! in_array($dialect, $this->dialects)) {
+        if (! in_array($dialect, SQL_Parser::$dialects)) {
             return $this->raiseError('Unknown SQL dialect:' . $dialect);
         }
 
@@ -1593,10 +1598,8 @@ class SQL_Parser
     public function parse($string = null)
     {
         if (is_string($string)) {
-            // Initialize the Lexer with a 3-level look-back buffer
-            $this->lexer = new SQL_Parser_Lexer($string, 3, $this->lexeropts);
-            $this->lexer->symbols =& $this->symbols;
-        } elseif ($this->lexer instanceof SQL_Parser_Lexer) {
+            $this->initLexer($string);
+        } elseif (! $this->lexer instanceof SQL_Parser_Lexer) {
             return $this->raiseError('No initial string specified');
         }
 
@@ -1619,7 +1622,7 @@ class SQL_Parser
             case 'drop':
                 return $this->parseDrop();
             default:
-                return $this->raiseError('Unknown action :'.$this->token);
+                return $this->raiseError('Unknown action: ' . $this->token);
         }
     }
     // }}}
