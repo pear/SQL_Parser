@@ -832,6 +832,7 @@ class SQL_Parser
             $fields[$name]['type'] = $this->synonyms[$type];
             // parse type parameters
             if ($this->token == '(') {
+                $this->getTok();
                 $results = $this->getParams($values, $types);
                 if (PEAR::isError($results)) {
                     return $results;
@@ -1097,6 +1098,7 @@ class SQL_Parser
 
         $this->getTok();
         if ($this->token == '(') {
+            $this->getTok();
             $results = $this->getParams($values, $types);
             if (PEAR::isError($results)) {
                 return $results;
@@ -1170,8 +1172,6 @@ class SQL_Parser
                     'type'  => $this->token,
                 );
             } else {
-                $values = array();
-                $types  = array();
                 $this->getTok();
                 $this->getParams($values, $types);
                 $tree['values'][] = array(
