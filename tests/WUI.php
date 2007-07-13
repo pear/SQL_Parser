@@ -183,17 +183,17 @@ function parseSql($sql)
 function printInputForm($sql = '', $name = '')
 {
     echo '<form>';
-    echo '<label>Name<br />';
-    echo '<input type="text" name="name" value="' . htmlspecialchars($name) . '" />';
-    echo '</label>';
-    echo '<br />';
-    echo '<label>SQL<br />';
+    echo '<label>Insert SQL:<br />';
     echo '<textarea name="sql">';
     echo  htmlspecialchars($sql);
     echo '</textarea>';
     echo '</label>';
     echo '<br />';
     echo '<button type="submit" name="action" value="sql_test">Test</button>';
+    echo '<br />';
+    echo '<label>Save SQL as:<br />';
+    echo '<input type="text" name="name" value="' . htmlspecialchars($name) . '" />';
+    echo '</label>';
     echo '<button type="submit" name="action" value="sql_save">Save</button>';
     echo '</form>';
 }
@@ -213,7 +213,7 @@ function printSqlSelectForm($name)
     $sql_list = getSqlList();
     
     echo '<form>';
-    echo '<label>SQL<br />';
+    echo '<label>Select SQL:<br />';
     echo '<select name="name">';
     echo '<option value="">select stored SQL ...</option>';
     foreach ($sql_list as $sql) {
