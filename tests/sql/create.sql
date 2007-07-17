@@ -8,7 +8,7 @@ CREATE TABLE albums (
 );
 CREATE TABLE photos (
   filename varchar(60) not NULL,
-  name varchar(60) default "no name",
+  name varchar(60) default 'no name',
   album int,
   price float (4,2),
   description text default 'hello',
