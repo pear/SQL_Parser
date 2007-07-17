@@ -88,6 +88,7 @@ array(
             )
         )
 ),
+/*
 array(
 'sql' => 'select count(distinct country) from publishers',
 'expect' => array(
@@ -115,6 +116,7 @@ array(
             )
         )
 ),
+*/
 array(
 'sql' => 'select one, two from hairy where two <> 4 and one = 2',
 'expect' => array(
