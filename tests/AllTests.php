@@ -68,15 +68,19 @@ class PHPUnit_Framework_TestCase_Sql_Parser extends PHPUnit_Framework_TestCase
     {
         $parser   = new SQL_Parser();
         $result   = $parser->parse($this->_test['sql']);
-        $expected = $this->_test['expect'];
 
-        $message  = "\nSQL: " . $this->_test['sql'] . "\n";
         if (false === $result) {
-            $message .= "\n" . $parser->error_message;
+            $result   = $parser->error_message;
         } else {
-            $message .= "\nExpected:\n" . var_export($expected, true);
-            $message .= "\nResult:\n" . var_export($result, true);
+            $result   = $result;
         }
+        
+        $expected = preg_replace('/[\r\n]+/', "\n", $this->_test['expect']);
+        $result   = preg_replace('/[\r\n]+/', "\n", $result);
+        
+        $message  = "\nSQL: " . $this->_test['sql'] . "\n";
+        $message .= "\nExpected:\n" . var_export($expected, true);
+        $message .= "\nResult:\n" . var_export($result, true);
         $message .= "\n*********************\n";
 
         $this->assertEquals($expected, $result, $message);
