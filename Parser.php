@@ -44,7 +44,6 @@
 /**
  *
  */
-require_once 'PEAR.php';
 require_once 'SQL/Parser/Lexer.php';
 require_once 'SQL/Expressions/include.php';
 
@@ -137,7 +136,7 @@ class SQL_Parser
         'ANSI',
         'MySQL',
     );
-
+    
     /**
      *
      */
@@ -230,6 +229,10 @@ class SQL_Parser
     // {{{ getParams(&$values, &$types)
     /**
      * extracts parameters from a function call
+     * 
+     * this function should be called if an opening brace is found, 
+     * so the first call to $this->getTok() will return first param 
+     * or the closing )
      *
      * @param array   &$values to set it
      * @param array   &$types  to set it
@@ -247,12 +250,12 @@ class SQL_Parser
         $values = array();
         $types  = array();
         
-        //$this->getTok();
+        $this->getTok();
         $open_braces = 1;
         while ($open_braces > 0) {
             if (isset($values[$i])) {
-                $values[$i] .= ' ' . $this->lexer->tokText;
-                $types[$i]  = 'expression';
+                $values[$i] .= '' . $this->lexer->tokText;
+                $types[$i]  .= $this->token;
             } else {
                 $values[$i] = $this->lexer->tokText;
                 $types[$i]  = $this->token;
@@ -291,7 +294,6 @@ class SQL_Parser
      * @uses  SQL_Parser_Lexer::$lineNo   R
      * @uses  SQL_Parser_Lexer::$tokText  R
      * @uses  SQL_Parser_Lexer::$tokPtr   R
-     * @uses  PEAR::raiseError()
      */
     public function raiseError($message)
     {
@@ -311,8 +313,10 @@ class SQL_Parser
         $message .= str_repeat(' ', abs($this->lexer->tokPtr -
             $this->lexer->lineBegin - $length)) . "^";
         $message .= ' found: "' . $this->lexer->tokText . '"';
-
-        return PEAR::raiseError($message);
+        
+        $this->error_message = $message;
+        $this->error = true;
+        return false;
     }
     // }}}
 
@@ -422,7 +426,6 @@ class SQL_Parser
     /**
      * Parses field/column options, usually  for an CREATE or ALTER TABLE statement
      *
-     * @uses  PEAR::isError()
      * @uses  SQL_Parser::$token
      * @uses  SQL_Parser::getTok()
      * @uses  SQL_Parser::raiseError()
@@ -462,7 +465,7 @@ class SQL_Parser
                         );
                     } elseif ($this->isFunc()) {
                         $results = $this->parseFunctionOpts();
-                        if (PEAR::isError($results)) {
+                        if (false === $results) {
                             return $results;
                         }
                         $results['type'] = 'default_function';
@@ -498,7 +501,7 @@ class SQL_Parser
                     }
 
                     $results = $this->parseSearchClause();
-                    if (PEAR::isError($results)) {
+                    if (false === $results) {
                         return $results;
                     }
 
@@ -616,7 +619,6 @@ class SQL_Parser
      *
      * @param boolean $subSearch  deprecated?
      * @return  array   parsed condition
-     * @uses  PEAR::isError()-
      * @uses  SQL_Parser::$token
      * @uses  SQL_Parser::$lexer
      * @uses  SQL_Parser::getTok()
@@ -719,7 +721,7 @@ class SQL_Parser
                         // parse the set
                         $result = $this->getParams($clause['arg_2']['value'],
                             $clause['arg_2']['type']);
-                        if (PEAR::isError($result)) {
+                        if (false === $result) {
                             return $result;
                         }
                     }
@@ -733,7 +735,7 @@ class SQL_Parser
                 default:
                     if ($this->isFunc()) {
                         $result = $this->parseFunctionOpts();
-                        if (PEAR::isError($result)) {
+                        if (false === $result) {
                             return $result;
                         }
                         $clause['arg_2']['value'] = $result;
@@ -772,7 +774,7 @@ class SQL_Parser
         if ($this->token == 'and' || $this->token == 'or') {
             $op = $this->token;
             $subClause = $this->parseSearchClause($subSearch);
-            if (PEAR::isError($subClause)) {
+            if (false === $subClause) {
                 return $subClause;
             }
             $clause = array('arg_1' => $clause,
@@ -887,9 +889,8 @@ class SQL_Parser
             $fields[$name]['type'] = $this->synonyms[$type];
             // parse type parameters
             if ($this->token == '(') {
-                $this->getTok();
                 $results = $this->getParams($values, $types);
-                if (PEAR::isError($results)) {
+                if (false === $results) {
                     return $results;
                 }
                 switch ($fields[$name]['type']) {
@@ -935,7 +936,7 @@ class SQL_Parser
             }
 
             $options = $this->parseFieldOptions();
-            if (PEAR::isError($options)) {
+            if (false === $options) {
                 return $options;
             }
 
@@ -967,7 +968,10 @@ class SQL_Parser
         if ($this->token != '(') {
             return $this->raiseError('Expected "("');
         }
-        switch ($function) {
+        
+        $this->getParams($opts['arg'], $opts['type']);
+        
+        switch ($function . '--') {
             case 'count':
                 $this->getTok();
                 switch ($this->token) {
@@ -1041,8 +1045,7 @@ class SQL_Parser
                 break;
                 */
             default:
-                $this->getTok();
-                $this->getParams($opts['arg'], $opts['type']);
+                //$this->getParams($opts['arg'], $opts['type']);
                 /*
                 if ($this->token != ')') {
                     $arg = $this->lexer->tokText;
@@ -1110,7 +1113,7 @@ class SQL_Parser
                 }
                 $tree['table_names'][] = $this->lexer->tokText;
                 $fields = $this->parseFieldList();
-                if (PEAR::isError($fields)) {
+                if (false === $fields) {
                     return $fields;
                 }
                 $tree['column_defs'] = $fields;
@@ -1153,9 +1156,8 @@ class SQL_Parser
 
         $this->getTok();
         if ($this->token == '(') {
-            $this->getTok();
             $results = $this->getParams($values, $types);
-            if (PEAR::isError($results)) {
+            if (false === $results) {
                 return $results;
             } elseif (sizeof($values)) {
                 $tree['column_names'] = $values;
@@ -1166,10 +1168,10 @@ class SQL_Parser
         if ($this->token != 'values') {
             return $this->raiseError('Expected "values"');
         }
-        $this->getTok();
+        // get opening brace '('
         $this->getTok();
         $results = $this->getParams($values, $types);
-        if (PEAR::isError($results)) {
+        if (false === $results) {
             return $results;
         }
         if (isset($tree['column_defs'])
@@ -1228,7 +1230,6 @@ class SQL_Parser
                     'type'  => $this->token,
                 );
             } else {
-                $this->getTok();
                 $this->getParams($values, $types);
                 $tree['values'][] = array(
                     'value' => $values[0],
@@ -1238,7 +1239,7 @@ class SQL_Parser
             $this->getTok();
             if ($this->token == 'where') {
                 $clause = $this->parseSearchClause();
-                if (PEAR::isError($clause)) {
+                if (false === $clause) {
                     return $clause;
                 }
                 $tree['where_clause'] = $clause;
@@ -1275,7 +1276,7 @@ class SQL_Parser
             return $this->raiseError('Expected "where"');
         }
         $clause = $this->parseSearchClause();
-        if (PEAR::isError($clause)) {
+        if (false === $clause) {
             return $clause;
         }
         $tree['where_clause'] = $clause;
@@ -1393,7 +1394,7 @@ class SQL_Parser
             } elseif ($this->isFunc()) {
                 if (! isset($tree['set_quantifier'])) {
                     $result = $this->parseFunctionOpts();
-                    if (PEAR::isError($result)) {
+                    if (false === $result) {
                         return $result;
                     }
                     $tree['set_function'][] = $result;
@@ -1447,7 +1448,7 @@ class SQL_Parser
             }
             if ($this->token == 'on') {
                 $clause = $this->parseSearchClause();
-                if (PEAR::isError($clause)) {
+                if (false === $clause) {
                     return $clause;
                 }
                 $tree['table_join_clause'][] = $clause;
@@ -1527,7 +1528,7 @@ class SQL_Parser
             switch ($this->token) {
                 case 'where':
                     $clause = $this->parseSearchClause();
-                    if (PEAR::isError($clause)) {
+                    if (false === $clause) {
                         return $clause;
                     }
                     $tree['where_clause'] = $clause;
