@@ -1651,7 +1651,8 @@ class SQL_Parser
         if (is_string($string)) {
             $this->initLexer($string);
         } elseif (! $this->lexer instanceof SQL_Parser_Lexer) {
-            return $this->raiseError('No initial string specified');
+            $this->raiseError('No initial string specified');
+            return array('empty' => true);
         }
 
         // get query action
@@ -1659,7 +1660,8 @@ class SQL_Parser
         switch ($this->token) {
             case null:
                 // null == end of string
-                return $this->raiseError('Nothing to do');
+                $this->raiseError('Nothing to do');
+                return array('empty' => true);
             case 'select':
                 return $this->parseSelect();
             case 'update':
@@ -1673,7 +1675,8 @@ class SQL_Parser
             case 'drop':
                 return $this->parseDrop();
             default:
-                return $this->raiseError('Unknown action: ' . $this->token);
+                $this->raiseError('Unknown action: ' . $this->token);
+                return array('command' => 'unknown');
         }
     }
     // }}}
