@@ -26,11 +26,11 @@ http://pear.php.net/dtd/package-2.0.xsd">
   <email>erich.enke@gmail.com</email>
   <active>no</active>
  </lead>
- <date>2007-06-29</date>
- <time>08:03:18</time>
+ <date>2007-07-19</date>
+ <time>14:04:00</time>
  <version>
-  <release>0.5.1</release>
-  <api>0.5.1</api>
+  <release>0.6</release>
+  <api>0.6</api>
  </version>
  <stability>
   <release>devel</release>
@@ -47,19 +47,6 @@ http://pear.php.net/dtd/package-2.0.xsd">
  </notes>
  <contents>
   <dir name="/">
-   <dir name="tests">
-    <file baseinstalldir="/SQL" name="create.php" role="test" />
-    <file baseinstalldir="/SQL" name="delete.php" role="test" />
-    <file baseinstalldir="/SQL" name="drop.php" role="test" />
-    <file baseinstalldir="/SQL" name="dumper.php" role="test" />
-    <file baseinstalldir="/SQL" name="employment.php" role="test" />
-    <file baseinstalldir="/SQL" name="insert.php" role="test" />
-    <file baseinstalldir="/SQL" name="parser_cases.php" role="test" />
-    <file baseinstalldir="/SQL" name="select.php" role="test" />
-    <file baseinstalldir="/SQL" name="tables.php" role="test" />
-    <file baseinstalldir="/SQL" name="test_parser.php" role="test" />
-    <file baseinstalldir="/SQL" name="update.php" role="test" />
-   </dir> <!-- //tests -->
    <dir name="Parser">
     <dir name="Dialect">
      <file baseinstalldir="/SQL" name="ANSI.php" role="php" />
@@ -70,15 +57,15 @@ http://pear.php.net/dtd/package-2.0.xsd">
     <file baseinstalldir="/SQL" name="Lexer.php" role="php" />
    </dir>
    <file baseinstalldir="/SQL" name="Parser.php" role="php" />
-  </dir> <!-- / -->
+  </dir>
  </contents>
  <dependencies>
   <required>
    <php>
-    <min>4.0.0</min>
+    <min>5.2.0</min>
    </php>
    <pearinstaller>
-    <min>1.4.0b1</min>
+    <min>1.6.1</min>
    </pearinstaller>
   </required>
  </dependencies>
