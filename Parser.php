@@ -44,8 +44,7 @@
 /**
  *
  */
-require_once 'SQL/Parser/Lexer.php';
-require_once 'SQL/Expressions/include.php';
+require_once dirname(__FILE__) . '/Parser/Lexer.php';
 
 /**
  * A sql parser

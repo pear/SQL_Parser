@@ -24,7 +24,7 @@
 // $Id$
 //
 
-include 'SQL/Parser/ctype.php';
+include dirname(__FILE__) . '/ctype.php';
 
 // {{{ token definitions
 // variables: 'ident', 'sys_var'
