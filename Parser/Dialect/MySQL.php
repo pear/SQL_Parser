@@ -23,7 +23,7 @@
  * @package   SQL_Parser
  * @author    Brent Cook <busterbcook@yahoo.com>
  * @author    John Griffin <jgriffin316@netscape.net>
- * @copyright Copyright (c) 2004, 2005 John Griffin
+ * @copyright 2004, 2005 John Griffin
  * @license   http://www.gnu.org/licenses/lgpl.html GNU Lesser GPL 3
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/SQL_Parser

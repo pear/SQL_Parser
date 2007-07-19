@@ -22,7 +22,7 @@
  * @category  Database
  * @package   SQL_Parser
  * @author    Brent Cook <busterbcook@yahoo.com>
- * @copyright Copyright (c) 2002 - 2004 Brent Cook
+ * @copyright 2002-2004 Brent Cook
  * @license   http://www.gnu.org/licenses/lgpl.html GNU Lesser GPL 3
  * @version   CVS: $Id$
  * @link      http://pear.php.net/package/SQL_Parser
