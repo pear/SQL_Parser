@@ -77,21 +77,20 @@ class PHPUnit_Framework_TestCase_Sql_Parser extends PHPUnit_Framework_TestCase
 
         // unify line endings in error messages
         if (is_string($this->_test['expect']) && is_string($result)) {
-            $expected = preg_replace('/[\r\n]+/', "\n", $this->_test['expect']);
-            $result   = preg_replace('/[\r\n]+/', "\n", $result);
-            $message  = 'Error message has changed';
+            //$expected = preg_replace('/[\r\n]+/', "\n", $this->_test['expect']);
+            //$result   = preg_replace('/[\r\n]+/', "\n", $result);
+            $message  = 'SQL still fails to be parsed';
             $message .= "\nSQL: " . $this->_test['sql'] . "\n";
-            $message .= "\nExpected:\n" . $expected;
+            $message .= "\nExpected:\n [array with parsed SQL]";
             $message .= "\nResult:\n" . $result;
             $message .= "\n*********************\n";
+            $this->fail($message);
         } elseif (is_string($this->_test['expect'])) {
             // a prior failed test now runs fine
             $this->fail('SQL seems to run fine now, please update the expected test result!');
-            return;
         } elseif (is_string($result)) {
             // a prior successful test now failed
             $this->fail($result);
-            return;
         } else {
             $expected = $this->_test['expect'];
             $result   = $result;
@@ -99,9 +98,8 @@ class PHPUnit_Framework_TestCase_Sql_Parser extends PHPUnit_Framework_TestCase
             $message .= "\nSQL: " . $this->_test['sql'] . "\n";
             $message .= PHPUnit_Framework_TestCase_Sql_Parser::sideBySide($expected, $result);
             $message .= "\n*********************\n";
+            $this->assertEquals($expected, $result, $message);
         }
-
-        $this->assertEquals($expected, $result, $message);
     }
 
     function sideBySide($array1, $array2)
