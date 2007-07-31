@@ -76,21 +76,59 @@ class PHPUnit_Framework_TestCase_Sql_Parser extends PHPUnit_Framework_TestCase
         }
 
         // unify line endings in error messages
-        if (is_string($this->_test['expect'])) {
+        if (is_string($this->_test['expect']) && is_string($result)) {
             $expected = preg_replace('/[\r\n]+/', "\n", $this->_test['expect']);
+            $result   = preg_replace('/[\r\n]+/', "\n", $result);
+            $message  = 'Error message has changed';
+            $message .= "\nSQL: " . $this->_test['sql'] . "\n";
+            $message .= "\nExpected:\n" . $expected;
+            $message .= "\nResult:\n" . $result;
+            $message .= "\n*********************\n";
+        } elseif (is_string($this->_test['expect'])) {
+            // a prior failed test now runs fine
+            $this->fail('SQL seems to run fine now, please update the expected test result!');
+            return;
+        } elseif (is_string($result)) {
+            // a prior successful test now failed
+            $this->fail($result);
+            return;
         } else {
             $expected = $this->_test['expect'];
+            $result   = $result;
+            $message  = 'Output format has changed';
+            $message .= "\nSQL: " . $this->_test['sql'] . "\n";
+            $message .= PHPUnit_Framework_TestCase_Sql_Parser::sideBySide($expected, $result);
+            $message .= "\n*********************\n";
         }
-        if (is_string($result)) {
-            $result   = preg_replace('/[\r\n]+/', "\n", $result);
-        }
-
-        $message  = "\nSQL: " . $this->_test['sql'] . "\n";
-        $message .= "\nExpected:\n" . var_export($expected, true);
-        $message .= "\nResult:\n" . var_export($result, true);
-        $message .= "\n*********************\n";
 
         $this->assertEquals($expected, $result, $message);
+    }
+
+    function sideBySide($array1, $array2)
+    {
+        $text1 = var_export($array1, true);
+        $text2 = var_export($array2, true);
+        $text1 = wordwrap($text1, 40, "\n", true);
+        $text2 = wordwrap($text2, 40, "\n", true);
+
+        $text1 = preg_split('/\n/', $text1);
+        $text2 = preg_split('/\n/', $text2);
+
+        $lines = max(count($text1), count($text2));
+
+        $message = '';
+        for ($i = 0; $i < $lines; $i++) {
+            $message .= str_pad($text1[$i], 40, ' ');
+            if ($text1[$i] === $text2[$i]) {
+                $message .= ' = ';
+            } else {
+                $message .= ' ! ';
+            }
+
+            $message .= $text2[$i] . "\n";
+        }
+
+        return $message;
     }
 }
 
