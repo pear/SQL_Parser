@@ -34,7 +34,7 @@ class SQL_Parser_AllTests
             'tables'        => 'tests/testcases/tables.php',
             'update'        => 'tests/testcases/update.php',
         );
-        
+
         /*
          * add test cases
          */
@@ -54,7 +54,7 @@ class SQL_Parser_AllTests
 class PHPUnit_Framework_TestCase_Sql_Parser extends PHPUnit_Framework_TestCase
 {
     protected $_test;
-    
+
     public function __construct($test, $name)
     {
         $this->setName($name);
@@ -63,7 +63,7 @@ class PHPUnit_Framework_TestCase_Sql_Parser extends PHPUnit_Framework_TestCase
         }
         $this->_test = $test;
     }
-    
+
     public function runTest()
     {
         $parser   = new SQL_Parser();
@@ -74,10 +74,17 @@ class PHPUnit_Framework_TestCase_Sql_Parser extends PHPUnit_Framework_TestCase
         } else {
             $result   = $result;
         }
-        
-        $expected = preg_replace('/[\r\n]+/', "\n", $this->_test['expect']);
-        $result   = preg_replace('/[\r\n]+/', "\n", $result);
-        
+
+        // unify line endings in error messages
+        if (is_string($this->_test['expect'])) {
+            $expected = preg_replace('/[\r\n]+/', "\n", $this->_test['expect']);
+        } else {
+            $expected = $this->_test['expect'];
+        }
+        if (is_string($result)) {
+            $result   = preg_replace('/[\r\n]+/', "\n", $result);
+        }
+
         $message  = "\nSQL: " . $this->_test['sql'] . "\n";
         $message .= "\nExpected:\n" . var_export($expected, true);
         $message .= "\nResult:\n" . var_export($result, true);
