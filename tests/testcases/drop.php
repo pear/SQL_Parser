@@ -16,6 +16,7 @@ drop table dishes cascade;
       'drop_behavior' => 'cascade',
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   1 => 
   array (
@@ -33,6 +34,7 @@ drop table bondage restrict;
       'drop_behavior' => 'restrict',
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   2 => 
   array (
@@ -45,6 +47,7 @@ drop table bondage, dishes;
 -- SQL_PARSER_FLAG_FAIL
                                            ^ found: ","',
     'fail' => true,
+    'dialect' => 'ANSI',
   ),
   3 => 
   array (
@@ -57,6 +60,7 @@ drop table play cascade restrict;
 -- SQL_PARSER_FLAG_FAIL
                                                  ^ found: "restrict"',
     'fail' => true,
+    'dialect' => 'ANSI',
   ),
   4 => 
   array (
@@ -69,6 +73,7 @@ drop table cat where mouse = floor;
 -- SQL_PARSER_FLAG_FAIL
                                         ^ found: "where"',
     'fail' => true,
+    'dialect' => 'ANSI',
   ),
   5 => 
   array (
@@ -80,6 +85,7 @@ drop elephant;
 -- SQL_PARSER_FLAG_FAIL
                               ^ found: "elephant"',
     'fail' => true,
+    'dialect' => 'ANSI',
   ),
 );
 ?>

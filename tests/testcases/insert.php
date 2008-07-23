@@ -33,6 +33,7 @@ insert into dogmeat (\'horse\', \'hair\') values (2, 4);
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   1 => 
   array (
@@ -67,6 +68,7 @@ inSERT into dogmeat (horse, hair) values (2, 4);
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   2 => 
   array (
@@ -106,6 +108,7 @@ INSERT INTO mytable (foo, bar, baz) VALUES (NOW(), 1, \'text\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
 );
 ?>

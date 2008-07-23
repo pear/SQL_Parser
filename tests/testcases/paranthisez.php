@@ -9,6 +9,7 @@ $tests = array (
       'command' => 'unknown',
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
 );
 ?>

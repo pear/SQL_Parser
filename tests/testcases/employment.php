@@ -80,6 +80,7 @@ CREATE TABLE parttime_employment (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   1 => 
   array (
@@ -125,6 +126,7 @@ create table departments (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   2 => 
   array (
@@ -153,6 +155,7 @@ insert into departments (title)	values (\'Accounting Office\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   3 => 
   array (
@@ -181,6 +184,7 @@ insert into departments (title) values (\'Administrative Office\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   4 => 
   array (
@@ -209,6 +213,7 @@ insert into departments (title) values (\'Audio/Visual\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   5 => 
   array (
@@ -237,6 +242,7 @@ insert into departments (title) values (\'Building Management\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   6 => 
   array (
@@ -265,6 +271,7 @@ insert into departments (title) values (\'Building Services\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   7 => 
   array (
@@ -293,6 +300,7 @@ insert into departments (title) values (\'Cactus Cafe\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   8 => 
   array (
@@ -321,6 +329,7 @@ insert into departments (title) values (\'Cash Operations\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   9 => 
   array (
@@ -349,6 +358,7 @@ insert into departments (title) values (\'Commons Coffee Company\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   10 => 
   array (
@@ -377,6 +387,7 @@ insert into departments (title) values (\'Data Processing\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   11 => 
   array (
@@ -405,6 +416,7 @@ insert into departments (title) values (\'Housekeeping\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   12 => 
   array (
@@ -433,6 +445,7 @@ insert into departments (title) values (\'Human Resources\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   13 => 
   array (
@@ -461,6 +474,7 @@ insert into departments (title) values (\'Informal Classes\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   14 => 
   array (
@@ -489,6 +503,7 @@ insert into departments (title) values (\'Information Desk\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   15 => 
   array (
@@ -517,6 +532,7 @@ insert into departments (title) values (\'Jester Center Campus Store\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   16 => 
   array (
@@ -545,6 +561,7 @@ insert into departments (title) values (\'Maintenance\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   17 => 
   array (
@@ -573,6 +590,7 @@ insert into departments (title) values (\'Programming Office\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   18 => 
   array (
@@ -601,6 +619,7 @@ insert into departments (title) values (\'Reservation Office\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   19 => 
   array (
@@ -629,6 +648,7 @@ insert into departments (title) values (\'Union Campus Store\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   20 => 
   array (
@@ -656,6 +676,7 @@ insert into departments (title) values (\'Union Underground\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
 );
 ?>

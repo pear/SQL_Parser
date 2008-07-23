@@ -65,6 +65,7 @@ delete from dog where cat = 4 and horse <> "dead meat" or mouse = \'furry\';
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   1 => 
   array (
@@ -77,6 +78,7 @@ delete from;
 -- SQL_PARSER_FLAG_FAIL
                                     ^ found: ";"',
     'fail' => true,
+    'dialect' => 'ANSI',
   ),
   2 => 
   array (
@@ -93,6 +95,7 @@ delete from cat;
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   3 => 
   array (
@@ -105,6 +108,7 @@ delete from where cat = 53;
 -- SQL_PARSER_FLAG_FAIL
                                      ^ found: "where"',
     'fail' => true,
+    'dialect' => 'ANSI',
   ),
   4 => 
   array (
@@ -116,6 +120,7 @@ delete from dog where mouse is happy;
 -- SQL_PARSER_FLAG_FAIL
                                                         ^ found: "happy"',
     'fail' => true,
+    'dialect' => 'ANSI',
   ),
 );
 ?>

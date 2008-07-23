@@ -7,20 +7,19 @@ SELECT abc',
     'expect' => 
     array (
       'command' => 'select',
-      'column_tables' => 
+      'fields' => 
       array (
-        0 => '',
-      ),
-      'column_names' => 
-      array (
-        0 => 'abc',
-      ),
-      'column_aliases' => 
-      array (
-        0 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'abc',
+          'alias' => '',
+        ),
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
 );
 ?>

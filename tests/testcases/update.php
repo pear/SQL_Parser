@@ -7,10 +7,39 @@ $tests = array (
 update dogmeat set horse=2 dog=\'forty\' where moose <> \'howdydoo\';
 
 ',
-    'expect' => 'Parse error: Expected "where" or "," on line 2
--- SQL_PARSER_FLAG_FAIL
-                                                    ^ found: "dog"',
+    'expect' => 
+    array (
+      'command' => 'update',
+      'tables' => 
+      array (
+        0 => 
+        array (
+          'database' => '',
+          'table' => 'dogmeat',
+          'alias' => '',
+        ),
+      ),
+      'columns' => 
+      array (
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'horse',
+          'alias' => '',
+        ),
+      ),
+      'values' => 
+      array (
+        0 => 
+        array (
+          'value' => 2,
+          'type' => 'int_val',
+        ),
+      ),
+    ),
     'fail' => true,
+    'dialect' => 'ANSI',
   ),
   1 => 
   array (
@@ -22,6 +51,7 @@ update dogmeat set horse=2, dog=\'forty\' where moose != \'howdydoo\';
 update dogmeat set horse=2, dog=\'forty\' where moose != \'howdydoo\';
                                                     ^ found: "!="',
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   2 => 
   array (
@@ -32,14 +62,31 @@ update dogmeat set horse=2, dog=\'forty\' where moose <> \'howdydoo\';
     'expect' => 
     array (
       'command' => 'update',
-      'table_names' => 
+      'tables' => 
       array (
-        0 => 'dogmeat',
+        0 => 
+        array (
+          'database' => '',
+          'table' => 'dogmeat',
+          'alias' => '',
+        ),
       ),
-      'column_names' => 
+      'columns' => 
       array (
-        0 => 'horse',
-        1 => 'dog',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'horse',
+          'alias' => '',
+        ),
+        1 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'dog',
+          'alias' => '',
+        ),
       ),
       'values' => 
       array (
@@ -70,6 +117,7 @@ update dogmeat set horse=2, dog=\'forty\' where moose <> \'howdydoo\';
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   3 => 
   array (
@@ -80,13 +128,24 @@ update table1 set col=1 where not col = 2;
     'expect' => 
     array (
       'command' => 'update',
-      'table_names' => 
+      'tables' => 
       array (
-        0 => 'table1',
+        0 => 
+        array (
+          'database' => '',
+          'table' => 'table1',
+          'alias' => '',
+        ),
       ),
-      'column_names' => 
+      'columns' => 
       array (
-        0 => 'col',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'col',
+          'alias' => '',
+        ),
       ),
       'values' => 
       array (
@@ -113,6 +172,7 @@ update table1 set col=1 where not col = 2;
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   4 => 
   array (
@@ -123,13 +183,24 @@ update table2 set col=1 where col > 2 and col <> 4;
     'expect' => 
     array (
       'command' => 'update',
-      'table_names' => 
+      'tables' => 
       array (
-        0 => 'table2',
+        0 => 
+        array (
+          'database' => '',
+          'table' => 'table2',
+          'alias' => '',
+        ),
       ),
-      'column_names' => 
+      'columns' => 
       array (
-        0 => 'col',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'col',
+          'alias' => '',
+        ),
       ),
       'values' => 
       array (
@@ -173,6 +244,7 @@ update table2 set col=1 where col > 2 and col <> 4;
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   5 => 
   array (
@@ -183,13 +255,24 @@ update table2 set col=1 where col > 2 and col <> 4 or dog="Hello";
     'expect' => 
     array (
       'command' => 'update',
-      'table_names' => 
+      'tables' => 
       array (
-        0 => 'table2',
+        0 => 
+        array (
+          'database' => '',
+          'table' => 'table2',
+          'alias' => '',
+        ),
       ),
-      'column_names' => 
+      'columns' => 
       array (
-        0 => 'col',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'col',
+          'alias' => '',
+        ),
       ),
       'values' => 
       array (
@@ -251,6 +334,7 @@ update table2 set col=1 where col > 2 and col <> 4 or dog="Hello";
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   6 => 
   array (
@@ -260,13 +344,24 @@ update table3 set col=1 where col > 2 and col < 30;
     'expect' => 
     array (
       'command' => 'update',
-      'table_names' => 
+      'tables' => 
       array (
-        0 => 'table3',
+        0 => 
+        array (
+          'database' => '',
+          'table' => 'table3',
+          'alias' => '',
+        ),
       ),
-      'column_names' => 
+      'columns' => 
       array (
-        0 => 'col',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'col',
+          'alias' => '',
+        ),
       ),
       'values' => 
       array (
@@ -310,6 +405,7 @@ update table3 set col=1 where col > 2 and col < 30;
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
 );
 ?>

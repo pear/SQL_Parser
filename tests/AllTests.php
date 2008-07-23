@@ -57,6 +57,7 @@ class PHPUnit_Framework_TestCase_Sql_Parser extends PHPUnit_Framework_TestCase
     public function runTest()
     {
         $parser   = new SQL_Parser();
+        $parser->setDialect($this->_test['dialect']);
         $result   = $parser->parse($this->_test['sql']);
 
         if (false === $result) {
@@ -108,7 +109,15 @@ class PHPUnit_Framework_TestCase_Sql_Parser extends PHPUnit_Framework_TestCase
 
         $message = '';
         for ($i = 0; $i < $lines; $i++) {
+            if (empty($text1[$i])) {
+                $text1[$i] = '';
+            }
+            if (empty($text2[$i])) {
+                $text2[$i] = '';
+            }
+
             $message .= str_pad($text1[$i], 40, ' ');
+
             if ($text1[$i] === $text2[$i]) {
                 $message .= ' = ';
             } else {

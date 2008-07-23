@@ -75,11 +75,20 @@ foreach (glob('tests/sql/' . $files) as $file) {
     foreach ($queries as $query) {
         if ($query) {
             echo ':';
-            if (strpos(trim($query), '-- SQL_PARSER_FLAG_FAIL') === 0) {
+
+            if (strpos($query, '-- SQL_PARSER_FLAG_FAIL') !== false) {
                 $fail = true;
             } else {
                 $fail = false;
             }
+
+            if (strpos($query, '-- SQL_PARSER_FLAG_MYSQL') !== false) {
+                $_dialect = 'MySQL';
+            } else {
+                $_dialect = $dialect;
+            }
+            $parser->setDialect($_dialect);
+
             $results = $parser->parse($query);
             //if (PEAR::isError($results)) {
             if (false === $results) {
@@ -89,9 +98,10 @@ foreach (glob('tests/sql/' . $files) as $file) {
             }
 
             $testcases[] = array(
-                'sql'    => $query,
-            	'expect' => $result,
-            	'fail'   => $fail,
+                'sql'     => $query,
+            	'expect'  => $result,
+            	'fail'    => $fail,
+            	'dialect' => $_dialect,
             );
         }
     }

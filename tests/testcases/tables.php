@@ -145,6 +145,7 @@ CREATE TABLE event (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   1 => 
   array (
@@ -189,6 +190,7 @@ CREATE TABLE event_category (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   2 => 
   array (
@@ -255,6 +257,7 @@ CREATE TABLE notice (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   3 => 
   array (
@@ -346,6 +349,7 @@ CREATE TABLE schedule (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   4 => 
   array (
@@ -408,6 +412,7 @@ CREATE TABLE contacts (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   5 => 
   array (
@@ -468,6 +473,7 @@ CREATE TABLE location (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   6 => 
   array (
@@ -548,6 +554,7 @@ CREATE TABLE room (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   7 => 
   array (
@@ -593,6 +600,7 @@ CREATE TABLE room_uses (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
 );
 ?>

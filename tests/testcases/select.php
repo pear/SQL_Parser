@@ -1,47 +1,45 @@
 <?php
 $tests = array (
-  0 =>
+  0 => 
   array (
     'sql' => '
 select * from dog where cat <> 4;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_names' =>
+      'fields' => 
       array (
-        0 => '*',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => '*',
+          'alias' => '',
+        ),
       ),
-      'column_tables' =>
-      array (
-        0 => '',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'dog',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
           'value' => 'cat',
           'type' => 'ident',
         ),
         'op' => '<>',
-        'arg_2' =>
+        'arg_2' => 
         array (
           'value' => 4,
           'type' => 'int_val',
@@ -49,186 +47,194 @@ select * from dog where cat <> 4;
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  1 =>
+  1 => 
   array (
     'sql' => '
 select legs, hairy from dog;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
-        1 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'legs',
+          'alias' => '',
+        ),
+        1 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'hairy',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => 'legs',
-        1 => 'hairy',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-        1 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'dog',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  2 =>
+  2 => 
   array (
     'sql' => '
 select max(length) from dog;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'set_function' =>
+      'set_function' => 
       array (
-        0 =>
+        0 => 
         array (
           'name' => 'max',
-          'arg' =>
+          'arg' => 
           array (
             0 => 'length',
           ),
-          'type' =>
+          'type' => 
           array (
             0 => 'ident',
           ),
         ),
       ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'dog',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  3 =>
+  3 => 
   array (
     'sql' => '
 select count(distinct country) from publishers;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'set_function' =>
+      'set_function' => 
       array (
-        0 =>
+        0 => 
         array (
           'name' => 'count',
-          'arg' =>
+          'arg' => 
           array (
             0 => 'distinctcountry',
           ),
-          'type' =>
+          'type' => 
           array (
             0 => 'distinctident',
           ),
         ),
       ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'publishers',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  4 =>
+  4 => 
   array (
     'sql' => '
 select one, two from hairy where two <> 4 and one = 2;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
-        1 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'one',
+          'alias' => '',
+        ),
+        1 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'two',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => 'one',
-        1 => 'two',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-        1 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'hairy',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'two',
             'type' => 'ident',
           ),
           'op' => '<>',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 4,
             'type' => 'int_val',
           ),
         ),
         'op' => 'and',
-        'arg_2' =>
+        'arg_2' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'one',
             'type' => 'ident',
           ),
           'op' => '=',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 2,
             'type' => 'int_val',
@@ -237,347 +243,349 @@ select one, two from hairy where two <> 4 and one = 2;
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  5 =>
+  5 => 
   array (
     'sql' => '
 select one, two from hairy where two <> 4 and one = 2 order by two;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
-        1 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'one',
+          'alias' => '',
+        ),
+        1 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'two',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => 'one',
-        1 => 'two',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-        1 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'hairy',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'two',
             'type' => 'ident',
           ),
           'op' => '<>',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 4,
             'type' => 'int_val',
           ),
         ),
         'op' => 'and',
-        'arg_2' =>
+        'arg_2' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'one',
             'type' => 'ident',
           ),
           'op' => '=',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 2,
             'type' => 'int_val',
           ),
         ),
       ),
-      'sort_order' =>
+      'sort_order' => 
       array (
         'two' => 'asc',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  6 =>
+  6 => 
   array (
     'sql' => '
 select one, two from hairy where two <> 4 and one = 2 limit 4 order by two ascending, dog descending;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
-        1 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'one',
+          'alias' => '',
+        ),
+        1 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'two',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => 'one',
-        1 => 'two',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-        1 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'hairy',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'two',
             'type' => 'ident',
           ),
           'op' => '<>',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 4,
             'type' => 'int_val',
           ),
         ),
         'op' => 'and',
-        'arg_2' =>
+        'arg_2' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'one',
             'type' => 'ident',
           ),
           'op' => '=',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 2,
             'type' => 'int_val',
           ),
         ),
       ),
-      'limit_clause' =>
+      'limit_clause' => 
       array (
         'start' => 0,
         'length' => 4,
       ),
-      'sort_order' =>
+      'sort_order' => 
       array (
         'two' => 'asc',
         'dog' => 'desc',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  7 =>
+  7 => 
   array (
     'sql' => '
 select foo.a from foo;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
+      array (
+        0 => 
+        array (
+          'database' => '',
+          'table' => 'foo',
+          'column' => 'a',
+          'alias' => '',
+        ),
+      ),
+      'table_names' => 
       array (
         0 => 'foo',
       ),
-      'column_names' =>
-      array (
-        0 => 'a',
-      ),
-      'column_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_names' =>
-      array (
-        0 => 'foo',
-      ),
-      'table_aliases' =>
-      array (
-        0 => '',
-      ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  8 =>
+  8 => 
   array (
     'sql' => '
 select a as b, min(a) as baz from foo;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'a',
+          'alias' => 'b',
+        ),
       ),
-      'column_names' =>
+      'set_function' => 
       array (
-        0 => 'a',
-      ),
-      'column_aliases' =>
-      array (
-        0 => 'b',
-      ),
-      'set_function' =>
-      array (
-        0 =>
+        0 => 
         array (
           'name' => 'min',
-          'arg' =>
+          'arg' => 
           array (
             0 => 'a',
           ),
-          'type' =>
+          'type' => 
           array (
             0 => 'ident',
           ),
           'alias' => 'baz',
         ),
       ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'foo',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  9 =>
+  9 => 
   array (
     'sql' => '
 select a from foo as bar;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'a',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => 'a',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'foo',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => 'bar',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  10 =>
+  10 => 
   array (
     'sql' => '
 select * from person where surname is not null and firstname = \'jason\';
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_names' =>
+      'fields' => 
       array (
-        0 => '*',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => '*',
+          'alias' => '',
+        ),
       ),
-      'column_tables' =>
-      array (
-        0 => '',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'person',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'surname',
             'type' => 'ident',
           ),
           'op' => 'is',
           'neg' => true,
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => '',
             'type' => 'null',
           ),
         ),
         'op' => 'and',
-        'arg_2' =>
+        'arg_2' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'firstname',
             'type' => 'ident',
           ),
           'op' => '=',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 'jason',
             'type' => 'text_val',
@@ -586,49 +594,48 @@ select * from person where surname is not null and firstname = \'jason\';
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  11 =>
+  11 => 
   array (
     'sql' => '
 select * from person where surname is null;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_names' =>
+      'fields' => 
       array (
-        0 => '*',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => '*',
+          'alias' => '',
+        ),
       ),
-      'column_tables' =>
-      array (
-        0 => '',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'person',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
           'value' => 'surname',
           'type' => 'ident',
         ),
         'op' => 'is',
-        'arg_2' =>
+        'arg_2' => 
         array (
           'value' => '',
           'type' => 'null',
@@ -636,66 +643,65 @@ select * from person where surname is null;
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  12 =>
+  12 => 
   array (
     'sql' => '
 select * from person where surname = \'\' and firstname = \'jason\';
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_names' =>
+      'fields' => 
       array (
-        0 => '*',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => '*',
+          'alias' => '',
+        ),
       ),
-      'column_tables' =>
-      array (
-        0 => '',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'person',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'surname',
             'type' => 'ident',
           ),
           'op' => '=',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => '',
             'type' => 'text_val',
           ),
         ),
         'op' => 'and',
-        'arg_2' =>
+        'arg_2' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'firstname',
             'type' => 'ident',
           ),
           'op' => '=',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 'jason',
             'type' => 'text_val',
@@ -704,59 +710,62 @@ select * from person where surname = \'\' and firstname = \'jason\';
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  13 =>
+  13 => 
   array (
     'sql' => '
 select table_1.id, table_2.name from table_1, table_2 where table_2.table_1_id = table_1.id;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
+      array (
+        0 => 
+        array (
+          'database' => '',
+          'table' => 'table_1',
+          'column' => 'id',
+          'alias' => '',
+        ),
+        1 => 
+        array (
+          'database' => '',
+          'table' => 'table_2',
+          'column' => 'name',
+          'alias' => '',
+        ),
+      ),
+      'table_names' => 
       array (
         0 => 'table_1',
         1 => 'table_2',
       ),
-      'column_names' =>
-      array (
-        0 => 'id',
-        1 => 'name',
-      ),
-      'column_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
         1 => '',
       ),
-      'table_names' =>
-      array (
-        0 => 'table_1',
-        1 => 'table_2',
-      ),
-      'table_aliases' =>
+      'table_join_clause' => 
       array (
         0 => '',
         1 => '',
       ),
-      'table_join_clause' =>
-      array (
-        0 => '',
-        1 => '',
-      ),
-      'table_join' =>
+      'table_join' => 
       array (
         0 => ',',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
           'value' => 'table_2.table_1_id',
           'type' => 'ident',
         ),
         'op' => '=',
-        'arg_2' =>
+        'arg_2' => 
         array (
           'value' => 'table_1.id',
           'type' => 'ident',
@@ -764,75 +773,72 @@ select table_1.id, table_2.name from table_1, table_2 where table_2.table_1_id =
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  14 =>
+  14 => 
   array (
     'sql' => '
 select a from table_1 where a not in (select b from table_2);
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'a',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => 'a',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'table_1',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
           'value' => 'a',
           'type' => 'ident',
         ),
         'op' => 'in',
         'neg' => true,
-        'arg_2' =>
+        'arg_2' => 
         array (
-          'value' =>
+          'value' => 
           array (
             'command' => 'select',
-            'column_tables' =>
+            'fields' => 
             array (
-              0 => '',
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'b',
+                'alias' => '',
+              ),
             ),
-            'column_names' =>
-            array (
-              0 => 'b',
-            ),
-            'column_aliases' =>
-            array (
-              0 => '',
-            ),
-            'table_names' =>
+            'table_names' => 
             array (
               0 => 'table_2',
             ),
-            'table_aliases' =>
+            'table_aliases' => 
             array (
               0 => '',
             ),
-            'table_join_clause' =>
+            'table_join_clause' => 
             array (
               0 => '',
             ),
@@ -842,112 +848,107 @@ select a from table_1 where a not in (select b from table_2);
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  15 =>
+  15 => 
   array (
     'sql' => '
 select a from table_1 where a in (select b from table_2 where c not in (select d from table_3));
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'a',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => 'a',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'table_1',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
           'value' => 'a',
           'type' => 'ident',
         ),
         'op' => 'in',
-        'arg_2' =>
+        'arg_2' => 
         array (
-          'value' =>
+          'value' => 
           array (
             'command' => 'select',
-            'column_tables' =>
+            'fields' => 
             array (
-              0 => '',
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'b',
+                'alias' => '',
+              ),
             ),
-            'column_names' =>
-            array (
-              0 => 'b',
-            ),
-            'column_aliases' =>
-            array (
-              0 => '',
-            ),
-            'table_names' =>
+            'table_names' => 
             array (
               0 => 'table_2',
             ),
-            'table_aliases' =>
+            'table_aliases' => 
             array (
               0 => '',
             ),
-            'table_join_clause' =>
+            'table_join_clause' => 
             array (
               0 => '',
             ),
-            'where_clause' =>
+            'where_clause' => 
             array (
-              'arg_1' =>
+              'arg_1' => 
               array (
                 'value' => 'c',
                 'type' => 'ident',
               ),
               'op' => 'in',
               'neg' => true,
-              'arg_2' =>
+              'arg_2' => 
               array (
-                'value' =>
+                'value' => 
                 array (
                   'command' => 'select',
-                  'column_tables' =>
+                  'fields' => 
                   array (
-                    0 => '',
+                    0 => 
+                    array (
+                      'database' => '',
+                      'table' => '',
+                      'column' => 'd',
+                      'alias' => '',
+                    ),
                   ),
-                  'column_names' =>
-                  array (
-                    0 => 'd',
-                  ),
-                  'column_aliases' =>
-                  array (
-                    0 => '',
-                  ),
-                  'table_names' =>
+                  'table_names' => 
                   array (
                     0 => 'table_3',
                   ),
-                  'table_aliases' =>
+                  'table_aliases' => 
                   array (
                     0 => '',
                   ),
-                  'table_join_clause' =>
+                  'table_join_clause' => 
                   array (
                     0 => '',
                   ),
@@ -961,57 +962,56 @@ select a from table_1 where a in (select b from table_2 where c not in (select d
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  16 =>
+  16 => 
   array (
     'sql' => '
 select a from table_1 where a in (1, 2, 3);
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'a',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => 'a',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'table_1',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
           'value' => 'a',
           'type' => 'ident',
         ),
         'op' => 'in',
-        'arg_2' =>
+        'arg_2' => 
         array (
-          'value' =>
+          'value' => 
           array (
             0 => 1,
             1 => 2,
             2 => 3,
           ),
-          'type' =>
+          'type' => 
           array (
             0 => 'int_val',
             1 => 'int_val',
@@ -1021,59 +1021,60 @@ select a from table_1 where a in (1, 2, 3);
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  17 =>
+  17 => 
   array (
     'sql' => '
 select count(child_table.name) from parent_table ,child_table where parent_table.id = child_table.id;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'set_function' =>
+      'set_function' => 
       array (
-        0 =>
+        0 => 
         array (
           'name' => 'count',
-          'arg' =>
+          'arg' => 
           array (
             0 => 'child_table.name',
           ),
-          'type' =>
+          'type' => 
           array (
             0 => 'ident.ident',
           ),
         ),
       ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'parent_table',
         1 => 'child_table',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
         1 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
         1 => '',
       ),
-      'table_join' =>
+      'table_join' => 
       array (
         0 => ',',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
           'value' => 'parent_table.id',
           'type' => 'ident',
         ),
         'op' => '=',
-        'arg_2' =>
+        'arg_2' => 
         array (
           'value' => 'child_table.id',
           'type' => 'ident',
@@ -1081,217 +1082,215 @@ select count(child_table.name) from parent_table ,child_table where parent_table
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  18 =>
+  18 => 
   array (
     'sql' => '
 select parent_table.name, count(child_table.name) from parent_table ,child_table where parent_table.id = child_table.id group by parent_table.name;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => 'parent_table',
+        0 => 
+        array (
+          'database' => '',
+          'table' => 'parent_table',
+          'column' => 'name',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
+      'set_function' => 
       array (
-        0 => 'name',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'set_function' =>
-      array (
-        0 =>
+        0 => 
         array (
           'name' => 'count',
-          'arg' =>
+          'arg' => 
           array (
             0 => 'child_table.name',
           ),
-          'type' =>
+          'type' => 
           array (
             0 => 'ident.ident',
           ),
         ),
       ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'parent_table',
         1 => 'child_table',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
         1 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
         1 => '',
       ),
-      'table_join' =>
+      'table_join' => 
       array (
         0 => ',',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
           'value' => 'parent_table.id',
           'type' => 'ident',
         ),
         'op' => '=',
-        'arg_2' =>
+        'arg_2' => 
         array (
           'value' => 'child_table.id',
           'type' => 'ident',
         ),
       ),
-      'group_by' =>
+      'group_by' => 
       array (
         0 => 'parent_table.name',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  19 =>
+  19 => 
   array (
     'sql' => '
 select * from cats where furry = 1 group by name, type;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_names' =>
+      'fields' => 
       array (
-        0 => '*',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => '*',
+          'alias' => '',
+        ),
       ),
-      'column_tables' =>
-      array (
-        0 => '',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'cats',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
           'value' => 'furry',
           'type' => 'ident',
         ),
         'op' => '=',
-        'arg_2' =>
+        'arg_2' => 
         array (
           'value' => 1,
           'type' => 'int_val',
         ),
       ),
-      'group_by' =>
+      'group_by' => 
       array (
         0 => 'name',
         1 => 'type',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  20 =>
+  20 => 
   array (
     'sql' => '
 select a, max(b) as x, sum(c) as y, min(d) as z from e;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'a',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
+      'set_function' => 
       array (
-        0 => 'a',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'set_function' =>
-      array (
-        0 =>
+        0 => 
         array (
           'name' => 'max',
-          'arg' =>
+          'arg' => 
           array (
             0 => 'b',
           ),
-          'type' =>
+          'type' => 
           array (
             0 => 'ident',
           ),
           'alias' => 'x',
         ),
-        1 =>
+        1 => 
         array (
           'name' => 'sum',
-          'arg' =>
+          'arg' => 
           array (
             0 => 'c',
           ),
-          'type' =>
+          'type' => 
           array (
             0 => 'ident',
           ),
           'alias' => 'y',
         ),
-        2 =>
+        2 => 
         array (
           'name' => 'min',
-          'arg' =>
+          'arg' => 
           array (
             0 => 'd',
           ),
-          'type' =>
+          'type' => 
           array (
             0 => 'ident',
           ),
           'alias' => 'z',
         ),
       ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'e',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  21 =>
+  21 => 
   array (
     'sql' => '
 select clients_translation.id_clients_prefix, clients_translation.rule_number,
@@ -1305,68 +1304,78 @@ select clients_translation.id_clients_prefix, clients_translation.rule_number,
          order by clients_translation.id_clients_prefix,clients_translation.rule_number;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => 'clients_translation',
-        1 => 'clients_translation',
-        2 => 'clients_translation',
-        3 => 'clients_translation',
+        0 => 
+        array (
+          'database' => '',
+          'table' => 'clients_translation',
+          'column' => 'id_clients_prefix',
+          'alias' => '',
+        ),
+        1 => 
+        array (
+          'database' => '',
+          'table' => 'clients_translation',
+          'column' => 'rule_number',
+          'alias' => '',
+        ),
+        2 => 
+        array (
+          'database' => '',
+          'table' => 'clients_translation',
+          'column' => 'pattern',
+          'alias' => '',
+        ),
+        3 => 
+        array (
+          'database' => '',
+          'table' => 'clients_translation',
+          'column' => 'rule',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => 'id_clients_prefix',
-        1 => 'rule_number',
-        2 => 'pattern',
-        3 => 'rule',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-        1 => '',
-        2 => '',
-        3 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'clients',
         1 => 'clients_prefix',
         2 => 'clients_translation',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
         1 => '',
         2 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
         1 => '',
         2 => '',
       ),
-      'table_join' =>
+      'table_join' => 
       array (
         0 => ',',
         1 => ',',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
-            'value' =>
+            'value' => 
             array (
-              'arg_1' =>
+              'arg_1' => 
               array (
                 'value' => 'clients.id_softswitch',
                 'type' => 'ident',
               ),
               'op' => '=',
-              'arg_2' =>
+              'arg_2' => 
               array (
                 'value' => 5,
                 'type' => 'int_val',
@@ -1376,21 +1385,21 @@ select clients_translation.id_clients_prefix, clients_translation.rule_number,
           ),
         ),
         'op' => 'and',
-        'arg_2' =>
+        'arg_2' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
-            'arg_1' =>
+            'arg_1' => 
             array (
-              'value' =>
+              'value' => 
               array (
-                'arg_1' =>
+                'arg_1' => 
                 array (
                   'value' => 'clients.id_clients',
                   'type' => 'ident',
                 ),
                 'op' => '=',
-                'arg_2' =>
+                'arg_2' => 
                 array (
                   'value' => 'clients_prefix.id_clients',
                   'type' => 'ident',
@@ -1400,53 +1409,53 @@ select clients_translation.id_clients_prefix, clients_translation.rule_number,
             ),
           ),
           'op' => 'and',
-          'arg_2' =>
+          'arg_2' => 
           array (
-            'arg_1' =>
+            'arg_1' => 
             array (
-              'arg_1' =>
+              'arg_1' => 
               array (
                 'value' => 'clients.enable',
                 'type' => 'ident',
               ),
               'op' => '=',
-              'arg_2' =>
+              'arg_2' => 
               array (
                 'value' => 'y',
                 'type' => 'text_val',
               ),
             ),
             'op' => 'and',
-            'arg_2' =>
+            'arg_2' => 
             array (
-              'arg_1' =>
+              'arg_1' => 
               array (
-                'arg_1' =>
+                'arg_1' => 
                 array (
                   'value' => 'clients.unused',
                   'type' => 'ident',
                 ),
                 'op' => '=',
-                'arg_2' =>
+                'arg_2' => 
                 array (
                   'value' => 'n',
                   'type' => 'text_val',
                 ),
               ),
               'op' => 'and',
-              'arg_2' =>
+              'arg_2' => 
               array (
-                'arg_1' =>
+                'arg_1' => 
                 array (
-                  'value' =>
+                  'value' => 
                   array (
-                    'arg_1' =>
+                    'arg_1' => 
                     array (
                       'value' => 'clients_translation.id_clients_prefix',
                       'type' => 'ident',
                     ),
                     'op' => '=',
-                    'arg_2' =>
+                    'arg_2' => 
                     array (
                       'value' => 'clients_prefix.id_clients_prefix',
                       'type' => 'ident',
@@ -1459,15 +1468,16 @@ select clients_translation.id_clients_prefix, clients_translation.rule_number,
           ),
         ),
       ),
-      'sort_order' =>
+      'sort_order' => 
       array (
         'clients_translation.id_clients_prefix' => 'asc',
         'clients_translation.rule_number' => 'asc',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  22 =>
+  22 => 
   array (
     'sql' => '
 SELECT column1,column2
@@ -1475,68 +1485,70 @@ FROM table1
 WHERE (column1=\'1\' AND column2=\'1\') OR (column3=\'1\' AND column4=\'1\');
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
-        1 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'column1',
+          'alias' => '',
+        ),
+        1 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'column2',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => 'column1',
-        1 => 'column2',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-        1 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'table1',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
-            'value' =>
+            'value' => 
             array (
-              'arg_1' =>
+              'arg_1' => 
               array (
-                'arg_1' =>
+                'arg_1' => 
                 array (
                   'value' => 'column1',
                   'type' => 'ident',
                 ),
                 'op' => '=',
-                'arg_2' =>
+                'arg_2' => 
                 array (
                   'value' => '1',
                   'type' => 'text_val',
                 ),
               ),
               'op' => 'and',
-              'arg_2' =>
+              'arg_2' => 
               array (
-                'arg_1' =>
+                'arg_1' => 
                 array (
                   'value' => 'column2',
                   'type' => 'ident',
                 ),
                 'op' => '=',
-                'arg_2' =>
+                'arg_2' => 
                 array (
                   'value' => '1',
                   'type' => 'text_val',
@@ -1547,36 +1559,36 @@ WHERE (column1=\'1\' AND column2=\'1\') OR (column3=\'1\' AND column4=\'1\');
           ),
         ),
         'op' => 'or',
-        'arg_2' =>
+        'arg_2' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
-            'value' =>
+            'value' => 
             array (
-              'arg_1' =>
+              'arg_1' => 
               array (
-                'arg_1' =>
+                'arg_1' => 
                 array (
                   'value' => 'column3',
                   'type' => 'ident',
                 ),
                 'op' => '=',
-                'arg_2' =>
+                'arg_2' => 
                 array (
                   'value' => '1',
                   'type' => 'text_val',
                 ),
               ),
               'op' => 'and',
-              'arg_2' =>
+              'arg_2' => 
               array (
-                'arg_1' =>
+                'arg_1' => 
                 array (
                   'value' => 'column4',
                   'type' => 'ident',
                 ),
                 'op' => '=',
-                'arg_2' =>
+                'arg_2' => 
                 array (
                   'value' => '1',
                   'type' => 'text_val',
@@ -1589,8 +1601,9 @@ WHERE (column1=\'1\' AND column2=\'1\') OR (column3=\'1\' AND column4=\'1\');
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  23 =>
+  23 => 
   array (
     'sql' => '
 -- Test Comment;
@@ -1598,77 +1611,76 @@ WHERE (column1=\'1\' AND column2=\'1\') OR (column3=\'1\' AND column4=\'1\');
 SELECT name FROM people WHERE id > 1 AND (name = \'arjan\' OR name = \'john\');
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'unknown',
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  24 =>
+  24 => 
   array (
     'sql' => '
 select * from test where (field1 = \'x\' and field2 <>\'y\') or field3 = \'z\';
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_names' =>
+      'fields' => 
       array (
-        0 => '*',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => '*',
+          'alias' => '',
+        ),
       ),
-      'column_tables' =>
-      array (
-        0 => '',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'test',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
-            'value' =>
+            'value' => 
             array (
-              'arg_1' =>
+              'arg_1' => 
               array (
-                'arg_1' =>
+                'arg_1' => 
                 array (
                   'value' => 'field1',
                   'type' => 'ident',
                 ),
                 'op' => '=',
-                'arg_2' =>
+                'arg_2' => 
                 array (
                   'value' => 'x',
                   'type' => 'text_val',
                 ),
               ),
               'op' => 'and',
-              'arg_2' =>
+              'arg_2' => 
               array (
-                'arg_1' =>
+                'arg_1' => 
                 array (
                   'value' => 'field2',
                   'type' => 'ident',
                 ),
                 'op' => '<>',
-                'arg_2' =>
+                'arg_2' => 
                 array (
                   'value' => 'y',
                   'type' => 'text_val',
@@ -1679,15 +1691,15 @@ select * from test where (field1 = \'x\' and field2 <>\'y\') or field3 = \'z\';
           ),
         ),
         'op' => 'or',
-        'arg_2' =>
+        'arg_2' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'field3',
             'type' => 'ident',
           ),
           'op' => '=',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 'z',
             'type' => 'text_val',
@@ -1696,143 +1708,150 @@ select * from test where (field1 = \'x\' and field2 <>\'y\') or field3 = \'z\';
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  25 =>
+  25 => 
   array (
     'sql' => '
 select a, d from b inner join c on b.a = c.a;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
-        1 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'a',
+          'alias' => '',
+        ),
+        1 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'd',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => 'a',
-        1 => 'd',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-        1 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'b',
         1 => 'c',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
         1 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
-        1 =>
+        1 => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'b.a',
             'type' => 'ident',
           ),
           'op' => '=',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 'c.a',
             'type' => 'ident',
           ),
         ),
       ),
-      'table_join' =>
+      'table_join' => 
       array (
         0 => 'inner join',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  26 =>
+  26 => 
   array (
     'sql' => '
 select a, d from b inner join c on b.a = c.a left outer join q on r < m;
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => '',
-        1 => '',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'a',
+          'alias' => '',
+        ),
+        1 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'd',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => 'a',
-        1 => 'd',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-        1 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'b',
         1 => 'c',
         2 => 'q',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
         1 => '',
         2 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
-        1 =>
+        1 => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'b.a',
             'type' => 'ident',
           ),
           'op' => '=',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 'c.a',
             'type' => 'ident',
           ),
         ),
-        2 =>
+        2 => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'r',
             'type' => 'ident',
           ),
           'op' => '<',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 'm',
             'type' => 'ident',
           ),
         ),
       ),
-      'table_join' =>
+      'table_join' => 
       array (
         0 => 'inner join',
         1 => 'left outer join',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  27 =>
+  27 => 
   array (
     'sql' => '
 select 4b from test where 7iModule_Solution = 3;
@@ -1842,76 +1861,75 @@ select 4b from test where 7iModule_Solution = 3;
 select 4b from test where 7iModule_Solution = 3;
                            ^ found: "iModule_Solution"',
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  28 =>
+  28 => 
   array (
     'sql' => '
-select Courses.*
-    from Courses, Student_Courses
-    where Courses.id=Student_Courses.courseid
+select Courses.* 
+    from Courses, Student_Courses 
+    where Courses.id=Student_Courses.courseid 
         and Student_Courses.studentid=\'10\';
 
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_tables' =>
+      'fields' => 
       array (
-        0 => 'Courses',
+        0 => 
+        array (
+          'database' => '',
+          'table' => 'Courses',
+          'column' => '*',
+          'alias' => '',
+        ),
       ),
-      'column_names' =>
-      array (
-        0 => '*',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'Courses',
         1 => 'Student_Courses',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
         1 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
         1 => '',
       ),
-      'table_join' =>
+      'table_join' => 
       array (
         0 => ',',
       ),
-      'where_clause' =>
+      'where_clause' => 
       array (
-        'arg_1' =>
+        'arg_1' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'Courses.id',
             'type' => 'ident',
           ),
           'op' => '=',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => 'Student_Courses.courseid',
             'type' => 'ident',
           ),
         ),
         'op' => 'and',
-        'arg_2' =>
+        'arg_2' => 
         array (
-          'arg_1' =>
+          'arg_1' => 
           array (
             'value' => 'Student_Courses.studentid',
             'type' => 'ident',
           ),
           'op' => '=',
-          'arg_2' =>
+          'arg_2' => 
           array (
             'value' => '10',
             'type' => 'text_val',
@@ -1920,44 +1938,48 @@ select Courses.*
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
-  29 =>
+  29 => 
   array (
     'sql' => '
 SELECT *,a from Foo
 ',
-    'expect' =>
+    'expect' => 
     array (
       'command' => 'select',
-      'column_names' =>
+      'fields' => 
       array (
-        0 => '*',
-        1 => 'a',
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => '*',
+          'alias' => '',
+        ),
+        1 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'a',
+          'alias' => '',
+        ),
       ),
-      'column_tables' =>
-      array (
-        0 => '',
-        1 => '',
-      ),
-      'column_aliases' =>
-      array (
-        0 => '',
-        1 => '',
-      ),
-      'table_names' =>
+      'table_names' => 
       array (
         0 => 'Foo',
       ),
-      'table_aliases' =>
+      'table_aliases' => 
       array (
         0 => '',
       ),
-      'table_join_clause' =>
+      'table_join_clause' => 
       array (
         0 => '',
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
 );
 ?>

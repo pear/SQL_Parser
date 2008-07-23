@@ -93,6 +93,7 @@ CREATE TABLE albums (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   1 => 
   array (
@@ -187,6 +188,7 @@ CREATE TABLE photos (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   2 => 
   array (
@@ -218,6 +220,7 @@ create table brent (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   3 => 
   array (
@@ -313,6 +316,7 @@ CREATE TABLE films (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   4 => 
   array (
@@ -408,6 +412,7 @@ CREATE TABLE films (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   5 => 
   array (
@@ -513,6 +518,7 @@ CREATE TABLE distributors (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   6 => 
   array (
@@ -553,6 +559,7 @@ CREATE TABLE distributors (
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   7 => 
   array (
@@ -593,6 +600,7 @@ CREATE TABLE msgs ( user_id integer, msg_id integer, msg_text varchar, msg_title
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
   8 => 
   array (
@@ -613,6 +621,7 @@ create table nodefinitions;
       ),
     ),
     'fail' => true,
+    'dialect' => 'ANSI',
   ),
   9 => 
   array (
@@ -625,6 +634,7 @@ create dogfood;
     array (
     ),
     'fail' => true,
+    'dialect' => 'ANSI',
   ),
   10 => 
   array (
@@ -637,6 +647,7 @@ create table dunce (name varchar;
 -- SQL_PARSER_FLAG_FAIL
                                                          ^ found: ";"',
     'fail' => true,
+    'dialect' => 'ANSI',
   ),
   11 => 
   array (
@@ -648,6 +659,7 @@ create table dunce (name varchar(2,3));
 -- SQL_PARSER_FLAG_FAIL
                                                              ^ found: ")"',
     'fail' => true,
+    'dialect' => 'ANSI',
   ),
 );
 ?>

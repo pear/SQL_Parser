@@ -19,24 +19,32 @@ SELECT "1";',
         0 => 1,
         1 => ';',
         2 => 'SELECT',
-        3 => '1',
       ),
       'column_tables' => 
       array (
         0 => '',
         1 => '',
         2 => '',
-        3 => '',
       ),
       'column_aliases' => 
       array (
         0 => '',
         1 => '',
         2 => '',
-        3 => '',
+      ),
+      'fields' => 
+      array (
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => '1',
+          'alias' => '',
+        ),
       ),
     ),
     'fail' => false,
+    'dialect' => 'ANSI',
   ),
 );
 ?>
