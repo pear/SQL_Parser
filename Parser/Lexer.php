@@ -235,7 +235,7 @@ class SQL_Parser_Lexer
                             break;
                         }
                     }
-                    
+
                     if (isset($this->quotes[$c])) {
                         $quote = $c;
                         $state = 12;
@@ -277,7 +277,7 @@ class SQL_Parser_Lexer
                         }
                     }
 
-                    
+
                     // comments
                     foreach ($this->comments as $comment_start => $comment_end) {
                         if (substr($this->string, $this->tokPtr - 1, strlen($comment_start)) === $comment_start) {
