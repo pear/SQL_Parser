@@ -4,7 +4,7 @@
 /**
  *
  * PHP versions 5
- * 
+ *
  * LICENSE: This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -135,7 +135,9 @@ class SQL_Parser
         'ANSI',
         'MySQL',
     );
-    
+
+    public $notes = array();
+
     /**
      *
      */
@@ -220,7 +222,7 @@ class SQL_Parser
         $this->parseropts = $dialect['parseropts'];
         $this->comments   = $dialect['comments'];
         $this->quotes     = $dialect['quotes'];
-        
+
         return true;
     }
     // }}}
@@ -228,9 +230,9 @@ class SQL_Parser
     // {{{ getParams(&$values, &$types)
     /**
      * extracts parameters from a function call
-     * 
-     * this function should be called if an opening brace is found, 
-     * so the first call to $this->getTok() will return first param 
+     *
+     * this function should be called if an opening brace is found,
+     * so the first call to $this->getTok() will return first param
      * or the closing )
      *
      * @param array   &$values to set it
@@ -248,7 +250,7 @@ class SQL_Parser
     {
         $values = array();
         $types  = array();
-        
+
         $this->getTok();
         $open_braces = 1;
         while ($open_braces > 0) {
@@ -259,7 +261,7 @@ class SQL_Parser
                 $values[$i] = $this->lexer->tokText;
                 $types[$i]  = $this->token;
             }
-            
+
             $this->getTok();
             if ($this->token === ')') {
                 $open_braces--;
@@ -270,7 +272,7 @@ class SQL_Parser
                 $this->getTok();
             }
         }
-        
+
         return true;
     }
     // }}}
@@ -312,12 +314,34 @@ class SQL_Parser
         $message .= str_repeat(' ', abs($this->lexer->tokPtr -
             $this->lexer->lineBegin - $length)) . "^";
         $message .= ' found: "' . $this->lexer->tokText . '"';
-        
+
         $this->error_message = $message;
         $this->error = true;
         return false;
     }
     // }}}
+
+    public function noteError($message)
+    {
+        $end = 0;
+        if ($this->lexer->string != '') {
+            while ($this->lexer->lineBegin + $end < $this->lexer->stringLen
+             && $this->lexer->string{$this->lexer->lineBegin + $end} != "\n") {
+                $end++;
+            }
+        }
+
+        $message = 'Parse error: ' . $message . ' on line ' .
+            ($this->lexer->lineNo + 1) . "\n";
+        $message .= substr($this->lexer->string, $this->lexer->lineBegin, $end);
+        $message .= "\n";
+        $length   = is_null($this->token) ? 0 : strlen($this->lexer->tokText);
+        $message .= str_repeat(' ', abs($this->lexer->tokPtr -
+            $this->lexer->lineBegin - $length)) . "^";
+        $message .= ' found: "' . $this->lexer->tokText . '"';
+
+        $this->notes[] = $message;
+    }
 
     // {{{ isType()
     /**
@@ -555,7 +579,7 @@ class SQL_Parser
                     foreach ($intervals as $class) {
                         if (isset($class[$option])) {
                             $constraintOpts = array(
-                            'quantum_1' => $this->token,
+                            	'quantum_1' => $this->token,
                             );
                             $this->getTok();
                             if ($this->token == 'to') {
@@ -566,9 +590,9 @@ class SQL_Parser
                                 }
 
                                 if ($class[$this->token] >=
-                                $class[$constraintOpts['quantum_1']]
+                                    $class[$constraintOpts['quantum_1']]
                                 ) {
-                                    return $this->raiseError($this->token
+                                    $this->noteError($this->token
                                         . ' is not smaller than ' .
                                         $constraintOpts['quantum_1']);
                                 }
@@ -794,12 +818,14 @@ class SQL_Parser
      */
     public function parseFieldList()
     {
+        $fields = array();
+
         $this->getTok();
         if ($this->token != '(') {
-            return $this->raiseError('Expected (');
+            $this->noteError('Expected (');
+            return $fields;
         }
 
-        $fields = array();
         while (1) {
             // parse field identifier
             $this->getTok();
@@ -947,7 +973,7 @@ class SQL_Parser
                 return $this->raiseError('Expected )');
             }
         }
-        
+
         return $fields;
     }
     // }}}
@@ -955,7 +981,7 @@ class SQL_Parser
     // {{{ parseFunctionOpts()
     /**
      * Parses parameters in a function call
-     * 
+     *
      * @access  public
      * @return mixed array parsed function options on success, otherwise Error
      */
@@ -967,9 +993,9 @@ class SQL_Parser
         if ($this->token != '(') {
             return $this->raiseError('Expected "("');
         }
-        
+
         $this->getParams($opts['arg'], $opts['type']);
-        
+
         switch ($function . '--') {
             case 'count':
                 $this->getTok();
@@ -1102,10 +1128,12 @@ class SQL_Parser
      */
     public function parseCreate()
     {
+        $tree = array();
+
         $this->getTok();
         switch ($this->token) {
             case 'table':
-                $tree = array('command' => 'create_table');
+                $tree['command'] = 'create_table';
                 $this->getTok();
                 if ($this->token != 'ident') {
                     return $this->raiseError('Expected table name');
@@ -1119,16 +1147,16 @@ class SQL_Parser
                 // $tree['column_names'] = array_keys($fields);
                 break;
             case 'index':
-                $tree = array('command' => 'create_index');
+                $tree['command'] = 'create_index';
                 break;
             case 'constraint':
-                $tree = array('command' => 'create_constraint');
+                $tree['command'] = 'create_constraint';
                 break;
             case 'sequence':
-                $tree = array('command' => 'create_sequence');
+                $tree['command'] = 'create_sequence';
                 break;
             default:
-                return $this->raiseError('Unknown object to create');
+                $this->noteError('Unknown object to create');
         }
         return $tree;
     }
@@ -1194,7 +1222,7 @@ class SQL_Parser
     // {{{ parseUpdate()
     /**
      * UPDATE tablename SET (colname = (value|colname) (,|WHERE searchclause))+
-     * 
+     *
      * @todo This is incorrect.  multiple where clauses would parse
      * @access  public
      * @return mixed array parsed update on success, otherwise Error
@@ -1254,31 +1282,35 @@ class SQL_Parser
     // {{{ parseDelete()
     /**
      * DELETE FROM tablename WHERE searchclause
-     * 
+     *
      * @access  public
      * @return mixed array parsed delete on success, otherwise Error
      */
     public function parseDelete()
     {
-        $this->getTok();
-        if ($this->token != 'from') {
-            return $this->raiseError('Expected "from"');
-        }
         $tree = array('command' => 'delete');
+
         $this->getTok();
+        if ($this->token == 'from') {
+            // FROM is not required
+            $this->getTok();
+        }
+
         if ($this->token != 'ident') {
             return $this->raiseError('Expected a table name');
         }
         $tree['table_names'][] = $this->lexer->tokText;
+
         $this->getTok();
-        if ($this->token != 'where') {
-            return $this->raiseError('Expected "where"');
+        if ($this->token == 'where') {
+            // WHERE is not required
+            $clause = $this->parseSearchClause();
+            if (false === $clause) {
+                return $clause;
+            }
+            $tree['where_clause'] = $clause;
         }
-        $clause = $this->parseSearchClause();
-        if (false === $clause) {
-            return $clause;
-        }
-        $tree['where_clause'] = $clause;
+
         return $tree;
     }
     // }}}
@@ -1299,15 +1331,19 @@ class SQL_Parser
                     return $this->raiseError('Expected a table name');
                 }
                 $tree['table_names'][] = $this->lexer->tokText;
+
                 $this->getTok();
                 if ($this->token == 'restrict'
-                 || $this->token == 'cascade') {
+                 || $this->token == 'cascade')
+                {
                     $tree['drop_behavior'] = $this->token;
+                    $this->getTok();
                 }
-                $this->getTok();
-                if (! is_null($this->token)) {
+
+                if ($this->token != ';' && ! is_null($this->token)) {
                     return $this->raiseError('Unexpected token');
                 }
+
                 return $tree;
                 break;
             case 'index':
@@ -1339,7 +1375,9 @@ class SQL_Parser
             $tree['set_quantifier'] = $this->token;
             $this->getTok();
         }
-        /*
+
+        /* not only ident, function and * is valid here, any value is valid
+         * SELECT 1; or SELECT 'abc' is valid Syntax
         if ($this->token != 'ident'
          && ! $this->isFunc()
          && $this->token != '*') {
@@ -1423,11 +1461,15 @@ class SQL_Parser
                 $this->getTok();
             }
         }
-        if ($this->token != 'from') {
-            // from is not required in SELECT statements
-            //return $this->raiseError('Expected "from"');
+
+        if (is_null($this->token) || $this->token == ';') {
             return $tree;
         }
+
+        if ($this->token != 'from') {
+            return $this->raiseError('Expected "from" or EOQ');
+        }
+
         $this->getTok();
         while ($this->token == 'ident') {
             $tree['table_names'][] = $this->lexer->tokText;
@@ -1522,7 +1564,8 @@ class SQL_Parser
                 break;
             }
         }
-        while (! is_null($this->token) && (!$subSelect || $this->token != ')')
+
+        while ($this->token != ';' && ! is_null($this->token) && (!$subSelect || $this->token != ')')
          && $this->token != ')') {
             switch ($this->token) {
                 case 'where':
