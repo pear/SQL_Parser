@@ -7,8 +7,7 @@ chdir(dirname(__FILE__) . '/../');
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'SQL/Parser.php';
-
+require_once './Parser.php';
 
 class SQL_Parser_AllTests
 {
@@ -24,24 +23,15 @@ class SQL_Parser_AllTests
         /*
          * test files
          */
-        $tests = array(
-            'create'        => 'tests/testcases/create.php',
-            'delete'        => 'tests/testcases/delete.php',
-            'drop'          => 'tests/testcases/drop.php',
-            'employment'    => 'tests/testcases/employment.php',
-            'insert'        => 'tests/testcases/insert.php',
-            'select'        => 'tests/testcases/select.php',
-            'tables'        => 'tests/testcases/tables.php',
-            'update'        => 'tests/testcases/update.php',
-        );
+        $tests = glob('tests/testcases/*.php');
 
         /*
          * add test cases
          */
-        foreach ($tests as $name => $file) {
+        foreach ($tests as $file) {
             include $file;
             foreach ($tests as $nr => $test) {
-                $test_name = $name . ' #' . ($nr + 1);
+                $test_name = substr(basename($file), 0, -4) . ' #' . ($nr + 1);
                 $test_case = new PHPUnit_Framework_TestCase_Sql_Parser($test, $test_name);
                 $suite->addTest($test_case);
             }
@@ -77,14 +67,16 @@ class PHPUnit_Framework_TestCase_Sql_Parser extends PHPUnit_Framework_TestCase
 
         // unify line endings in error messages
         if (is_string($this->_test['expect']) && is_string($result)) {
-            //$expected = preg_replace('/[\r\n]+/', "\n", $this->_test['expect']);
-            //$result   = preg_replace('/[\r\n]+/', "\n", $result);
-            $message  = 'SQL still fails to be parsed';
-            $message .= "\nSQL: " . $this->_test['sql'] . "\n";
-            $message .= "\nExpected:\n [array with parsed SQL]";
-            $message .= "\nResult:\n" . $result;
-            $message .= "\n*********************\n";
-            $this->fail($message);
+            if (false === $this->_test['fail']) {
+                //$expected = preg_replace('/[\r\n]+/', "\n", $this->_test['expect']);
+                //$result   = preg_replace('/[\r\n]+/', "\n", $result);
+                $message  = 'SQL still fails to be parsed';
+                $message .= "\nSQL: " . $this->_test['sql'] . "\n";
+                $message .= "\nExpected:\n [array with parsed SQL]";
+                $message .= "\nResult:\n" . $result;
+                $message .= "\n*********************\n";
+                $this->fail($message);
+            }
         } elseif (is_string($this->_test['expect'])) {
             // a prior failed test now runs fine
             $this->fail('SQL seems to run fine now, please update the expected test result!');
