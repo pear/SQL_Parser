@@ -101,8 +101,8 @@ INSERT INTO mytable (foo, bar, baz) VALUES (NOW(), 1, \'text\');
         array (
           0 => 
           array (
-            'value' => 'NOW()',
-            'type' => 'ident()',
+            'value' => 'NOW',
+            'type' => 'ident',
           ),
           1 => 
           array (

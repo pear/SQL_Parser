@@ -251,25 +251,25 @@ class SQL_Parser
         $values = array();
         $types  = array();
 
-        $this->getTok();
+        // the first opening brace is already fetched
+        // function(
         $open_braces = 1;
-        while ($open_braces > 0) {
-            if (isset($values[$i])) {
-                $values[$i] .= '' . $this->lexer->tokText;
-                $types[$i]  .= $this->token;
-            } else {
-                $values[$i] = $this->lexer->tokText;
-                $types[$i]  = $this->token;
-            }
 
+        while ($open_braces > 0) {
             $this->getTok();
+
             if ($this->token === ')') {
                 $open_braces--;
             } elseif ($this->token === '(') {
                 $open_braces++;
             } elseif ($this->token === ',') {
                 $i++;
-                $this->getTok();
+            } elseif (isset($values[$i])) {
+                $values[$i] .= '' . $this->lexer->tokText;
+                $types[$i]  .= $this->token;
+            } else {
+                $values[$i] = $this->lexer->tokText;
+                $types[$i]  = $this->token;
             }
         }
 
@@ -741,11 +741,10 @@ class SQL_Parser
                         }
                         $clause['arg_2']['value'] = $result;
                         $clause['arg_2']['type']  = 'function';
-                    } else if ($this->isReserved()) {
+                    } elseif ($this->isReserved()) {
                         // parse for in-fix binary operators
                         return $this->raiseError('Expected a column name or value');
-                    }
-                    if ($this->token == '(') {
+                    } elseif ($this->token == '(') {
                         $clause['arg_2']['value'] = $this->parseSearchClause(true);
                         $clause['arg_2']['type']  = 'subclause';
                         $this->getTok();
@@ -1555,8 +1554,8 @@ class SQL_Parser
                         return $result;
                     }
                     $tree['set_function'][] = $result;
-                    $this->getTok();
 
+                    $this->getTok();
                     if ($this->token == 'as') {
                         $this->getTok();
                         if ($this->token != 'ident' ) {
