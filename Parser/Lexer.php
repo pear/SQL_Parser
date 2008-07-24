@@ -485,17 +485,32 @@ class SQL_Parser_Lexer
                 case 14:
                     $c = $this->skip();
                     if (null === $c
+                     || ($comment_end == "\n" && ($c == "\n" || $c == "\r"))
                      || substr($this->string, $this->tokPtr, strlen($comment_end)) === $comment_end) {
                         $this->tokPtr += strlen($comment_end);
+
+                        if ($c == "\n" || $c == "\r") {
+                            // Handle MAC/Unix/Windows line endings.
+                            if ($c == "\r") {
+                                $c = $this->skip();
+
+                                // If not DOS newline
+                                if ($c != "\n") {
+                                    $this->unget();
+                                } else {
+                                    ++$this->tokPtr;
+                                }
+                            }
+                            ++$this->lineNo;
+                            $this->lineBegin = $this->tokPtr;
+                        }
+
                         $this->tokStart = $this->tokPtr;
                         $this->tokLen = 0;
                         $state = 0;
+
                     } else {
                         $state = 14;
-                    }
-                    if ($c == "\n") {
-                        ++$this->lineNo;
-                        $this->lineBegin = $this->tokPtr;
                     }
                     break;
                     // }}}
