@@ -3,9 +3,9 @@
 
 /**
  * MySQL dialect definition file
- * 
+ *
  * PHP versions 5
- * 
+ *
  * LICENSE: This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -42,6 +42,30 @@ $dialect = array(
         'delete',
         'insert',
         'update',
+		'rename',
+        'do',
+        'handler',
+        'load',
+        'replace',
+        'truncate',
+        'describe',
+        'explain',
+        'help',
+        'use',
+        'start',
+        'commit',
+        'rollback',
+        'lock',
+        'unlock',
+        'set',
+        'show',
+        'purge',
+        'reset',
+        'change',
+        'start',
+        'stop',
+        'savepoint',
+        'release',
     ),
 
     'operators' => array(

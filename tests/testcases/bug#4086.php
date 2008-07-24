@@ -7,9 +7,10 @@ $tests = array (
 UNLOCK TABLES;
 
 ',
-    'expect' => 'Parse error: Unknown action: unlock on line 3
-UNLOCK TABLES;
-^ found: "UNLOCK"',
+    'expect' => 
+    array (
+      'command' => 'unlock tables',
+    ),
     'fail' => false,
     'dialect' => 'MySQL',
   ),
@@ -19,9 +20,23 @@ UNLOCK TABLES;
 -- SQL_PARSER_FLAG_MYSQL
 LOCK TABLES `mpn_bannerfinish` WRITE;
 ',
-    'expect' => 'Parse error: Unknown action: lock on line 3
-LOCK TABLES `mpn_bannerfinish` WRITE;
-^ found: "LOCK"',
+    'expect' => 
+    array (
+      'command' => 'lock tables',
+      'locks' => 
+      array (
+        0 => 
+        array (
+          'type' => 'write',
+          'table' => 
+          array (
+            'database' => '',
+            'table' => 'mpn_bannerfinish',
+            'alias' => '',
+          ),
+        ),
+      ),
+    ),
     'fail' => false,
     'dialect' => 'MySQL',
   ),
