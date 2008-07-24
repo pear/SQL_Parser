@@ -436,7 +436,7 @@ class SQL_Parser
      * @uses  SQL_Parser::isVal()
      * @uses  SQL_Parser::isFunc()
      * @uses  SQL_Parser::parseFunctionOpts()
-     * @uses  SQL_Parser::parseSearchClause()
+     * @uses  SQL_Parser::parseCondition()
      * @return  array   parsed field options
      */
     public function parseFieldOptions()
@@ -501,7 +501,7 @@ class SQL_Parser
                         return $this->raiseError('Expected (');
                     }
 
-                    $results = $this->parseSearchClause();
+                    $results = $this->parseCondition();
                     if (false === $results) {
                         return $results;
                     }
@@ -614,11 +614,10 @@ class SQL_Parser
     }
     // }}}
 
-    // {{{ parseSearchClause()
+    // {{{ parseCondition()
     /**
      * parses conditions usually used in WHERE or ON
      *
-     * @param boolean $subSearch  deprecated?
      * @return  array   parsed condition
      * @uses  SQL_Parser::$token
      * @uses  SQL_Parser::$lexer
@@ -627,7 +626,7 @@ class SQL_Parser
      * @uses  SQL_Parser::getParams()
      * @uses  SQL_Parser::isFunc()
      * @uses  SQL_Parser::parseFunctionOpts()
-     * @uses  SQL_Parser::parseSearchClause()
+     * @uses  SQL_Parser::parseCondition()
      * @uses  SQL_Parser::isReserved()
      * @uses  SQL_Parser::isOperator()
      * @uses  SQL_Parser::parseSelect()
@@ -635,76 +634,75 @@ class SQL_Parser
      * @uses  SQL_Parser_Lexer::unget()
      * @uses  SQL_Parser_Lexer::pushBack()
      */
-    public function parseSearchClause($subSearch = false)
+    public function parseCondition()
     {
         $clause = array();
-        // parse the first argument
+
         $this->getTok();
-        if ($this->token == 'not') {
-            $clause['neg'] = true;
-            $this->getTok();
-        }
-
-        $foundSubclause = false;
-
-        if ($this->isReserved()) {
-            return $this->raiseError('Expected a column name or value');
-        }
-
-        if ($this->token == '(') {
-            $clause['arg_1']['value'] = $this->parseSearchClause(true);
-            $clause['arg_1']['type']  = 'subclause';
-            if ($this->token != ')') {
-                return $this->raiseError('Expected ")"');
-            }
-            $foundSubclause = true;
-        } else {
-            $arg = $this->lexer->tokText;
-            $argtype = $this->token;
-            $this->getTok();
-            if ($this->token == '.') {
+        while (true) {
+            // parse the first argument
+            if ($this->token == 'not') {
+                $clause['neg'] = true;
                 $this->getTok();
-                if ($this->token != 'ident') {
-                    return $this->raiseError('Expected a column name');
+            }
+
+            if ($this->token == '(') {
+                $clause['args'][] = $this->parseCondition();
+                if ($this->token != ')') {
+                    return $this->raiseError('Expected ")"');
                 }
-                $arg .= '.'.$this->lexer->tokText;
+                $this->getTok();
+            } elseif ($this->isFunc()) {
+                $result = $this->parseFunctionOpts();
+                if (false === $result) {
+                    return $result;
+                }
+                $clause['args'][] = $result;
+            } elseif ($this->token == 'ident') {
+                $clause['args'][] = $this->parseIdentifier();
             } else {
-                $this->lexer->pushBack();
+                $arg = $this->lexer->tokText;
+                $argtype = $this->token;
+                $clause['args'][] = array(
+                    'value' => $arg,
+                	'type'  => $argtype,
+                );
+                $this->getTok();
             }
-            $clause['arg_1']['value'] = $arg;
-            $clause['arg_1']['type']  = $argtype;
-        }
 
-        // parse the operator
-        if (!$foundSubclause) {
-            $this->getTok();
-            if (!$this->isOperator()) {
-                return $this->raiseError('Expected an operator');
+            if (! $this->isOperator()) {
+                // no operator, return
+                return $clause;
             }
-            $clause['op'] = $this->token;
+
+            // parse the operator
+            $op = $this->token;
+            if ($op == 'not') {
+                $this->getTok();
+                $not = 'not ';
+                $op = $this->token;
+            } else {
+                $not = '';
+            }
 
             $this->getTok();
-            switch ($clause['op']) {
+            switch ($op) {
                 case 'is':
                     // parse for 'is' operator
                     if ($this->token == 'not') {
-                        $clause['neg'] = true;
+                        $op .= ' not';
                         $this->getTok();
                     }
-                    if ($this->token != 'null') {
-                        return $this->raiseError('Expected "null"');
-                    }
-                    $clause['arg_2']['value'] = '';
-                    $clause['arg_2']['type']  = $this->token;
+                    $clause['ops'][] = $op;
                     break;
-                case 'not':
-                    // parse for 'not in' operator
-                    if ($this->token != 'in') {
-                        return $this->raiseError('Expected "in"');
-                    }
-                    $clause['op']  = $this->token;
-                    $clause['neg'] = true;
-                    $this->getTok();
+                case 'like':
+                    $clause['ops'][] = $not . $op;
+                    break;
+                case 'between':
+                    // @todo
+                    //$clause['ops'][] = $not . $op;
+                    //$this->getTok();
+                    break;
                 case 'in':
                     // parse for 'in' operator
                     if ($this->token != '(') {
@@ -715,65 +713,38 @@ class SQL_Parser
                     $this->getTok();
                     // is this a subselect?
                     if ($this->token == 'select') {
-                        $clause['arg_2']['value'] = $this->parseSelect(true);
-                        $clause['arg_2']['type']  = 'command';
+                        $clause['args'][] = $this->parseSelect(true);
                     } else {
                         $this->lexer->pushBack();
                         // parse the set
-                        $result = $this->getParams($clause['arg_2']['value'],
-                            $clause['arg_2']['type']);
+                        $result = $this->getParams($values, $types);
                         if (false === $result) {
                             return $result;
                         }
+                        $clause['args'][] = array(
+                            'values' => $values,
+                        	'types'  => $types,
+                        );
                     }
                     if ($this->token != ')') {
                         return $this->raiseError('Expected ")"');
                     }
                     break;
-                case 'and': case 'or':
-                    $this->lexer->unget();
+                case 'and':
+                case 'or':
+                    $clause['ops'][] = $not . $op;
+                    continue;
                     break;
                 default:
-                    if ($this->isFunc()) {
-                        $result = $this->parseFunctionOpts();
-                        if (false === $result) {
-                            return $result;
-                        }
-                        $clause['arg_2']['value'] = $result;
-                        $clause['arg_2']['type']  = 'function';
-                    } elseif ($this->isReserved()) {
-                        // parse for in-fix binary operators
-                        return $this->raiseError('Expected a column name or value');
-                    } elseif ($this->token == '(') {
-                        $clause['arg_2']['value'] = $this->parseSearchClause(true);
-                        $clause['arg_2']['type']  = 'subclause';
-                        $this->getTok();
-                        if ($this->token != ')') {
-                            return $this->raiseError('Expected ")"');
-                        }
-                    } else {
-                        $arg = $this->lexer->tokText;
-                        $argtype = $this->token;
-                        $this->getTok();
-                        if ($this->token == '.') {
-                            $this->getTok();
-                            if ($this->token != 'ident') {
-                                return $this->raiseError('Expected a column name');
-                            }
-                            $arg .= '.'.$this->lexer->tokText;
-                        } else {
-                            $this->lexer->pushBack();
-                        }
-                        $clause['arg_2']['value'] = $arg;
-                        $clause['arg_2']['type']  = $argtype;
-                    }
+                    $clause['ops'][] = $not . $op;
             }
+            // next argument [with operator]
         }
 
         $this->getTok();
         if ($this->token == 'and' || $this->token == 'or') {
             $op = $this->token;
-            $subClause = $this->parseSearchClause($subSearch);
+            $subClause = $this->parseCondition();
             if (false === $subClause) {
                 return $subClause;
             }
@@ -1267,7 +1238,7 @@ class SQL_Parser
         }
 
         if ($this->token == 'where') {
-            $clause = $this->parseSearchClause();
+            $clause = $this->parseCondition();
             if (false === $clause) {
                 return $clause;
             }
@@ -1302,7 +1273,7 @@ class SQL_Parser
 
             // join condition
             if ($this->token == 'on') {
-                $clause = $this->parseSearchClause();
+                $clause = $this->parseCondition();
                 if (false === $clause) {
                     return $clause;
                 }
@@ -1410,7 +1381,7 @@ class SQL_Parser
         $this->getTok();
         if ($this->token == 'where') {
             // WHERE is not required
-            $clause = $this->parseSearchClause();
+            $clause = $this->parseCondition();
             if (false === $clause) {
                 return $clause;
             }
@@ -1609,7 +1580,7 @@ class SQL_Parser
          && $this->token != ')') {
             switch ($this->token) {
                 case 'where':
-                    $clause = $this->parseSearchClause();
+                    $clause = $this->parseCondition();
                     if (false === $clause) {
                         return $clause;
                     }

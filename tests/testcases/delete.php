@@ -15,52 +15,54 @@ delete from dog where cat = 4 and horse <> "dead meat" or mouse = \'furry\';
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 'cat',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'cat',
+            'alias' => '',
           ),
-          'op' => '=',
-          'arg_2' => 
+          1 => 
           array (
             'value' => 4,
             'type' => 'int_val',
           ),
+          2 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'horse',
+            'alias' => '',
+          ),
+          3 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'dead meat',
+            'alias' => '',
+          ),
+          4 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'mouse',
+            'alias' => '',
+          ),
+          5 => 
+          array (
+            'value' => 'furry',
+            'type' => 'text_val',
+          ),
         ),
-        'op' => 'and',
-        'arg_2' => 
+        'ops' => 
         array (
-          'arg_1' => 
-          array (
-            'arg_1' => 
-            array (
-              'value' => 'horse',
-              'type' => 'ident',
-            ),
-            'op' => '<>',
-            'arg_2' => 
-            array (
-              'value' => 'dead meat',
-              'type' => 'ident',
-            ),
-          ),
-          'op' => 'or',
-          'arg_2' => 
-          array (
-            'arg_1' => 
-            array (
-              'value' => 'mouse',
-              'type' => 'ident',
-            ),
-            'op' => '=',
-            'arg_2' => 
-            array (
-              'value' => 'furry',
-              'type' => 'text_val',
-            ),
-          ),
+          0 => '=',
+          1 => 'and',
+          2 => '<>',
+          3 => 'or',
+          4 => '=',
         ),
       ),
     ),
@@ -116,9 +118,38 @@ delete from where cat = 53;
 -- SQL_PARSER_FLAG_FAIL
 delete from dog where mouse is happy;
 ',
-    'expect' => 'Parse error: Expected EOQ, found: ident on line 3
-delete from dog where mouse is happy;
-                               ^ found: "happy"',
+    'expect' => 
+    array (
+      'command' => 'delete',
+      'table_names' => 
+      array (
+        0 => 'dog',
+      ),
+      'where_clause' => 
+      array (
+        'args' => 
+        array (
+          0 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'mouse',
+            'alias' => '',
+          ),
+          1 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'happy',
+            'alias' => '',
+          ),
+        ),
+        'ops' => 
+        array (
+          0 => 'is',
+        ),
+      ),
+    ),
     'fail' => true,
     'dialect' => 'ANSI',
   ),

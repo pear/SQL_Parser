@@ -69,8 +69,14 @@ $dialect = array(
     ),
 
     'operators' => array(
-        '=',
+        '+',
+        '-',
+        '*',
+        '/',
+        '^',
+    	'=',
         '<>',
+        '!=',
         '<',
         '<=',
         '>',
@@ -82,6 +88,8 @@ $dialect = array(
         'is',
         'in',
         'between',
+        'and',
+        'or',
     ),
 
     'types' => array(

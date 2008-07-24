@@ -396,49 +396,61 @@ CREATE TABLE distributors (
             ),
             1 => 
             array (
-              'arg_1' => 
+              'args' => 
               array (
-                'value' => 'name',
-                'type' => 'ident',
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'name',
+                  'alias' => '',
+                ),
+                1 => 
+                array (
+                  'value' => '',
+                  'type' => 'text_val',
+                ),
               ),
-              'op' => '<>',
-              'arg_2' => 
+              'ops' => 
               array (
-                'value' => '',
-                'type' => 'text_val',
+                0 => '<>',
               ),
               'type' => 'check',
             ),
             'con1' => 
             array (
-              'arg_1' => 
+              'args' => 
               array (
-                'arg_1' => 
+                0 => 
                 array (
-                  'value' => 'did',
-                  'type' => 'ident',
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'did',
+                  'alias' => '',
                 ),
-                'op' => '>',
-                'arg_2' => 
+                1 => 
                 array (
                   'value' => 100,
                   'type' => 'int_val',
                 ),
-              ),
-              'op' => 'and',
-              'arg_2' => 
-              array (
-                'arg_1' => 
+                2 => 
                 array (
-                  'value' => 'name',
-                  'type' => 'ident',
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'name',
+                  'alias' => '',
                 ),
-                'op' => '>',
-                'arg_2' => 
+                3 => 
                 array (
                   'value' => '',
                   'type' => 'text_val',
                 ),
+              ),
+              'ops' => 
+              array (
+                0 => '>',
+                1 => 'and',
+                2 => '>',
               ),
               'type' => 'check',
             ),

@@ -1,0 +1,2 @@
+-- SQL_PARSER_FLAG_MYSQL
+SELECT x FROM y INNER JOIN z ON y.a + 1 = z.a

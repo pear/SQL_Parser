@@ -36,16 +36,24 @@ select * from dog where cat <> 4;
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'value' => 'cat',
-          'type' => 'ident',
+          0 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'cat',
+            'alias' => '',
+          ),
+          1 => 
+          array (
+            'value' => 4,
+            'type' => 'int_val',
+          ),
         ),
-        'op' => '<>',
-        'arg_2' => 
+        'ops' => 
         array (
-          'value' => 4,
-          'type' => 'int_val',
+          0 => '<>',
         ),
       ),
     ),
@@ -226,34 +234,38 @@ select one, two from hairy where two <> 4 and one = 2;
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 'two',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'two',
+            'alias' => '',
           ),
-          'op' => '<>',
-          'arg_2' => 
+          1 => 
           array (
             'value' => 4,
             'type' => 'int_val',
           ),
-        ),
-        'op' => 'and',
-        'arg_2' => 
-        array (
-          'arg_1' => 
+          2 => 
           array (
-            'value' => 'one',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'one',
+            'alias' => '',
           ),
-          'op' => '=',
-          'arg_2' => 
+          3 => 
           array (
             'value' => 2,
             'type' => 'int_val',
           ),
+        ),
+        'ops' => 
+        array (
+          0 => '<>',
+          1 => 'and',
+          2 => '=',
         ),
       ),
     ),
@@ -303,34 +315,38 @@ select one, two from hairy where two <> 4 and one = 2 order by two;
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 'two',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'two',
+            'alias' => '',
           ),
-          'op' => '<>',
-          'arg_2' => 
+          1 => 
           array (
             'value' => 4,
             'type' => 'int_val',
           ),
-        ),
-        'op' => 'and',
-        'arg_2' => 
-        array (
-          'arg_1' => 
+          2 => 
           array (
-            'value' => 'one',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'one',
+            'alias' => '',
           ),
-          'op' => '=',
-          'arg_2' => 
+          3 => 
           array (
             'value' => 2,
             'type' => 'int_val',
           ),
+        ),
+        'ops' => 
+        array (
+          0 => '<>',
+          1 => 'and',
+          2 => '=',
         ),
       ),
       'sort_order' => 
@@ -384,34 +400,38 @@ select one, two from hairy where two <> 4 and one = 2 limit 4 order by two ascen
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 'two',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'two',
+            'alias' => '',
           ),
-          'op' => '<>',
-          'arg_2' => 
+          1 => 
           array (
             'value' => 4,
             'type' => 'int_val',
           ),
-        ),
-        'op' => 'and',
-        'arg_2' => 
-        array (
-          'arg_1' => 
+          2 => 
           array (
-            'value' => 'one',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'one',
+            'alias' => '',
           ),
-          'op' => '=',
-          'arg_2' => 
+          3 => 
           array (
             'value' => 2,
             'type' => 'int_val',
           ),
+        ),
+        'ops' => 
+        array (
+          0 => '<>',
+          1 => 'and',
+          2 => '=',
         ),
       ),
       'limit_clause' => 
@@ -594,35 +614,38 @@ select * from person where surname is not null and firstname = \'jason\';
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 'surname',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'surname',
+            'alias' => '',
           ),
-          'op' => 'is',
-          'neg' => true,
-          'arg_2' => 
+          1 => 
           array (
-            'value' => '',
+            'value' => 'null',
             'type' => 'null',
           ),
-        ),
-        'op' => 'and',
-        'arg_2' => 
-        array (
-          'arg_1' => 
+          2 => 
           array (
-            'value' => 'firstname',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'firstname',
+            'alias' => '',
           ),
-          'op' => '=',
-          'arg_2' => 
+          3 => 
           array (
             'value' => 'jason',
             'type' => 'text_val',
           ),
+        ),
+        'ops' => 
+        array (
+          0 => 'is not',
+          1 => 'and',
+          2 => '=',
         ),
       ),
     ),
@@ -665,16 +688,24 @@ select * from person where surname is null;
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'value' => 'surname',
-          'type' => 'ident',
+          0 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'surname',
+            'alias' => '',
+          ),
+          1 => 
+          array (
+            'value' => 'null',
+            'type' => 'null',
+          ),
         ),
-        'op' => 'is',
-        'arg_2' => 
+        'ops' => 
         array (
-          'value' => '',
-          'type' => 'null',
+          0 => 'is',
         ),
       ),
     ),
@@ -717,34 +748,38 @@ select * from person where surname = \'\' and firstname = \'jason\';
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 'surname',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'surname',
+            'alias' => '',
           ),
-          'op' => '=',
-          'arg_2' => 
+          1 => 
           array (
             'value' => '',
             'type' => 'text_val',
           ),
-        ),
-        'op' => 'and',
-        'arg_2' => 
-        array (
-          'arg_1' => 
+          2 => 
           array (
-            'value' => 'firstname',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'firstname',
+            'alias' => '',
           ),
-          'op' => '=',
-          'arg_2' => 
+          3 => 
           array (
             'value' => 'jason',
             'type' => 'text_val',
           ),
+        ),
+        'ops' => 
+        array (
+          0 => '=',
+          1 => 'and',
+          2 => '=',
         ),
       ),
     ),
@@ -804,16 +839,26 @@ select table_1.id, table_2.name from table_1, table_2 where table_2.table_1_id =
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'value' => 'table_2.table_1_id',
-          'type' => 'ident',
+          0 => 
+          array (
+            'database' => '',
+            'table' => 'table_2',
+            'column' => 'table_1_id',
+            'alias' => '',
+          ),
+          1 => 
+          array (
+            'database' => '',
+            'table' => 'table_1',
+            'column' => 'id',
+            'alias' => '',
+          ),
         ),
-        'op' => '=',
-        'arg_2' => 
+        'ops' => 
         array (
-          'value' => 'table_1.id',
-          'type' => 'ident',
+          0 => '=',
         ),
       ),
     ),
@@ -856,16 +901,16 @@ select a from table_1 where a not in (select b from table_2);
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'value' => 'a',
-          'type' => 'ident',
-        ),
-        'op' => 'in',
-        'neg' => true,
-        'arg_2' => 
-        array (
-          'value' => 
+          0 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'a',
+            'alias' => '',
+          ),
+          1 => 
           array (
             'command' => 'select',
             'fields' => 
@@ -894,7 +939,11 @@ select a from table_1 where a not in (select b from table_2);
               ),
             ),
           ),
-          'type' => 'command',
+          2 => 
+          array (
+            'value' => ')',
+            'type' => ')',
+          ),
         ),
       ),
     ),
@@ -937,15 +986,16 @@ select a from table_1 where a in (select b from table_2 where c not in (select d
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'value' => 'a',
-          'type' => 'ident',
-        ),
-        'op' => 'in',
-        'arg_2' => 
-        array (
-          'value' => 
+          0 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'a',
+            'alias' => '',
+          ),
+          1 => 
           array (
             'command' => 'select',
             'fields' => 
@@ -975,16 +1025,16 @@ select a from table_1 where a in (select b from table_2 where c not in (select d
             ),
             'where_clause' => 
             array (
-              'arg_1' => 
+              'args' => 
               array (
-                'value' => 'c',
-                'type' => 'ident',
-              ),
-              'op' => 'in',
-              'neg' => true,
-              'arg_2' => 
-              array (
-                'value' => 
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'c',
+                  'alias' => '',
+                ),
+                1 => 
                 array (
                   'command' => 'select',
                   'fields' => 
@@ -1013,11 +1063,19 @@ select a from table_1 where a in (select b from table_2 where c not in (select d
                     ),
                   ),
                 ),
-                'type' => 'command',
+                2 => 
+                array (
+                  'value' => ')',
+                  'type' => ')',
+                ),
               ),
             ),
           ),
-          'type' => 'command',
+          2 => 
+          array (
+            'value' => ')',
+            'type' => ')',
+          ),
         ),
       ),
     ),
@@ -1060,25 +1118,34 @@ select a from table_1 where a in (1, 2, 3);
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'value' => 'a',
-          'type' => 'ident',
-        ),
-        'op' => 'in',
-        'arg_2' => 
-        array (
-          'value' => 
+          0 => 
           array (
-            0 => 1,
-            1 => 2,
-            2 => 3,
+            'database' => '',
+            'table' => '',
+            'column' => 'a',
+            'alias' => '',
           ),
-          'type' => 
+          1 => 
           array (
-            0 => 'int_val',
-            1 => 'int_val',
-            2 => 'int_val',
+            'values' => 
+            array (
+              0 => 1,
+              1 => 2,
+              2 => 3,
+            ),
+            'types' => 
+            array (
+              0 => 'int_val',
+              1 => 'int_val',
+              2 => 'int_val',
+            ),
+          ),
+          2 => 
+          array (
+            'value' => ')',
+            'type' => ')',
           ),
         ),
       ),
@@ -1137,16 +1204,26 @@ select count(child_table.name) from parent_table ,child_table where parent_table
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'value' => 'parent_table.id',
-          'type' => 'ident',
+          0 => 
+          array (
+            'database' => '',
+            'table' => 'parent_table',
+            'column' => 'id',
+            'alias' => '',
+          ),
+          1 => 
+          array (
+            'database' => '',
+            'table' => 'child_table',
+            'column' => 'id',
+            'alias' => '',
+          ),
         ),
-        'op' => '=',
-        'arg_2' => 
+        'ops' => 
         array (
-          'value' => 'child_table.id',
-          'type' => 'ident',
+          0 => '=',
         ),
       ),
     ),
@@ -1214,16 +1291,26 @@ select parent_table.name, count(child_table.name) from parent_table ,child_table
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'value' => 'parent_table.id',
-          'type' => 'ident',
+          0 => 
+          array (
+            'database' => '',
+            'table' => 'parent_table',
+            'column' => 'id',
+            'alias' => '',
+          ),
+          1 => 
+          array (
+            'database' => '',
+            'table' => 'child_table',
+            'column' => 'id',
+            'alias' => '',
+          ),
         ),
-        'op' => '=',
-        'arg_2' => 
+        'ops' => 
         array (
-          'value' => 'child_table.id',
-          'type' => 'ident',
+          0 => '=',
         ),
       ),
       'group_by' => 
@@ -1270,16 +1357,24 @@ select * from cats where furry = 1 group by name, type;
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'value' => 'furry',
-          'type' => 'ident',
+          0 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'furry',
+            'alias' => '',
+          ),
+          1 => 
+          array (
+            'value' => 1,
+            'type' => 'int_val',
+          ),
         ),
-        'op' => '=',
-        'arg_2' => 
+        'ops' => 
         array (
-          'value' => 1,
-          'type' => 'int_val',
+          0 => '=',
         ),
       ),
       'group_by' => 
@@ -1453,109 +1548,111 @@ select clients_translation.id_clients_prefix, clients_translation.rule_number,
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 
+            'args' => 
             array (
-              'arg_1' => 
+              0 => 
               array (
-                'value' => 'clients.id_softswitch',
-                'type' => 'ident',
+                'database' => '',
+                'table' => 'clients',
+                'column' => 'id_softswitch',
+                'alias' => '',
               ),
-              'op' => '=',
-              'arg_2' => 
+              1 => 
               array (
                 'value' => 5,
                 'type' => 'int_val',
               ),
             ),
-            'type' => 'subclause',
+            'ops' => 
+            array (
+              0 => '=',
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'clients',
+                'column' => 'id_clients',
+                'alias' => '',
+              ),
+              1 => 
+              array (
+                'database' => '',
+                'table' => 'clients_prefix',
+                'column' => 'id_clients',
+                'alias' => '',
+              ),
+            ),
+            'ops' => 
+            array (
+              0 => '=',
+            ),
+          ),
+          2 => 
+          array (
+            'database' => '',
+            'table' => 'clients',
+            'column' => 'enable',
+            'alias' => '',
+          ),
+          3 => 
+          array (
+            'value' => 'y',
+            'type' => 'text_val',
+          ),
+          4 => 
+          array (
+            'database' => '',
+            'table' => 'clients',
+            'column' => 'unused',
+            'alias' => '',
+          ),
+          5 => 
+          array (
+            'value' => 'n',
+            'type' => 'text_val',
+          ),
+          6 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'clients_translation',
+                'column' => 'id_clients_prefix',
+                'alias' => '',
+              ),
+              1 => 
+              array (
+                'database' => '',
+                'table' => 'clients_prefix',
+                'column' => 'id_clients_prefix',
+                'alias' => '',
+              ),
+            ),
+            'ops' => 
+            array (
+              0 => '=',
+            ),
           ),
         ),
-        'op' => 'and',
-        'arg_2' => 
+        'ops' => 
         array (
-          'arg_1' => 
-          array (
-            'arg_1' => 
-            array (
-              'value' => 
-              array (
-                'arg_1' => 
-                array (
-                  'value' => 'clients.id_clients',
-                  'type' => 'ident',
-                ),
-                'op' => '=',
-                'arg_2' => 
-                array (
-                  'value' => 'clients_prefix.id_clients',
-                  'type' => 'ident',
-                ),
-              ),
-              'type' => 'subclause',
-            ),
-          ),
-          'op' => 'and',
-          'arg_2' => 
-          array (
-            'arg_1' => 
-            array (
-              'arg_1' => 
-              array (
-                'value' => 'clients.enable',
-                'type' => 'ident',
-              ),
-              'op' => '=',
-              'arg_2' => 
-              array (
-                'value' => 'y',
-                'type' => 'text_val',
-              ),
-            ),
-            'op' => 'and',
-            'arg_2' => 
-            array (
-              'arg_1' => 
-              array (
-                'arg_1' => 
-                array (
-                  'value' => 'clients.unused',
-                  'type' => 'ident',
-                ),
-                'op' => '=',
-                'arg_2' => 
-                array (
-                  'value' => 'n',
-                  'type' => 'text_val',
-                ),
-              ),
-              'op' => 'and',
-              'arg_2' => 
-              array (
-                'arg_1' => 
-                array (
-                  'value' => 
-                  array (
-                    'arg_1' => 
-                    array (
-                      'value' => 'clients_translation.id_clients_prefix',
-                      'type' => 'ident',
-                    ),
-                    'op' => '=',
-                    'arg_2' => 
-                    array (
-                      'value' => 'clients_prefix.id_clients_prefix',
-                      'type' => 'ident',
-                    ),
-                  ),
-                  'type' => 'subclause',
-                ),
-              ),
-            ),
-          ),
+          0 => 'and',
+          1 => 'and',
+          2 => '=',
+          3 => 'and',
+          4 => '=',
+          5 => 'and',
         ),
       ),
       'sort_order' => 
@@ -1612,84 +1709,84 @@ WHERE (column1=\'1\' AND column2=\'1\') OR (column3=\'1\' AND column4=\'1\');
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 
+            'args' => 
             array (
-              'arg_1' => 
+              0 => 
               array (
-                'arg_1' => 
-                array (
-                  'value' => 'column1',
-                  'type' => 'ident',
-                ),
-                'op' => '=',
-                'arg_2' => 
-                array (
-                  'value' => '1',
-                  'type' => 'text_val',
-                ),
+                'database' => '',
+                'table' => '',
+                'column' => 'column1',
+                'alias' => '',
               ),
-              'op' => 'and',
-              'arg_2' => 
+              1 => 
               array (
-                'arg_1' => 
-                array (
-                  'value' => 'column2',
-                  'type' => 'ident',
-                ),
-                'op' => '=',
-                'arg_2' => 
-                array (
-                  'value' => '1',
-                  'type' => 'text_val',
-                ),
+                'value' => '1',
+                'type' => 'text_val',
+              ),
+              2 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'column2',
+                'alias' => '',
+              ),
+              3 => 
+              array (
+                'value' => '1',
+                'type' => 'text_val',
               ),
             ),
-            'type' => 'subclause',
+            'ops' => 
+            array (
+              0 => '=',
+              1 => 'and',
+              2 => '=',
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'column3',
+                'alias' => '',
+              ),
+              1 => 
+              array (
+                'value' => '1',
+                'type' => 'text_val',
+              ),
+              2 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'column4',
+                'alias' => '',
+              ),
+              3 => 
+              array (
+                'value' => '1',
+                'type' => 'text_val',
+              ),
+            ),
+            'ops' => 
+            array (
+              0 => '=',
+              1 => 'and',
+              2 => '=',
+            ),
           ),
         ),
-        'op' => 'or',
-        'arg_2' => 
+        'ops' => 
         array (
-          'arg_1' => 
-          array (
-            'value' => 
-            array (
-              'arg_1' => 
-              array (
-                'arg_1' => 
-                array (
-                  'value' => 'column3',
-                  'type' => 'ident',
-                ),
-                'op' => '=',
-                'arg_2' => 
-                array (
-                  'value' => '1',
-                  'type' => 'text_val',
-                ),
-              ),
-              'op' => 'and',
-              'arg_2' => 
-              array (
-                'arg_1' => 
-                array (
-                  'value' => 'column4',
-                  'type' => 'ident',
-                ),
-                'op' => '=',
-                'arg_2' => 
-                array (
-                  'value' => '1',
-                  'type' => 'text_val',
-                ),
-              ),
-            ),
-            'type' => 'subclause',
-          ),
+          0 => 'or',
         ),
       ),
     ),
@@ -1732,59 +1829,61 @@ SELECT name FROM people WHERE id > 1 AND (name = \'arjan\' OR name = \'john\');
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 'id',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'id',
+            'alias' => '',
           ),
-          'op' => '>',
-          'arg_2' => 
+          1 => 
           array (
             'value' => 1,
             'type' => 'int_val',
           ),
-        ),
-        'op' => 'and',
-        'arg_2' => 
-        array (
-          'arg_1' => 
+          2 => 
           array (
-            'value' => 
+            'args' => 
             array (
-              'arg_1' => 
+              0 => 
               array (
-                'arg_1' => 
-                array (
-                  'value' => 'name',
-                  'type' => 'ident',
-                ),
-                'op' => '=',
-                'arg_2' => 
-                array (
-                  'value' => 'arjan',
-                  'type' => 'text_val',
-                ),
+                'database' => '',
+                'table' => '',
+                'column' => 'name',
+                'alias' => '',
               ),
-              'op' => 'or',
-              'arg_2' => 
+              1 => 
               array (
-                'arg_1' => 
-                array (
-                  'value' => 'name',
-                  'type' => 'ident',
-                ),
-                'op' => '=',
-                'arg_2' => 
-                array (
-                  'value' => 'john',
-                  'type' => 'text_val',
-                ),
+                'value' => 'arjan',
+                'type' => 'text_val',
+              ),
+              2 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'name',
+                'alias' => '',
+              ),
+              3 => 
+              array (
+                'value' => 'john',
+                'type' => 'text_val',
               ),
             ),
-            'type' => 'subclause',
+            'ops' => 
+            array (
+              0 => '=',
+              1 => 'or',
+              2 => '=',
+            ),
           ),
+        ),
+        'ops' => 
+        array (
+          0 => '>',
+          1 => 'and',
         ),
       ),
     ),
@@ -1827,59 +1926,61 @@ select * from test where (field1 = \'x\' and field2 <>\'y\') or field3 = \'z\';
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 
+            'args' => 
             array (
-              'arg_1' => 
+              0 => 
               array (
-                'arg_1' => 
-                array (
-                  'value' => 'field1',
-                  'type' => 'ident',
-                ),
-                'op' => '=',
-                'arg_2' => 
-                array (
-                  'value' => 'x',
-                  'type' => 'text_val',
-                ),
+                'database' => '',
+                'table' => '',
+                'column' => 'field1',
+                'alias' => '',
               ),
-              'op' => 'and',
-              'arg_2' => 
+              1 => 
               array (
-                'arg_1' => 
-                array (
-                  'value' => 'field2',
-                  'type' => 'ident',
-                ),
-                'op' => '<>',
-                'arg_2' => 
-                array (
-                  'value' => 'y',
-                  'type' => 'text_val',
-                ),
+                'value' => 'x',
+                'type' => 'text_val',
+              ),
+              2 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'field2',
+                'alias' => '',
+              ),
+              3 => 
+              array (
+                'value' => 'y',
+                'type' => 'text_val',
               ),
             ),
-            'type' => 'subclause',
+            'ops' => 
+            array (
+              0 => '=',
+              1 => 'and',
+              2 => '<>',
+            ),
           ),
-        ),
-        'op' => 'or',
-        'arg_2' => 
-        array (
-          'arg_1' => 
+          1 => 
           array (
-            'value' => 'field3',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'field3',
+            'alias' => '',
           ),
-          'op' => '=',
-          'arg_2' => 
+          2 => 
           array (
             'value' => 'z',
             'type' => 'text_val',
           ),
+        ),
+        'ops' => 
+        array (
+          0 => 'or',
+          1 => '=',
         ),
       ),
     ),
@@ -1939,16 +2040,26 @@ select a, d from b inner join c on b.a = c.a;
           array (
             0 => 
             array (
-              'arg_1' => 
+              'args' => 
               array (
-                'value' => 'b.a',
-                'type' => 'ident',
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => 'b',
+                  'column' => 'a',
+                  'alias' => '',
+                ),
+                1 => 
+                array (
+                  'database' => '',
+                  'table' => 'c',
+                  'column' => 'a',
+                  'alias' => '',
+                ),
               ),
-              'op' => '=',
-              'arg_2' => 
+              'ops' => 
               array (
-                'value' => 'c.a',
-                'type' => 'ident',
+                0 => '=',
               ),
             ),
           ),
@@ -2018,30 +2129,50 @@ select a, d from b inner join c on b.a = c.a left outer join q on r < m;
           array (
             0 => 
             array (
-              'arg_1' => 
+              'args' => 
               array (
-                'value' => 'b.a',
-                'type' => 'ident',
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => 'b',
+                  'column' => 'a',
+                  'alias' => '',
+                ),
+                1 => 
+                array (
+                  'database' => '',
+                  'table' => 'c',
+                  'column' => 'a',
+                  'alias' => '',
+                ),
               ),
-              'op' => '=',
-              'arg_2' => 
+              'ops' => 
               array (
-                'value' => 'c.a',
-                'type' => 'ident',
+                0 => '=',
               ),
             ),
             1 => 
             array (
-              'arg_1' => 
+              'args' => 
               array (
-                'value' => 'r',
-                'type' => 'ident',
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'r',
+                  'alias' => '',
+                ),
+                1 => 
+                array (
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'm',
+                  'alias' => '',
+                ),
               ),
-              'op' => '<',
-              'arg_2' => 
+              'ops' => 
               array (
-                'value' => 'm',
-                'type' => 'ident',
+                0 => '<',
               ),
             ),
           ),
@@ -2112,34 +2243,40 @@ select Courses.*
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 'Courses.id',
-            'type' => 'ident',
+            'database' => '',
+            'table' => 'Courses',
+            'column' => 'id',
+            'alias' => '',
           ),
-          'op' => '=',
-          'arg_2' => 
+          1 => 
           array (
-            'value' => 'Student_Courses.courseid',
-            'type' => 'ident',
+            'database' => '',
+            'table' => 'Student_Courses',
+            'column' => 'courseid',
+            'alias' => '',
           ),
-        ),
-        'op' => 'and',
-        'arg_2' => 
-        array (
-          'arg_1' => 
+          2 => 
           array (
-            'value' => 'Student_Courses.studentid',
-            'type' => 'ident',
+            'database' => '',
+            'table' => 'Student_Courses',
+            'column' => 'studentid',
+            'alias' => '',
           ),
-          'op' => '=',
-          'arg_2' => 
+          3 => 
           array (
             'value' => '10',
             'type' => 'text_val',
           ),
+        ),
+        'ops' => 
+        array (
+          0 => '=',
+          1 => 'and',
+          2 => '=',
         ),
       ),
     ),

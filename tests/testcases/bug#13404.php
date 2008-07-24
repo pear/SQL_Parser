@@ -34,15 +34,16 @@ SELECT x FROM y WHERE z > NOW()',
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'value' => 'z',
-          'type' => 'ident',
-        ),
-        'op' => '>',
-        'arg_2' => 
-        array (
-          'value' => 
+          0 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'z',
+            'alias' => '',
+          ),
+          1 => 
           array (
             'name' => 'now',
             'arg' => 
@@ -52,7 +53,10 @@ SELECT x FROM y WHERE z > NOW()',
             array (
             ),
           ),
-          'type' => 'function',
+        ),
+        'ops' => 
+        array (
+          0 => '>',
         ),
       ),
     ),

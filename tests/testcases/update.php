@@ -19,9 +19,71 @@ update dogmeat set horse=2 dog=\'forty\' where moose <> \'howdydoo\';
 update dogmeat set horse=2, dog=\'forty\' where moose != \'howdydoo\';
 
 ',
-    'expect' => 'Parse error: Expected EOQ, found: != on line 2
-update dogmeat set horse=2, dog=\'forty\' where moose != \'howdydoo\';
-                                                    ^ found: "!="',
+    'expect' => 
+    array (
+      'command' => 'update',
+      'tables' => 
+      array (
+        0 => 
+        array (
+          'database' => '',
+          'table' => 'dogmeat',
+          'alias' => '',
+        ),
+      ),
+      'columns' => 
+      array (
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'horse',
+          'alias' => '',
+        ),
+        1 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => 'dog',
+          'alias' => '',
+        ),
+      ),
+      'values' => 
+      array (
+        0 => 
+        array (
+          'value' => 2,
+          'type' => 'int_val',
+        ),
+        1 => 
+        array (
+          'value' => 'forty',
+          'type' => 'text_val',
+        ),
+      ),
+      'where_clause' => 
+      array (
+        'args' => 
+        array (
+          0 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'moose',
+            'alias' => '',
+          ),
+          1 => 
+          array (
+            'value' => 'howdydoo',
+            'type' => 'text_val',
+          ),
+        ),
+        'ops' => 
+        array (
+          0 => '!=',
+        ),
+      ),
+    ),
     'fail' => false,
     'dialect' => 'ANSI',
   ),
@@ -75,16 +137,24 @@ update dogmeat set horse=2, dog=\'forty\' where moose <> \'howdydoo\';
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'value' => 'moose',
-          'type' => 'ident',
+          0 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'moose',
+            'alias' => '',
+          ),
+          1 => 
+          array (
+            'value' => 'howdydoo',
+            'type' => 'text_val',
+          ),
         ),
-        'op' => '<>',
-        'arg_2' => 
+        'ops' => 
         array (
-          'value' => 'howdydoo',
-          'type' => 'text_val',
+          0 => '<>',
         ),
       ),
     ),
@@ -130,16 +200,24 @@ update table1 set col=1 where not col = 2;
       'where_clause' => 
       array (
         'neg' => true,
-        'arg_1' => 
+        'args' => 
         array (
-          'value' => 'col',
-          'type' => 'ident',
+          0 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'col',
+            'alias' => '',
+          ),
+          1 => 
+          array (
+            'value' => 2,
+            'type' => 'int_val',
+          ),
         ),
-        'op' => '=',
-        'arg_2' => 
+        'ops' => 
         array (
-          'value' => 2,
-          'type' => 'int_val',
+          0 => '=',
         ),
       ),
     ),
@@ -184,34 +262,38 @@ update table2 set col=1 where col > 2 and col <> 4;
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 'col',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'col',
+            'alias' => '',
           ),
-          'op' => '>',
-          'arg_2' => 
+          1 => 
           array (
             'value' => 2,
             'type' => 'int_val',
           ),
-        ),
-        'op' => 'and',
-        'arg_2' => 
-        array (
-          'arg_1' => 
+          2 => 
           array (
-            'value' => 'col',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'col',
+            'alias' => '',
           ),
-          'op' => '<>',
-          'arg_2' => 
+          3 => 
           array (
             'value' => 4,
             'type' => 'int_val',
           ),
+        ),
+        'ops' => 
+        array (
+          0 => '>',
+          1 => 'and',
+          2 => '<>',
         ),
       ),
     ),
@@ -256,52 +338,54 @@ update table2 set col=1 where col > 2 and col <> 4 or dog="Hello";
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 'col',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'col',
+            'alias' => '',
           ),
-          'op' => '>',
-          'arg_2' => 
+          1 => 
           array (
             'value' => 2,
             'type' => 'int_val',
           ),
+          2 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'col',
+            'alias' => '',
+          ),
+          3 => 
+          array (
+            'value' => 4,
+            'type' => 'int_val',
+          ),
+          4 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'dog',
+            'alias' => '',
+          ),
+          5 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => 'Hello',
+            'alias' => '',
+          ),
         ),
-        'op' => 'and',
-        'arg_2' => 
+        'ops' => 
         array (
-          'arg_1' => 
-          array (
-            'arg_1' => 
-            array (
-              'value' => 'col',
-              'type' => 'ident',
-            ),
-            'op' => '<>',
-            'arg_2' => 
-            array (
-              'value' => 4,
-              'type' => 'int_val',
-            ),
-          ),
-          'op' => 'or',
-          'arg_2' => 
-          array (
-            'arg_1' => 
-            array (
-              'value' => 'dog',
-              'type' => 'ident',
-            ),
-            'op' => '=',
-            'arg_2' => 
-            array (
-              'value' => 'Hello',
-              'type' => 'ident',
-            ),
-          ),
+          0 => '>',
+          1 => 'and',
+          2 => '<>',
+          3 => 'or',
+          4 => '=',
         ),
       ),
     ),
@@ -345,34 +429,38 @@ update table3 set col=1 where col > 2 and col < 30;
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 'col',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'col',
+            'alias' => '',
           ),
-          'op' => '>',
-          'arg_2' => 
+          1 => 
           array (
             'value' => 2,
             'type' => 'int_val',
           ),
-        ),
-        'op' => 'and',
-        'arg_2' => 
-        array (
-          'arg_1' => 
+          2 => 
           array (
-            'value' => 'col',
-            'type' => 'ident',
+            'database' => '',
+            'table' => '',
+            'column' => 'col',
+            'alias' => '',
           ),
-          'op' => '<',
-          'arg_2' => 
+          3 => 
           array (
             'value' => 30,
             'type' => 'int_val',
           ),
+        ),
+        'ops' => 
+        array (
+          0 => '>',
+          1 => 'and',
+          2 => '<',
         ),
       ),
     ),

@@ -76,16 +76,26 @@ WHERE
           array (
             0 => 
             array (
-              'arg_1' => 
+              'args' => 
               array (
-                'value' => 'tblTicklerPatientData.PatientTest_key',
-                'type' => 'ident',
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => 'tblTicklerPatientData',
+                  'column' => 'PatientTest_key',
+                  'alias' => '',
+                ),
+                1 => 
+                array (
+                  'database' => '',
+                  'table' => 'ptc',
+                  'column' => 'PatientTest_key',
+                  'alias' => '',
+                ),
               ),
-              'op' => '=',
-              'arg_2' => 
+              'ops' => 
               array (
-                'value' => 'ptc.PatientTest_key',
-                'type' => 'ident',
+                0 => '=',
               ),
             ),
           ),
@@ -93,35 +103,38 @@ WHERE
       ),
       'where_clause' => 
       array (
-        'arg_1' => 
+        'args' => 
         array (
-          'arg_1' => 
+          0 => 
           array (
-            'value' => 'ptc.path_diagnosis_codes',
-            'type' => 'ident',
+            'database' => '',
+            'table' => 'ptc',
+            'column' => 'path_diagnosis_codes',
+            'alias' => '',
           ),
-          'op' => 'is',
-          'neg' => true,
-          'arg_2' => 
+          1 => 
           array (
-            'value' => '',
+            'value' => 'Null',
+            'type' => 'null',
+          ),
+          2 => 
+          array (
+            'database' => '',
+            'table' => 'tblTicklerPatientData',
+            'column' => 'final_diagnosis',
+            'alias' => '',
+          ),
+          3 => 
+          array (
+            'value' => 'null',
             'type' => 'null',
           ),
         ),
-        'op' => 'and',
-        'arg_2' => 
+        'ops' => 
         array (
-          'arg_1' => 
-          array (
-            'value' => 'tblTicklerPatientData.final_diagnosis',
-            'type' => 'ident',
-          ),
-          'op' => 'is',
-          'arg_2' => 
-          array (
-            'value' => '',
-            'type' => 'null',
-          ),
+          0 => 'is not',
+          1 => 'and',
+          2 => 'is',
         ),
       ),
     ),
