@@ -287,7 +287,7 @@ class SQL_Parser_Lexer
                     }
 
                     if ($c == '-') {
-                        // negative number
+                        // negative number, or operator '-', finally checked in case 6
                         $state = 5;
                         break;
                     }
@@ -357,7 +357,7 @@ class SQL_Parser_Lexer
                         }
                         break;
                     } else {
-                        // complete number
+                        // complete number, or '-'
                         $state = 6;
                         break;
                     }
@@ -366,12 +366,21 @@ class SQL_Parser_Lexer
                     // {{{ State 6: Complete integer number
                 case 6:
                     $this->unget();
-                    $this->tokText = intval(substr($this->string, $this->tokStart,
-                                $this->tokLen));
+                    // '-' or negative number
+                    $val = substr($this->string, $this->tokStart, $this->tokLen);
+                    if ($val === '-') {
+                        $this->tokText = $val;
+                    } else {
+                        $this->tokText = intval($val);
+                    }
                     $this->skipText = substr($this->string, $this->tokAbsStart,
                             $this->tokStart-$this->tokAbsStart);
                     $this->tokStart = $this->tokPtr;
-                    return 'int_val';
+                    if ($this->tokText == '-') {
+                        return $this->tokText;
+                    } else {
+                        return 'int_val';
+                    }
                     break;
                     // }}}
 
