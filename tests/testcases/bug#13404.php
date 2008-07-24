@@ -19,17 +19,17 @@ SELECT x FROM y WHERE z > NOW()',
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'y',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'y',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 

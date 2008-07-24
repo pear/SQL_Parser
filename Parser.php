@@ -1278,45 +1278,51 @@ class SQL_Parser
     }
     // }}}
 
-    public function parseFrom()
+    public function parseTableFactor()
+    {
+        if ($this->token == '(') {
+            $this->getTok();
+            $tree = $this->parseTableReference();
+            // closing )
+            $this->getTok();
+            return $tree;
+        } elseif ($this->token == 'select') {
+            return $this->parseSelect();
+        } else {
+            return $this->parseIdentifier('table');
+        }
+    }
+
+    public function parseTableReference()
     {
         $tree = array();
 
-        while ($this->token == 'ident') {
-            $tree['table_names'][] = $this->lexer->tokText;
-            $this->getTok();
-            if ($this->token == 'ident') {
-                $tree['table_aliases'][] = $this->lexer->tokText;
-                $this->getTok();
-            } elseif ($this->token == 'as') {
-                $this->getTok();
-                if ($this->token != 'ident') {
-                    return $this->raiseError('Expected table alias');
-                }
-                $tree['table_aliases'][] = $this->lexer->tokText;
-                $this->getTok();
-            } else {
-                $tree['table_aliases'][] = '';
-            }
+        while (true) {
+            $tree['table_factors'][] = $this->parseTableFactor();
+
+            // join condition
             if ($this->token == 'on') {
                 $clause = $this->parseSearchClause();
                 if (false === $clause) {
                     return $clause;
                 }
                 $tree['table_join_clause'][] = $clause;
-            } else {
-                $tree['table_join_clause'][] = '';
             }
+
+            // joins LEFT|RIGHT|INNER|OUTER|NATURAL|CROSS|STRAIGHT_JOIN
             if ($this->token == ',') {
-                $tree['table_join'][] = ',';
+                $tree['table_join'][] = $this->token;
+                $this->getTok();
+            } elseif ($this->token == 'straight_join') {
+                $tree['table_join'][] = $this->token;
                 $this->getTok();
             } elseif ($this->token == 'join') {
-                $tree['table_join'][] = 'join';
+                $tree['table_join'][] = $this->token;
                 $this->getTok();
             } elseif ($this->token == 'cross'
              || $this->token == 'inner') {
                 // (CROSS|INNER) JOIN
-                $join = $this->lexer->tokText;
+                $join = $this->token;
                 $this->getTok();
                 if ($this->token != 'join') {
                     return $this->raiseError('Expected token "join"');
@@ -1325,57 +1331,56 @@ class SQL_Parser
                 $this->getTok();
             } elseif ($this->token == 'left'
              || $this->token == 'right') {
-                // (LEFT|RIGHT) OUTER? JOIN
-                $join = $this->lexer->tokText;
+                // {LEFT|RIGHT} [OUTER] JOIN
+                $join = $this->token;
+
                 $this->getTok();
-                if ($this->token == 'join') {
-                    $tree['table_join'][] = $join.' join';
-                } elseif ($this->token == 'outer') {
+                if ($this->token == 'outer') {
                     $join .= ' outer';
                     $this->getTok();
-                    if ($this->token != 'join') {
-                        return $this->raiseError('Expected token "join"');
-                    }
-                    $tree['table_join'][] = $join.' join';
-                } else {
-                    return $this->raiseError('Expected token "outer" or "join"');
                 }
+
+                if ($this->token != 'join') {
+                    return $this->raiseError('Expected token "join"');
+                }
+                $tree['table_join'][] = $join.' join';
+
                 $this->getTok();
             } elseif ($this->token == 'natural') {
-                // NATURAL ((LEFT|RIGHT) OUTER?)? JOIN
-                $join = $this->lexer->tokText;
+                // NATURAL [{LEFT|RIGHT} [OUTER]] JOIN
+                $join = $this->token;
+
                 $this->getTok();
+                if (($this->token == 'left')
+                 || ($this->token == 'right')) {
+                    $join .= ' ' . $this->token;
+                    $this->getTok();
+                }
+
+                if ($this->token == 'outer') {
+                    $join .= ' ' . $this->token;
+                    $this->getTok();
+                }
+
                 if ($this->token == 'join') {
                     $tree['table_join'][] = $join.' join';
-                } elseif (($this->token == 'left') ||
-                ($this->token == 'right')) {
-                    $join .= ' '.$this->token;
-                    $this->getTok();
-                    if ($this->token == 'join') {
-                        $tree['table_join'][] = $join.' join';
-                    } elseif ($this->token == 'outer') {
-                        $join .= ' '.$this->token;
-                        $this->getTok();
-                        if ($this->token == 'join') {
-                            $tree['table_join'][] = $join.' join';
-                        } else {
-                            return $this->raiseError('Expected token "join" or "outer"');
-                        }
-                    } else {
-                        return $this->raiseError('Expected token "join" or "outer"');
-                    }
                 } else {
-                    return $this->raiseError('Expected token "left", "right" or "join"');
+                    return $this->raiseError('Expected token "join"');
                 }
                 $this->getTok();
-            } elseif ($this->token == 'where'
-                   || $this->token == 'order'
-                   || $this->token == 'limit'
-                   || $this->token == ';'
-                   || is_null($this->token)) {
+            } else {
                 break;
             }
         }
+
+        return $tree;
+    }
+
+    public function parseFrom()
+    {
+        $tree = array();
+
+        $tree['table_references'] = $this->parseTableReference();
 
         return $tree;
     }

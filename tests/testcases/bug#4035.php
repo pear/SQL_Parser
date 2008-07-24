@@ -51,37 +51,44 @@ WHERE
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'tblTicklerPatientData',
-          1 => 'PatientTest(Case)',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-          1 => 'ptc',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
-          1 => 
+          'table_factors' => 
           array (
-            'arg_1' => 
+            0 => 
             array (
-              'value' => 'tblTicklerPatientData.PatientTest_key',
-              'type' => 'ident',
+              'database' => '',
+              'table' => 'tblTicklerPatientData',
+              'alias' => '',
             ),
-            'op' => '=',
-            'arg_2' => 
+            1 => 
             array (
-              'value' => 'ptc.PatientTest_key',
-              'type' => 'ident',
+              'database' => '',
+              'table' => 'PatientTest(Case)',
+              'alias' => 'ptc',
             ),
           ),
-        ),
-        'table_join' => 
-        array (
-          0 => 'INNER join',
+          'table_join' => 
+          array (
+            0 => 'inner join',
+          ),
+          'table_join_clause' => 
+          array (
+            0 => 
+            array (
+              'arg_1' => 
+              array (
+                'value' => 'tblTicklerPatientData.PatientTest_key',
+                'type' => 'ident',
+              ),
+              'op' => '=',
+              'arg_2' => 
+              array (
+                'value' => 'ptc.PatientTest_key',
+                'type' => 'ident',
+              ),
+            ),
+          ),
         ),
       ),
       'where_clause' => 

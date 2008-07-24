@@ -21,17 +21,17 @@ select * from dog where cat <> 4;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'dog',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'dog',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -80,17 +80,17 @@ select legs, hairy from dog;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'dog',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'dog',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
     ),
@@ -123,17 +123,17 @@ select max(length) from dog;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'dog',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'dog',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
     ),
@@ -166,17 +166,17 @@ select count(distinct country) from publishers;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'publishers',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'publishers',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
     ),
@@ -211,17 +211,17 @@ select one, two from hairy where two <> 4 and one = 2;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'hairy',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'hairy',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -288,17 +288,17 @@ select one, two from hairy where two <> 4 and one = 2 order by two;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'hairy',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'hairy',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -369,17 +369,17 @@ select one, two from hairy where two <> 4 and one = 2 limit 4 order by two ascen
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'hairy',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'hairy',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -449,17 +449,17 @@ select foo.a from foo;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'foo',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'foo',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
     ),
@@ -503,17 +503,17 @@ select a as b, min(a) as baz from foo;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'foo',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'foo',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
     ),
@@ -541,17 +541,17 @@ select a from foo as bar;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'foo',
-        ),
-        'table_aliases' => 
-        array (
-          0 => 'bar',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'foo',
+              'alias' => 'bar',
+            ),
+          ),
         ),
       ),
     ),
@@ -579,17 +579,17 @@ select * from person where surname is not null and firstname = \'jason\';
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'person',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'person',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -650,17 +650,17 @@ select * from person where surname is null;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'person',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'person',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -702,17 +702,17 @@ select * from person where surname = \'\' and firstname = \'jason\';
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'person',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'person',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -779,24 +779,27 @@ select table_1.id, table_2.name from table_1, table_2 where table_2.table_1_id =
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'table_1',
-          1 => 'table_2',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-          1 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
-          1 => '',
-        ),
-        'table_join' => 
-        array (
-          0 => ',',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'table_1',
+              'alias' => '',
+            ),
+            1 => 
+            array (
+              'database' => '',
+              'table' => 'table_2',
+              'alias' => '',
+            ),
+          ),
+          'table_join' => 
+          array (
+            0 => ',',
+          ),
         ),
       ),
       'where_clause' => 
@@ -838,17 +841,17 @@ select a from table_1 where a not in (select b from table_2);
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'table_1',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'table_1',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -877,17 +880,17 @@ select a from table_1 where a not in (select b from table_2);
             ),
             'from' => 
             array (
-              'table_names' => 
+              'table_references' => 
               array (
-                0 => 'table_2',
-              ),
-              'table_aliases' => 
-              array (
-                0 => '',
-              ),
-              'table_join_clause' => 
-              array (
-                0 => '',
+                'table_factors' => 
+                array (
+                  0 => 
+                  array (
+                    'database' => '',
+                    'table' => 'table_2',
+                    'alias' => '',
+                  ),
+                ),
               ),
             ),
           ),
@@ -919,17 +922,17 @@ select a from table_1 where a in (select b from table_2 where c not in (select d
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'table_1',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'table_1',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -957,17 +960,17 @@ select a from table_1 where a in (select b from table_2 where c not in (select d
             ),
             'from' => 
             array (
-              'table_names' => 
+              'table_references' => 
               array (
-                0 => 'table_2',
-              ),
-              'table_aliases' => 
-              array (
-                0 => '',
-              ),
-              'table_join_clause' => 
-              array (
-                0 => '',
+                'table_factors' => 
+                array (
+                  0 => 
+                  array (
+                    'database' => '',
+                    'table' => 'table_2',
+                    'alias' => '',
+                  ),
+                ),
               ),
             ),
             'where_clause' => 
@@ -996,17 +999,17 @@ select a from table_1 where a in (select b from table_2 where c not in (select d
                   ),
                   'from' => 
                   array (
-                    'table_names' => 
+                    'table_references' => 
                     array (
-                      0 => 'table_3',
-                    ),
-                    'table_aliases' => 
-                    array (
-                      0 => '',
-                    ),
-                    'table_join_clause' => 
-                    array (
-                      0 => '',
+                      'table_factors' => 
+                      array (
+                        0 => 
+                        array (
+                          'database' => '',
+                          'table' => 'table_3',
+                          'alias' => '',
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -1042,17 +1045,17 @@ select a from table_1 where a in (1, 2, 3);
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'table_1',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'table_1',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -1109,24 +1112,27 @@ select count(child_table.name) from parent_table ,child_table where parent_table
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'parent_table',
-          1 => 'child_table',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-          1 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
-          1 => '',
-        ),
-        'table_join' => 
-        array (
-          0 => ',',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'parent_table',
+              'alias' => '',
+            ),
+            1 => 
+            array (
+              'database' => '',
+              'table' => 'child_table',
+              'alias' => '',
+            ),
+          ),
+          'table_join' => 
+          array (
+            0 => ',',
+          ),
         ),
       ),
       'where_clause' => 
@@ -1183,24 +1189,27 @@ select parent_table.name, count(child_table.name) from parent_table ,child_table
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'parent_table',
-          1 => 'child_table',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-          1 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
-          1 => '',
-        ),
-        'table_join' => 
-        array (
-          0 => ',',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'parent_table',
+              'alias' => '',
+            ),
+            1 => 
+            array (
+              'database' => '',
+              'table' => 'child_table',
+              'alias' => '',
+            ),
+          ),
+          'table_join' => 
+          array (
+            0 => ',',
+          ),
         ),
       ),
       'where_clause' => 
@@ -1246,17 +1255,17 @@ select * from cats where furry = 1 group by name, type;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'cats',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'cats',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -1345,17 +1354,17 @@ select a, max(b) as x, sum(c) as y, min(d) as z from e;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'e',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'e',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
     ),
@@ -1412,28 +1421,34 @@ select clients_translation.id_clients_prefix, clients_translation.rule_number,
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'clients',
-          1 => 'clients_prefix',
-          2 => 'clients_translation',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-          1 => '',
-          2 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
-          1 => '',
-          2 => '',
-        ),
-        'table_join' => 
-        array (
-          0 => ',',
-          1 => ',',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'clients',
+              'alias' => '',
+            ),
+            1 => 
+            array (
+              'database' => '',
+              'table' => 'clients_prefix',
+              'alias' => '',
+            ),
+            2 => 
+            array (
+              'database' => '',
+              'table' => 'clients_translation',
+              'alias' => '',
+            ),
+          ),
+          'table_join' => 
+          array (
+            0 => ',',
+            1 => ',',
+          ),
         ),
       ),
       'where_clause' => 
@@ -1582,17 +1597,17 @@ WHERE (column1=\'1\' AND column2=\'1\') OR (column3=\'1\' AND column4=\'1\');
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'table1',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'table1',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -1702,17 +1717,17 @@ SELECT name FROM people WHERE id > 1 AND (name = \'arjan\' OR name = \'john\');
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'people',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'people',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -1797,17 +1812,17 @@ select * from test where (field1 = \'x\' and field2 <>\'y\') or field3 = \'z\';
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'test',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'test',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
       'where_clause' => 
@@ -1899,37 +1914,44 @@ select a, d from b inner join c on b.a = c.a;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'b',
-          1 => 'c',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-          1 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
-          1 => 
+          'table_factors' => 
           array (
-            'arg_1' => 
+            0 => 
             array (
-              'value' => 'b.a',
-              'type' => 'ident',
+              'database' => '',
+              'table' => 'b',
+              'alias' => '',
             ),
-            'op' => '=',
-            'arg_2' => 
+            1 => 
             array (
-              'value' => 'c.a',
-              'type' => 'ident',
+              'database' => '',
+              'table' => 'c',
+              'alias' => '',
             ),
           ),
-        ),
-        'table_join' => 
-        array (
-          0 => 'inner join',
+          'table_join' => 
+          array (
+            0 => 'inner join',
+          ),
+          'table_join_clause' => 
+          array (
+            0 => 
+            array (
+              'arg_1' => 
+              array (
+                'value' => 'b.a',
+                'type' => 'ident',
+              ),
+              'op' => '=',
+              'arg_2' => 
+              array (
+                'value' => 'c.a',
+                'type' => 'ident',
+              ),
+            ),
+          ),
         ),
       ),
     ),
@@ -1964,54 +1986,65 @@ select a, d from b inner join c on b.a = c.a left outer join q on r < m;
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'b',
-          1 => 'c',
-          2 => 'q',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-          1 => '',
-          2 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
-          1 => 
+          'table_factors' => 
           array (
-            'arg_1' => 
+            0 => 
             array (
-              'value' => 'b.a',
-              'type' => 'ident',
+              'database' => '',
+              'table' => 'b',
+              'alias' => '',
             ),
-            'op' => '=',
-            'arg_2' => 
+            1 => 
             array (
-              'value' => 'c.a',
-              'type' => 'ident',
+              'database' => '',
+              'table' => 'c',
+              'alias' => '',
+            ),
+            2 => 
+            array (
+              'database' => '',
+              'table' => 'q',
+              'alias' => '',
             ),
           ),
-          2 => 
+          'table_join' => 
           array (
-            'arg_1' => 
+            0 => 'inner join',
+            1 => 'left outer join',
+          ),
+          'table_join_clause' => 
+          array (
+            0 => 
             array (
-              'value' => 'r',
-              'type' => 'ident',
+              'arg_1' => 
+              array (
+                'value' => 'b.a',
+                'type' => 'ident',
+              ),
+              'op' => '=',
+              'arg_2' => 
+              array (
+                'value' => 'c.a',
+                'type' => 'ident',
+              ),
             ),
-            'op' => '<',
-            'arg_2' => 
+            1 => 
             array (
-              'value' => 'm',
-              'type' => 'ident',
+              'arg_1' => 
+              array (
+                'value' => 'r',
+                'type' => 'ident',
+              ),
+              'op' => '<',
+              'arg_2' => 
+              array (
+                'value' => 'm',
+                'type' => 'ident',
+              ),
             ),
           ),
-        ),
-        'table_join' => 
-        array (
-          0 => 'inner join',
-          1 => 'left outer join',
         ),
       ),
     ),
@@ -2054,24 +2087,27 @@ select Courses.*
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'Courses',
-          1 => 'Student_Courses',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-          1 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
-          1 => '',
-        ),
-        'table_join' => 
-        array (
-          0 => ',',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'Courses',
+              'alias' => '',
+            ),
+            1 => 
+            array (
+              'database' => '',
+              'table' => 'Student_Courses',
+              'alias' => '',
+            ),
+          ),
+          'table_join' => 
+          array (
+            0 => ',',
+          ),
         ),
       ),
       'where_clause' => 
@@ -2137,17 +2173,17 @@ SELECT *,a from Foo
       ),
       'from' => 
       array (
-        'table_names' => 
+        'table_references' => 
         array (
-          0 => 'Foo',
-        ),
-        'table_aliases' => 
-        array (
-          0 => '',
-        ),
-        'table_join_clause' => 
-        array (
-          0 => '',
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'Foo',
+              'alias' => '',
+            ),
+          ),
         ),
       ),
     ),
