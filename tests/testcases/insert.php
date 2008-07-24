@@ -22,13 +22,16 @@ insert into dogmeat (\'horse\', \'hair\') values (2, 4);
       array (
         0 => 
         array (
-          'value' => 2,
-          'type' => 'int_val',
-        ),
-        1 => 
-        array (
-          'value' => 4,
-          'type' => 'int_val',
+          0 => 
+          array (
+            'value' => 2,
+            'type' => 'int_val',
+          ),
+          1 => 
+          array (
+            'value' => 4,
+            'type' => 'int_val',
+          ),
         ),
       ),
     ),
@@ -57,13 +60,16 @@ inSERT into dogmeat (horse, hair) values (2, 4);
       array (
         0 => 
         array (
-          'value' => 2,
-          'type' => 'int_val',
-        ),
-        1 => 
-        array (
-          'value' => 4,
-          'type' => 'int_val',
+          0 => 
+          array (
+            'value' => 2,
+            'type' => 'int_val',
+          ),
+          1 => 
+          array (
+            'value' => 4,
+            'type' => 'int_val',
+          ),
         ),
       ),
     ),
@@ -74,6 +80,7 @@ inSERT into dogmeat (horse, hair) values (2, 4);
   array (
     'sql' => '
 INSERT INTO mytable (foo, bar, baz) VALUES (NOW(), 1, \'text\');
+
 ',
     'expect' => 
     array (
@@ -92,18 +99,117 @@ INSERT INTO mytable (foo, bar, baz) VALUES (NOW(), 1, \'text\');
       array (
         0 => 
         array (
-          'value' => 'NOW()',
-          'type' => 'ident()',
+          0 => 
+          array (
+            'value' => 'NOW()',
+            'type' => 'ident()',
+          ),
+          1 => 
+          array (
+            'value' => 1,
+            'type' => 'int_val',
+          ),
+          2 => 
+          array (
+            'value' => 'text',
+            'type' => 'text_val',
+          ),
+        ),
+      ),
+    ),
+    'fail' => false,
+    'dialect' => 'ANSI',
+  ),
+  3 => 
+  array (
+    'sql' => '
+INSERT INTO mytable VALUES (\'a\', \'b\'), (\'c\', \'d\');
+
+',
+    'expect' => 
+    array (
+      'command' => 'insert',
+      'table_names' => 
+      array (
+        0 => 'mytable',
+      ),
+      'values' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            'value' => 'a',
+            'type' => 'text_val',
+          ),
+          1 => 
+          array (
+            'value' => 'b',
+            'type' => 'text_val',
+          ),
         ),
         1 => 
         array (
-          'value' => 1,
-          'type' => 'int_val',
+          0 => 
+          array (
+            'value' => 'c',
+            'type' => 'text_val',
+          ),
+          1 => 
+          array (
+            'value' => 'd',
+            'type' => 'text_val',
+          ),
         ),
-        2 => 
+      ),
+    ),
+    'fail' => false,
+    'dialect' => 'ANSI',
+  ),
+  4 => 
+  array (
+    'sql' => '
+INSERT INTO mytable (a, b) VALUES (\'a\', \'b\'), (\'c\', \'d\');
+',
+    'expect' => 
+    array (
+      'command' => 'insert',
+      'table_names' => 
+      array (
+        0 => 'mytable',
+      ),
+      'column_names' => 
+      array (
+        0 => 'a',
+        1 => 'b',
+      ),
+      'values' => 
+      array (
+        0 => 
         array (
-          'value' => 'text',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'a',
+            'type' => 'text_val',
+          ),
+          1 => 
+          array (
+            'value' => 'b',
+            'type' => 'text_val',
+          ),
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            'value' => 'c',
+            'type' => 'text_val',
+          ),
+          1 => 
+          array (
+            'value' => 'd',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),

@@ -7,37 +7,9 @@ $tests = array (
 update dogmeat set horse=2 dog=\'forty\' where moose <> \'howdydoo\';
 
 ',
-    'expect' => 
-    array (
-      'command' => 'update',
-      'tables' => 
-      array (
-        0 => 
-        array (
-          'database' => '',
-          'table' => 'dogmeat',
-          'alias' => '',
-        ),
-      ),
-      'columns' => 
-      array (
-        0 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => 'horse',
-          'alias' => '',
-        ),
-      ),
-      'values' => 
-      array (
-        0 => 
-        array (
-          'value' => 2,
-          'type' => 'int_val',
-        ),
-      ),
-    ),
+    'expect' => 'Parse error: Expected EOQ, found: ident on line 3
+update dogmeat set horse=2 dog=\'forty\' where moose <> \'howdydoo\';
+                           ^ found: "dog"',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -47,7 +19,7 @@ update dogmeat set horse=2 dog=\'forty\' where moose <> \'howdydoo\';
 update dogmeat set horse=2, dog=\'forty\' where moose != \'howdydoo\';
 
 ',
-    'expect' => 'Parse error: Expected an operator on line 2
+    'expect' => 'Parse error: Expected EOQ, found: != on line 2
 update dogmeat set horse=2, dog=\'forty\' where moose != \'howdydoo\';
                                                     ^ found: "!="',
     'fail' => false,

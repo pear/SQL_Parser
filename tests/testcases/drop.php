@@ -43,9 +43,9 @@ drop table bondage restrict;
 drop table bondage, dishes;
 
 ',
-    'expect' => 'Parse error: Unexpected token on line 2
--- SQL_PARSER_FLAG_FAIL
-                                           ^ found: ","',
+    'expect' => 'Parse error: Expected EOQ, found: , on line 3
+drop table bondage, dishes;
+                  ^ found: ","',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -56,9 +56,9 @@ drop table bondage, dishes;
 drop table play cascade restrict;
 
 ',
-    'expect' => 'Parse error: Unexpected token on line 2
--- SQL_PARSER_FLAG_FAIL
-                                                 ^ found: "restrict"',
+    'expect' => 'Parse error: Expected EOQ, found: restrict on line 3
+drop table play cascade restrict;
+                        ^ found: "restrict"',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -69,9 +69,9 @@ drop table play cascade restrict;
 drop table cat where mouse = floor;
 
 ',
-    'expect' => 'Parse error: Unexpected token on line 2
--- SQL_PARSER_FLAG_FAIL
-                                        ^ found: "where"',
+    'expect' => 'Parse error: Expected EOQ, found: where on line 3
+drop table cat where mouse = floor;
+               ^ found: "where"',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -81,9 +81,9 @@ drop table cat where mouse = floor;
 -- SQL_PARSER_FLAG_FAIL
 drop elephant;
 ',
-    'expect' => 'Parse error: Unknown object to drop on line 2
--- SQL_PARSER_FLAG_FAIL
-                              ^ found: "elephant"',
+    'expect' => 'Parse error: Expected EOQ, found: ident on line 3
+drop elephant;
+     ^ found: "elephant"',
     'fail' => true,
     'dialect' => 'ANSI',
   ),

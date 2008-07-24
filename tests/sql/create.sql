@@ -17,11 +17,13 @@ CREATE TABLE photos (
     description text default 'hello',
     id int default 0 primary key not null,
 );
+
 -- SQL PARSER TESTCASE
 create table brent (
     filename varchar(10),
     description varchar(20),
 );
+
 -- SQL PARSER TESTCASE
 CREATE TABLE films ( 
     code      CHARACTER(5) CONSTRAINT firstkey PRIMARY KEY, 
@@ -32,7 +34,9 @@ CREATE TABLE films (
     len       INTERVAL HOUR TO MINUTE
     CONSTRAINT production UNIQUE(date_prod)
 );
+
 -- SQL PARSER TESTCASE
+-- SQL_PARSER_FLAG_FAIL
 CREATE TABLE films ( 
     code      CHARACTER(5) CONSTRAINT firstkey PRIMARY KEY, 
     title     CHARACTER VARYING(40) NOT NULL, 
@@ -42,12 +46,14 @@ CREATE TABLE films (
     len       INTERVAL minute to hour
     CONSTRAINT production UNIQUE(date_prod)
 );
+
 -- SQL PARSER TESTCASE
 CREATE TABLE distributors ( 
     did      DECIMAL(3) PRIMARY KEY DEFAULT NEXTVAL('serial'), 
     name     VARCHAR(40) NOT NULL CHECK (name <> '') 
     CONSTRAINT con1 CHECK (did > 100 AND name > '') 
 );
+
 -- SQL PARSER TESTCASE
 CREATE TABLE distributors ( 
     did      DECIMAL(3) PRIMARY KEY, 

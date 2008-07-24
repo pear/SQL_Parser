@@ -78,8 +78,6 @@ FROM table1
 WHERE (column1='1' AND column2='1') OR (column3='1' AND column4='1');
 
 -- SQL PARSER TESTCASE
--- Test Comment;
-# Test Comment;
 SELECT name FROM people WHERE id > 1 AND (name = 'arjan' OR name = 'john');
 
 -- SQL PARSER TESTCASE

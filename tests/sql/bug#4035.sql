@@ -7,4 +7,4 @@ FROM
       ON tblTicklerPatientData.PatientTest_key = ptc.PatientTest_key
 WHERE
   ptc.path_diagnosis_codes Is Not Null
-    and tblTicklerPatientData.final_diagnosis is null';
+    and tblTicklerPatientData.final_diagnosis is null;

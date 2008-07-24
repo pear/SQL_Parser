@@ -149,8 +149,11 @@ insert into departments (title)	values (\'Accounting Office\');
       array (
         0 => 
         array (
-          'value' => 'Accounting Office',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Accounting Office',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -178,8 +181,11 @@ insert into departments (title) values (\'Administrative Office\');
       array (
         0 => 
         array (
-          'value' => 'Administrative Office',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Administrative Office',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -207,8 +213,11 @@ insert into departments (title) values (\'Audio/Visual\');
       array (
         0 => 
         array (
-          'value' => 'Audio/Visual',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Audio/Visual',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -236,8 +245,11 @@ insert into departments (title) values (\'Building Management\');
       array (
         0 => 
         array (
-          'value' => 'Building Management',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Building Management',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -265,8 +277,11 @@ insert into departments (title) values (\'Building Services\');
       array (
         0 => 
         array (
-          'value' => 'Building Services',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Building Services',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -294,8 +309,11 @@ insert into departments (title) values (\'Cactus Cafe\');
       array (
         0 => 
         array (
-          'value' => 'Cactus Cafe',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Cactus Cafe',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -323,8 +341,11 @@ insert into departments (title) values (\'Cash Operations\');
       array (
         0 => 
         array (
-          'value' => 'Cash Operations',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Cash Operations',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -352,8 +373,11 @@ insert into departments (title) values (\'Commons Coffee Company\');
       array (
         0 => 
         array (
-          'value' => 'Commons Coffee Company',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Commons Coffee Company',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -381,8 +405,11 @@ insert into departments (title) values (\'Data Processing\');
       array (
         0 => 
         array (
-          'value' => 'Data Processing',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Data Processing',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -410,8 +437,11 @@ insert into departments (title) values (\'Housekeeping\');
       array (
         0 => 
         array (
-          'value' => 'Housekeeping',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Housekeeping',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -439,8 +469,11 @@ insert into departments (title) values (\'Human Resources\');
       array (
         0 => 
         array (
-          'value' => 'Human Resources',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Human Resources',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -468,8 +501,11 @@ insert into departments (title) values (\'Informal Classes\');
       array (
         0 => 
         array (
-          'value' => 'Informal Classes',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Informal Classes',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -497,8 +533,11 @@ insert into departments (title) values (\'Information Desk\');
       array (
         0 => 
         array (
-          'value' => 'Information Desk',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Information Desk',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -526,8 +565,11 @@ insert into departments (title) values (\'Jester Center Campus Store\');
       array (
         0 => 
         array (
-          'value' => 'Jester Center Campus Store',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Jester Center Campus Store',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -555,8 +597,11 @@ insert into departments (title) values (\'Maintenance\');
       array (
         0 => 
         array (
-          'value' => 'Maintenance',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Maintenance',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -584,8 +629,11 @@ insert into departments (title) values (\'Programming Office\');
       array (
         0 => 
         array (
-          'value' => 'Programming Office',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Programming Office',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -613,8 +661,11 @@ insert into departments (title) values (\'Reservation Office\');
       array (
         0 => 
         array (
-          'value' => 'Reservation Office',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Reservation Office',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -642,8 +693,11 @@ insert into departments (title) values (\'Union Campus Store\');
       array (
         0 => 
         array (
-          'value' => 'Union Campus Store',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Union Campus Store',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),
@@ -670,8 +724,11 @@ insert into departments (title) values (\'Union Underground\');
       array (
         0 => 
         array (
-          'value' => 'Union Underground',
-          'type' => 'text_val',
+          0 => 
+          array (
+            'value' => 'Union Underground',
+            'type' => 'text_val',
+          ),
         ),
       ),
     ),

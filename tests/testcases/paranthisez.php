@@ -4,10 +4,9 @@ $tests = array (
   array (
     'sql' => '
 (SELECT a);',
-    'expect' => 
-    array (
-      'command' => 'unknown',
-    ),
+    'expect' => 'Parse error: Unknown action: ( on line 2
+(SELECT a);
+^ found: "("',
     'fail' => false,
     'dialect' => 'ANSI',
   ),

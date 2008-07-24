@@ -106,6 +106,7 @@ CREATE TABLE photos (
     description text default \'hello\',
     id int default 0 primary key not null,
 );
+
 ',
     'expect' => 
     array (
@@ -197,6 +198,7 @@ create table brent (
     filename varchar(10),
     description varchar(20),
 );
+
 ',
     'expect' => 
     array (
@@ -234,6 +236,7 @@ CREATE TABLE films (
     len       INTERVAL HOUR TO MINUTE
     CONSTRAINT production UNIQUE(date_prod)
 );
+
 ',
     'expect' => 
     array (
@@ -321,6 +324,7 @@ CREATE TABLE films (
   4 => 
   array (
     'sql' => '
+-- SQL_PARSER_FLAG_FAIL
 CREATE TABLE films ( 
     code      CHARACTER(5) CONSTRAINT firstkey PRIMARY KEY, 
     title     CHARACTER VARYING(40) NOT NULL, 
@@ -330,88 +334,12 @@ CREATE TABLE films (
     len       INTERVAL minute to hour
     CONSTRAINT production UNIQUE(date_prod)
 );
+
 ',
-    'expect' => 
-    array (
-      'command' => 'create_table',
-      'table_names' => 
-      array (
-        0 => 'films',
-      ),
-      'column_defs' => 
-      array (
-        'code' => 
-        array (
-          'type' => 'char',
-          'length' => 5,
-          'constraints' => 
-          array (
-            'firstkey' => 
-            array (
-              'type' => 'primary_key',
-              'value' => true,
-            ),
-          ),
-        ),
-        'title' => 
-        array (
-          'type' => 'char',
-          'length' => 40,
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'not_null',
-              'value' => true,
-            ),
-          ),
-        ),
-        'did' => 
-        array (
-          'type' => 'numeric',
-          'length' => 3,
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'not_null',
-              'value' => true,
-            ),
-          ),
-        ),
-        'date_prod' => 
-        array (
-          'type' => 'date',
-        ),
-        'kind' => 
-        array (
-          'type' => 'char',
-          'length' => 10,
-        ),
-        'len' => 
-        array (
-          'type' => 'interval',
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'quantum_1' => 'minute',
-              'quantum_2' => 'hour',
-              'type' => 'values',
-            ),
-            'production' => 
-            array (
-              'type' => 'unique',
-              'column_names' => 
-              array (
-                0 => 'date_prod',
-              ),
-            ),
-          ),
-        ),
-      ),
-    ),
-    'fail' => false,
+    'expect' => 'Parse error: Expected EOQ, found: hour on line 9
+    len       INTERVAL minute to hour
+                                 ^ found: "hour"',
+    'fail' => true,
     'dialect' => 'ANSI',
   ),
   5 => 
@@ -422,6 +350,7 @@ CREATE TABLE distributors (
     name     VARCHAR(40) NOT NULL CHECK (name <> \'\') 
     CONSTRAINT con1 CHECK (did > 100 AND name > \'\') 
 );
+
 ',
     'expect' => 
     array (
@@ -609,17 +538,9 @@ CREATE TABLE msgs ( user_id integer, msg_id integer, msg_text varchar, msg_title
 create table nodefinitions;
 
 ',
-    'expect' => 
-    array (
-      'command' => 'create_table',
-      'table_names' => 
-      array (
-        0 => 'nodefinitions',
-      ),
-      'column_defs' => 
-      array (
-      ),
-    ),
+    'expect' => 'Parse error: Expected ( on line 3
+create table nodefinitions;
+                          ^ found: ";"',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -630,9 +551,9 @@ create table nodefinitions;
 create dogfood;
 
 ',
-    'expect' => 
-    array (
-    ),
+    'expect' => 'Parse error: Expected EOQ, found: ident on line 3
+create dogfood;
+       ^ found: "dogfood"',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -643,9 +564,9 @@ create dogfood;
 create table dunce (name varchar;
 
 ',
-    'expect' => 'Parse error: Unexpected token ; on line 2
--- SQL_PARSER_FLAG_FAIL
-                                                         ^ found: ";"',
+    'expect' => 'Parse error: Unexpected token ; on line 3
+create table dunce (name varchar;
+                                ^ found: ";"',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -655,9 +576,9 @@ create table dunce (name varchar;
 -- SQL_PARSER_FLAG_FAIL
 create table dunce (name varchar(2,3));
 ',
-    'expect' => 'Parse error: Expected 1 parameter on line 2
--- SQL_PARSER_FLAG_FAIL
-                                                             ^ found: ")"',
+    'expect' => 'Parse error: Expected EOQ, found: ) on line 3
+create table dunce (name varchar(2,3));
+                                    ^ found: ")"',
     'fail' => true,
     'dialect' => 'ANSI',
   ),

@@ -74,9 +74,9 @@ delete from dog where cat = 4 and horse <> "dead meat" or mouse = \'furry\';
 delete from;
 
 ',
-    'expect' => 'Parse error: Expected a table name on line 2
--- SQL_PARSER_FLAG_FAIL
-                                    ^ found: ";"',
+    'expect' => 'Parse error: Expected a table name on line 3
+delete from;
+           ^ found: ";"',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -104,9 +104,9 @@ delete from cat;
 delete from where cat = 53;
 
 ',
-    'expect' => 'Parse error: Expected a table name on line 2
--- SQL_PARSER_FLAG_FAIL
-                                     ^ found: "where"',
+    'expect' => 'Parse error: Expected EOQ, found: where on line 3
+delete from where cat = 53;
+            ^ found: "where"',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -116,9 +116,9 @@ delete from where cat = 53;
 -- SQL_PARSER_FLAG_FAIL
 delete from dog where mouse is happy;
 ',
-    'expect' => 'Parse error: Expected "null" on line 2
--- SQL_PARSER_FLAG_FAIL
-                                                        ^ found: "happy"',
+    'expect' => 'Parse error: Expected EOQ, found: ident on line 3
+delete from dog where mouse is happy;
+                               ^ found: "happy"',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
