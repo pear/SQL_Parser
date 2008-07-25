@@ -2185,14 +2185,63 @@ select a, d from b inner join c on b.a = c.a left outer join q on r < m;
   27 => 
   array (
     'sql' => '
+-- SQL_PARSER_FLAG_MYSQL
 select 4b from test where 7iModule_Solution = 3;
 
 ',
-    'expect' => 'Parse error: Expected EOQ, found: ident on line 2
-select 4b from test where 7iModule_Solution = 3;
-                           ^ found: "iModule_Solution"',
+    'expect' => 
+    array (
+      'command' => 'select',
+      'fields' => 
+      array (
+        0 => 
+        array (
+          'database' => '',
+          'table' => '',
+          'column' => '4b',
+          'alias' => '',
+        ),
+      ),
+      'from' => 
+      array (
+        'table_references' => 
+        array (
+          'table_factors' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'test',
+              'alias' => '',
+            ),
+          ),
+        ),
+      ),
+      'where_clause' => 
+      array (
+        'args' => 
+        array (
+          0 => 
+          array (
+            'database' => '',
+            'table' => '',
+            'column' => '7iModule_Solution',
+            'alias' => '',
+          ),
+          1 => 
+          array (
+            'value' => 3,
+            'type' => 'int_val',
+          ),
+        ),
+        'ops' => 
+        array (
+          0 => '=',
+        ),
+      ),
+    ),
     'fail' => false,
-    'dialect' => 'ANSI',
+    'dialect' => 'MySQL',
   ),
   28 => 
   array (

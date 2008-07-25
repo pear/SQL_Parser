@@ -90,6 +90,7 @@ select a, d from b inner join c on b.a = c.a;
 select a, d from b inner join c on b.a = c.a left outer join q on r < m;
 
 -- SQL PARSER TESTCASE
+-- SQL_PARSER_FLAG_MYSQL
 select 4b from test where 7iModule_Solution = 3;
 
 -- SQL PARSER TESTCASE
