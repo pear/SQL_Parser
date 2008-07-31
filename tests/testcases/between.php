@@ -3,41 +3,142 @@ $tests = array (
   0 => 
   array (
     'sql' => '
-SELECT "a" WHERE "b" BETWEEN "a" AND "c";',
+SELECT "a" FROM mytable WHERE "b" BETWEEN "a" AND "c";
+
+',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'a',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'a',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-        1 => 
+        'from' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'b',
-          'alias' => '',
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'mytable',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-        2 => 
+        'where_clause' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'a',
-          'alias' => '',
-        ),
-        3 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => 'c',
-          'alias' => '',
+          'args' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => '',
+              'column' => 'b',
+              'alias' => '',
+            ),
+            1 => 
+            array (
+              'database' => '',
+              'table' => '',
+              'column' => 'a',
+              'alias' => '',
+            ),
+            2 => 
+            array (
+              'database' => '',
+              'table' => '',
+              'column' => 'c',
+              'alias' => '',
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => 'and',
+          ),
         ),
       ),
+      1 => ';',
+    ),
+    'fail' => false,
+    'dialect' => 'ANSI',
+  ),
+  1 => 
+  array (
+    'sql' => '
+SELECT "b" BETWEEN "a" AND "c" FROM mytable;',
+    'expect' => 
+    array (
+      0 => 
+      array (
+        'command' => 'select',
+        'select_expressions' => 
+        array (
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'b',
+                'alias' => '',
+              ),
+              1 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'a',
+                'alias' => '',
+              ),
+              2 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'c',
+                'alias' => '',
+              ),
+            ),
+            'ops' => 
+            array (
+              0 => 'and',
+            ),
+          ),
+        ),
+        'from' => 
+        array (
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'mytable',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',

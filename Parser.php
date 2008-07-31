@@ -202,7 +202,7 @@ class SQL_Parser
     public function setDialect($dialect)
     {
         if (! in_array($dialect, SQL_Parser::$dialects)) {
-            return $this->raiseError('Unknown SQL dialect:' . $dialect);
+            throw new Exception('Unknown SQL dialect:' . $dialect);
         }
 
         include 'SQL/Parser/Dialect/' . $dialect . '.php';
@@ -315,9 +315,7 @@ class SQL_Parser
             $this->lexer->lineBegin - $length)) . "^";
         $message .= ' found: "' . $this->lexer->tokText . '"';
 
-        $this->error_message = $message;
-        $this->error = true;
-        return false;
+        throw new Exception($message);
     }
     // }}}
 
@@ -451,11 +449,12 @@ class SQL_Parser
                 case 'constraint':
                     $this->getTok();
                     if ($this->token != 'ident') {
-                        return $this->raiseError('Expected a constraint name');
+                        $this->raiseError('Expected a constraint name');
                     }
                     $constraintName = $this->lexer->tokText;
                     $namedConstraint = true;
                     $haveValue = false;
+                    $this->getTok();
                     break;
                 case 'default':
                     $this->getTok();
@@ -464,6 +463,7 @@ class SQL_Parser
                             'type' => 'default_value',
                             'value' => $this->lexer->tokText,
                         );
+                        $this->getTok();
                     } elseif ($this->isFunc()) {
                         $results = $this->parseFunctionOpts();
                         if (false === $results) {
@@ -472,35 +472,39 @@ class SQL_Parser
                         $results['type'] = 'default_function';
                         $constraintOpts  = $results;
                     } else {
-                        return $this->raiseError('Expected default value');
+                        $this->raiseError('Expected default value');
                     }
+
                     break;
                 case 'primary':
                     $this->getTok();
                     if ($this->token != 'key') {
-                        return $this->raiseError('Expected "key"');
+                        $this->raiseError('Expected "key"');
                     }
                     $constraintOpts = array(
                         'type'  => 'primary_key',
                         'value' => true,
                     );
+                    $this->getTok();
                     break;
                 case 'not':
                     $this->getTok();
                     if ($this->token != 'null') {
-                        return $this->raiseError('Expected "null"');
+                        $this->raiseError('Expected "null"');
                     }
                     $constraintOpts = array(
                         'type'  => 'not_null',
                         'value' => true,
                     );
+                    $this->getTok();
                     break;
                 case 'check':
                     $this->getTok();
                     if ($this->token != '(') {
-                        return $this->raiseError('Expected (');
+                        $this->raiseError('Expected (');
                     }
 
+                    $this->getTok();
                     $results = $this->parseCondition();
                     if (false === $results) {
                         return $results;
@@ -509,31 +513,33 @@ class SQL_Parser
                     $results['type'] = 'check';
                     $constraintOpts  = $results;
                     if ($this->token != ')') {
-                        return $this->raiseError('Expected )');
+                        $this->raiseError('Expected )');
                     }
+                    $this->getTok();
                     break;
                 case 'unique':
                     $this->getTok();
                     if ($this->token != '(') {
-                        return $this->raiseError('Expected (');
+                        $this->raiseError('Expected (');
                     }
 
                     $constraintOpts = array('type'=>'unique');
                     $this->getTok();
                     while ($this->token != ')') {
                         if ($this->token != 'ident') {
-                            return $this->raiseError('Expected an identifier');
+                            $this->raiseError('Expected an identifier');
                         }
                         $constraintOpts['column_names'][] = $this->lexer->tokText;
                         $this->getTok();
                         if ($this->token != ')' && $this->token != ',') {
-                            return $this->raiseError('Expected ) or ,');
+                            $this->raiseError('Expected ) or ,');
                         }
                     }
 
                     if ($this->token != ')') {
-                        return $this->raiseError('Expected )');
+                        $this->raiseError('Expected )');
                     }
+                    $this->getTok();
                     break;
                 case 'month':
                 case 'year':
@@ -563,14 +569,14 @@ class SQL_Parser
                             if ($this->token == 'to') {
                                 $this->getTok();
                                 if (! isset($class[$this->token])) {
-                                    return $this->raiseError(
+                                    $this->raiseError(
                                         'Expected interval quanta');
                                 }
 
                                 if ($class[$this->token] >=
                                     $class[$constraintOpts['quantum_1']]
                                 ) {
-                                    return $this->raiseError($this->token
+                                    $this->raiseError($this->token
                                         . ' is not smaller than ' .
                                         $constraintOpts['quantum_1']);
                                 }
@@ -578,26 +584,30 @@ class SQL_Parser
                             } else {
                                 $this->lexer->unget();
                             }
+                            $this->getTok();
                             break;
                         }
                     }
                     if (!isset($constraintOpts['quantum_1'])) {
-                        return $this->raiseError('Expected interval quanta');
+                        $this->raiseError('Expected interval quanta');
                     }
                     $constraintOpts['type'] = 'values';
+                    $this->getTok();
                     break;
                 case 'null':
                     $haveValue = false;
+                    $this->getTok();
                     break;
                 case 'auto_increment':
                     $constraintOpts = array(
                         'type'  => 'auto_increment',
                         'value' => true,
                     );
+                    $this->getTok();
                     break;
                 default:
-                    return $this->raiseError('Unexpected token '
-                            . $this->lexer->tokText);
+                    $this->raiseError('Unexpected token '
+                            . $this->token . ': "' . $this->lexer->tokText . '"');
             }
 
             if ($haveValue) {
@@ -608,7 +618,7 @@ class SQL_Parser
                     $options['constraints'][] = $constraintOpts;
                 }
             }
-            $this->getTok();
+
         }
         return $options;
     }
@@ -638,7 +648,6 @@ class SQL_Parser
     {
         $clause = array();
 
-        $this->getTok();
         while (true) {
             // parse the first argument
             if ($this->token == 'not') {
@@ -647,9 +656,10 @@ class SQL_Parser
             }
 
             if ($this->token == '(') {
+                $this->getTok();
                 $clause['args'][] = $this->parseCondition();
                 if ($this->token != ')') {
-                    return $this->raiseError('Expected ")"');
+                    $this->raiseError('Expected ")"');
                 }
                 $this->getTok();
             } elseif ($this->isFunc()) {
@@ -706,7 +716,7 @@ class SQL_Parser
                 case 'in':
                     // parse for 'in' operator
                     if ($this->token != '(') {
-                        return $this->raiseError('Expected "("');
+                        $this->raiseError('Expected "("');
                     }
 
                     // read the subset
@@ -727,7 +737,7 @@ class SQL_Parser
                         );
                     }
                     if ($this->token != ')') {
-                        return $this->raiseError('Expected ")"');
+                        $this->raiseError('Expected ")"');
                     }
                     break;
                 case 'and':
@@ -741,23 +751,120 @@ class SQL_Parser
             // next argument [with operator]
         }
 
-        $this->getTok();
-        if ($this->token == 'and' || $this->token == 'or') {
-            $op = $this->token;
-            $subClause = $this->parseCondition();
-            if (false === $subClause) {
-                return $subClause;
-            }
-            $clause = array('arg_1' => $clause,
-                'op' => $op,
-                'arg_2' => $subClause,
-            );
-        } else {
-            $this->lexer->unget();
-        }
         return $clause;
     }
     // }}}
+
+    public function parseSelectExpression()
+    {
+        $clause = array();
+
+        $this->getTok();
+        while (true) {
+            // parse the first argument
+            if ($this->token == 'not') {
+                $clause['neg'] = true;
+                $this->getTok();
+            }
+
+            if ($this->token == '(') {
+                $this->getTok();
+                $clause['args'][] = $this->parseCondition();
+                if ($this->token != ')') {
+                    $this->raiseError('Expected ")"');
+                }
+                $this->getTok();
+            } elseif ($this->isFunc()) {
+                $result = $this->parseFunctionOpts();
+                if (false === $result) {
+                    return $result;
+                }
+                $clause['args'][] = $result;
+            } elseif ($this->token == 'ident') {
+                $clause['args'][] = $this->parseIdentifier();
+            } else {
+                $arg = $this->lexer->tokText;
+                $argtype = $this->token;
+                $clause['args'][] = array(
+                    'value' => $arg,
+                	'type'  => $argtype,
+                );
+                $this->getTok();
+            }
+
+            if (! $this->isOperator()) {
+                // no operator, return
+                return $clause;
+            }
+
+            // parse the operator
+            $op = $this->token;
+            if ($op == 'not') {
+                $this->getTok();
+                $not = 'not ';
+                $op = $this->token;
+            } else {
+                $not = '';
+            }
+
+            $this->getTok();
+            switch ($op) {
+                case 'is':
+                    // parse for 'is' operator
+                    if ($this->token == 'not') {
+                        $op .= ' not';
+                        $this->getTok();
+                    }
+                    $clause['ops'][] = $op;
+                    break;
+                case 'like':
+                    $clause['ops'][] = $not . $op;
+                    break;
+                case 'between':
+                    // @todo
+                    //$clause['ops'][] = $not . $op;
+                    //$this->getTok();
+                    break;
+                case 'in':
+                    // parse for 'in' operator
+                    if ($this->token != '(') {
+                        $this->raiseError('Expected "("');
+                    }
+
+                    // read the subset
+                    $this->getTok();
+                    // is this a subselect?
+                    if ($this->token == 'select') {
+                        $clause['args'][] = $this->parseSelect(true);
+                    } else {
+                        $this->lexer->pushBack();
+                        // parse the set
+                        $result = $this->getParams($values, $types);
+                        if (false === $result) {
+                            return $result;
+                        }
+                        $clause['args'][] = array(
+                            'values' => $values,
+                        	'types'  => $types,
+                        );
+                    }
+                    if ($this->token != ')') {
+                        $this->raiseError('Expected ")"');
+                    }
+                    break;
+                case 'and':
+                case 'or':
+                    $clause['ops'][] = $not . $op;
+                    continue;
+                    break;
+                default:
+                    $clause['ops'][] = $not . $op;
+            }
+            // next argument [with operator]
+        }
+
+        return $clause;
+    }
 
     // {{{ parseFieldList()
     /**
@@ -770,7 +877,7 @@ class SQL_Parser
 
         $this->getTok();
         if ($this->token != '(') {
-            return $this->raiseError('Expected (');
+            $this->raiseError('Expected (');
         }
 
         while (1) {
@@ -833,13 +940,13 @@ class SQL_Parser
             } elseif ($this->token == ')') {
                 return $fields;
             } else {
-                //return $this->raiseError('Expected identifier');
+                //$this->raiseError('Expected identifier');
             }
 
             // parse field type
             $this->getTok();
             if (! $this->isType($this->token)) {
-                return $this->raiseError('Expected a valid type');
+                $this->raiseError('Expected a valid type');
             }
             $type = $this->token;
 
@@ -848,13 +955,13 @@ class SQL_Parser
             if ($this->token == 'precision') {
                 // double precision == double
                 if ($type == 'double') {
-                    return $this->raiseError('Unexpected token');
+                    $this->raiseError('Unexpected token');
                 }
                 $this->getTok();
             } elseif ($this->token == 'varying') {
                 // character varying() == varchar()
                 if ($type != 'character' && $type != 'varchar') {
-                    return $this->raiseError('Unexpected token');
+                    $this->raiseError('Unexpected token');
                 }
                 $this->getTok();
             }
@@ -869,13 +976,13 @@ class SQL_Parser
                     case 'numeric':
                         if (isset($values[1])) {
                             if ($types[1] != 'int_val') {
-                                return $this->raiseError('Expected an integer');
+                                $this->raiseError('Expected an integer');
                             }
                             $fields[$name]['decimals'] = $values[1];
                         }
                     case 'float':
                         if ($types[0] != 'int_val') {
-                            return $this->raiseError('Expected an integer');
+                            $this->raiseError('Expected an integer');
                         }
                         $fields[$name]['length'] = $values[0];
                         break;
@@ -885,23 +992,23 @@ class SQL_Parser
                     case 'int':
                     case 'tinyint' :
                         if (sizeof($values) != 1) {
-                            return $this->raiseError('Expected 1 parameter');
+                            $this->raiseError('Expected 1 parameter');
                         }
                         if ($types[0] != 'int_val') {
-                            return $this->raiseError('Expected an integer');
+                            $this->raiseError('Expected an integer');
                         }
                         $fields[$name]['length'] = $values[0];
                         break;
                     case 'set':
                     case 'enum':
                         if (! sizeof($values)) {
-                            return $this->raiseError('Expected a domain');
+                            $this->raiseError('Expected a domain');
                         }
                         $fields[$name]['domain'] = $values;
                         break;
                     default:
                         if (sizeof($values)) {
-                            return $this->raiseError('Unexpected )');
+                            $this->raiseError('Unexpected )');
                         }
                 }
                 $this->getTok();
@@ -938,132 +1045,15 @@ class SQL_Parser
         $opts['name'] = $function;
         $this->getTok();
         if ($this->token != '(') {
-            return $this->raiseError('Expected "("');
+            $this->raiseError('Expected "("');
         }
 
         $this->getParams($opts['arg'], $opts['type']);
-
-        switch ($function . '--') {
-            case 'count':
-                $this->getTok();
-                switch ($this->token) {
-                    case 'distinct':
-                        $opts['distinct'] = true;
-                        $this->getTok();
-                        /*
-                        if ($this->token != 'ident') {
-                            return $this->raiseError('Expected a column name');
-                        }
-                    case 'ident':
-                    case '*':
-                        $arg = $this->lexer->tokText;
-                        $argtype = $this->token;
-                        $this->getTok();
-                        if ($this->token == '.') {
-                            $this->getTok();
-                            if ($this->token != 'ident') {
-                                return $this->raiseError('Expected a column name');
-                            }
-                            $arg .= '.'.$this->lexer->tokText;
-                        } else {
-                            $this->lexer->pushBack();
-                        }
-                        $opts['arg'][]  = $arg;
-                        $opts['type'][] = $argtype;
-                        break;
-                    default:
-                        return $this->raiseError('Invalid argument');
-                        */
-                }
-                //break;
-            case 'concat':
-                /*
-                while ($this->token != ')') {
-                    switch ($this->token) {
-                        case 'ident':
-                        case 'text_val':
-                            $opts['arg'][]  = $this->lexer->tokText;
-                            $opts['type'][] = $this->token;
-                            break;
-                        case ',':
-                            // do nothing
-                            break;
-                        default:
-                            return $this->raiseError('Expected a string or a column name');
-                    }
-                    $this->getTok();
-                }
-                $this->lexer->pushBack();
-                break;
-                */
-            case 'date_format':
-                /*
-                if ($this->token != 'ident' && $this->token != 'text_val') {
-                    return $this->raiseError('Expected a string or column name');
-                }
-
-                $opts['arg'][]  = $this->lexer->tokText;
-                $opts['type'][] = $this->token;
-                $this->getTok();
-                if ($this->token != ',') {
-                    return $this->raiseError('Expected a comma');
-                }
-                $this->getTok();
-                if ($this->token != 'text_val') {
-                    return $this->raiseError('Expected a string value');
-                }
-                $opts['arg'][] = $this->lexer->tokText;
-                $opts['type'][] = $this->token;
-                break;
-                */
-            default:
-                //$this->getParams($opts['arg'], $opts['type']);
-                /*
-                if ($this->token != ')') {
-                    $arg = $this->lexer->tokText;
-                    $argtype = $this->token;
-                    $this->getTok();
-                    if ($this->token == '.') {
-                        $this->getTok();
-                        if ($this->token != 'ident') {
-                            return $this->raiseError('Expected a column name');
-                        }
-                        $arg .= '.'.$this->lexer->tokText;
-                    } else {
-                        $this->lexer->pushBack();
-                    }
-                    $opts['arg'][]  = $arg;
-                    $opts['type'][] = $argtype;
-                } else {
-                    $this->lexer->pushBack();
-                }
-                break;
-                */
-        }
-        //echo $this->token;
-        /*
-        $this->getTok();
         if ($this->token != ')') {
-            return $this->raiseError('Expected ")" ');
+            $this->raiseError('Expected ")"');
         }
-        */
-
-        // check for an alias
         $this->getTok();
-        if ($this->token == ',' || $this->token == 'from') {
-            $this->lexer->pushBack();
-        } elseif ($this->token == 'as') {
-            $this->getTok();
-            if ($this->token != 'ident' ) {
-                return $this->raiseError('Expected column alias');
-            }
-            $opts['alias'] = $this->lexer->tokText;
-        } elseif ($this->token != null) {
-            if ($this->token != 'ident' ) {
-                return $this->raiseError('Expected column alias, from, or comma');
-            }
-            $opts['alias'] = $this->lexer->tokText;
-        }
+
         return $opts;
     }
     // }}}
@@ -1083,7 +1073,7 @@ class SQL_Parser
                 $tree['command'] = 'create_table';
                 $this->getTok();
                 if ($this->token != 'ident') {
-                    return $this->raiseError('Expected table name');
+                    $this->raiseError('Expected table name');
                 }
                 $tree['table_names'][] = $this->lexer->tokText;
                 $fields = $this->parseFieldList();
@@ -1103,7 +1093,7 @@ class SQL_Parser
                 $tree['command'] = 'create_sequence';
                 break;
             default:
-                return $this->raiseError('Unknown object to create');
+                $this->raiseError('Unknown object to create');
         }
 
         $this->getTok();
@@ -1121,13 +1111,13 @@ class SQL_Parser
     {
         $this->getTok();
         if ($this->token != 'into') {
-            return $this->raiseError('Expected "into"');
+            $this->raiseError('Expected "into"');
         }
         $tree = array('command' => 'insert');
 
         $this->getTok();
         if ($this->token != 'ident') {
-            return $this->raiseError('Expected table name');
+            $this->raiseError('Expected table name');
         }
         $tree['table_names'][] = $this->lexer->tokText;
 
@@ -1143,7 +1133,7 @@ class SQL_Parser
         }
 
         if ($this->token != 'values') {
-            return $this->raiseError('Expected "values"');
+            $this->raiseError('Expected "values"');
         }
 
         // loop over all (value[, ...])[,(value[, ...]), ...]
@@ -1151,7 +1141,7 @@ class SQL_Parser
             // get opening brace '('
             $this->getTok();
             if ($this->token != '(') {
-                return $this->raiseError('Expected "("');
+                $this->raiseError('Expected "("');
             }
             $results = $this->getParams($values, $types);
             if (false === $results) {
@@ -1159,10 +1149,10 @@ class SQL_Parser
             }
             if (isset($tree['column_defs'])
              && sizeof($tree['column_defs']) != sizeof($values)) {
-                return $this->raiseError('field/value mismatch');
+                $this->raiseError('field/value mismatch');
             }
             if (! sizeof($values)) {
-                return $this->raiseError('No fields to insert');
+                $this->raiseError('No fields to insert');
             }
             foreach ($values as $key => $value) {
                 $values[$key] = array(
@@ -1195,37 +1185,21 @@ class SQL_Parser
         $tree['tables'][] = $this->parseIdentifier('table');
 
         if ($this->token != 'set') {
-            return $this->raiseError('Expected "set"');
+            $this->raiseError('Expected "set"');
         }
 
         while (true) {
             $this->getTok();
-            $tree['columns'][] = $this->parseIdentifier();
+            $set['column'] = $this->parseIdentifier();
 
             if ($this->token != '=') {
-                return $this->raiseError('Expected =');
+                $this->raiseError('Expected =');
             }
 
             $this->getTok();
-            if ($this->isVal($this->token)) {
-                $tree['values'][] = array(
-                    'value' => $this->lexer->tokText,
-                    'type'  => $this->token,
-                );
-                $this->getTok();
-            } elseif ($this->token == 'ident') {
-                $tree['values'][] = array(
-                	'value' => $this->parseIdentifier(),
-                    'type'  => 'ident',
-                );
-            } else {
-                $this->getParams($values, $types);
-                $tree['values'][] = array(
-                    'value' => $values[0],
-                    'type'  => $types[0],
-                );
-                $this->getTok();
-            }
+            $set['column'] = $this->parseCondition();
+
+            $tree['sets'][] = $set;
 
             if ($this->token != ',') {
                 break;
@@ -1238,6 +1212,7 @@ class SQL_Parser
         }
 
         if ($this->token == 'where') {
+            $this->getTok();
             $clause = $this->parseCondition();
             if (false === $clause) {
                 return $clause;
@@ -1273,6 +1248,7 @@ class SQL_Parser
 
             // join condition
             if ($this->token == 'on') {
+                $this->getTok();
                 $clause = $this->parseCondition();
                 if (false === $clause) {
                     return $clause;
@@ -1296,7 +1272,7 @@ class SQL_Parser
                 $join = $this->token;
                 $this->getTok();
                 if ($this->token != 'join') {
-                    return $this->raiseError('Expected token "join"');
+                    $this->raiseError('Expected token "join"');
                 }
                 $tree['table_join'][] = $join.' join';
                 $this->getTok();
@@ -1312,7 +1288,7 @@ class SQL_Parser
                 }
 
                 if ($this->token != 'join') {
-                    return $this->raiseError('Expected token "join"');
+                    $this->raiseError('Expected token "join"');
                 }
                 $tree['table_join'][] = $join.' join';
 
@@ -1336,7 +1312,7 @@ class SQL_Parser
                 if ($this->token == 'join') {
                     $tree['table_join'][] = $join.' join';
                 } else {
-                    return $this->raiseError('Expected token "join"');
+                    $this->raiseError('Expected token "join"');
                 }
                 $this->getTok();
             } else {
@@ -1374,13 +1350,14 @@ class SQL_Parser
         }
 
         if ($this->token != 'ident') {
-            return $this->raiseError('Expected a table name');
+            $this->raiseError('Expected a table name');
         }
         $tree['table_names'][] = $this->lexer->tokText;
 
         $this->getTok();
         if ($this->token == 'where') {
             // WHERE is not required
+            $this->getTok();
             $clause = $this->parseCondition();
             if (false === $clause) {
                 return $clause;
@@ -1405,7 +1382,7 @@ class SQL_Parser
                 $tree = array('command' => 'drop_table');
                 $this->getTok();
                 if ($this->token != 'ident') {
-                    return $this->raiseError('Expected a table name');
+                    $this->raiseError('Expected a table name');
                 }
                 $tree['table_names'][] = $this->lexer->tokText;
 
@@ -1428,7 +1405,7 @@ class SQL_Parser
                 $tree = array('command' => 'drop_sequence');
                 break;
             default:
-                return $this->raiseError('Unknown object to drop');
+                $this->raiseError('Unknown object to drop');
         }
         return $tree;
     }
@@ -1467,7 +1444,7 @@ class SQL_Parser
         }
 
         if ($prevTok != 'ident' && $prevTok != '*') {
-            return $this->raiseError('Expected name, found: ' . $prevTok);
+            $this->raiseError('Expected name');
         }
 
         if ($type === 'table') {
@@ -1479,7 +1456,7 @@ class SQL_Parser
         if ($this->token == 'as') {
             $this->getTok();
             if ($this->token != 'ident' ) {
-                return $this->raiseError('Expected column alias');
+                $this->raiseError('Expected column alias');
             }
             $ident['alias'] = $this->lexer->tokText;
             $this->getTok();
@@ -1505,56 +1482,12 @@ class SQL_Parser
             $this->getTok();
         }
 
-        /* not only ident, function and * is valid here, any value is valid
-         * SELECT 1; or SELECT 'abc' is valid Syntax
-        if ($this->token != 'ident'
-         && ! $this->isFunc()
-         && $this->token != '*') {
-            return $this->raiseError('Expected columns or a set function');
-        }
-        */
-
-        while ($this->token != 'from' && $this->token != null) {
-            if ($this->token == 'ident' || $this->token == '*') {
-                $tree['fields'][] = $this->parseIdentifier();
-                if ($this->token != 'from') {
-                    $this->getTok();
-                }
-                if ($this->token == ',') {
-                    $this->getTok();
-                }
-            } elseif ($this->isFunc()) {
-                if (! isset($tree['set_quantifier'])) {
-                    $result = $this->parseFunctionOpts();
-                    if (false === $result) {
-                        return $result;
-                    }
-                    $tree['set_function'][] = $result;
-
-                    $this->getTok();
-                    if ($this->token == 'as') {
-                        $this->getTok();
-                        if ($this->token != 'ident' ) {
-                            return $this->raiseError('Expected column alias');
-                        }
-                        $columnAlias = $this->lexer->tokText;
-                    } else {
-                        $columnAlias = '';
-                    }
-                } else {
-                    return $this->raiseError('Cannot use "'
-                        . $tree['set_quantifier'] . '" with ' . $this->token);
-                }
-            } elseif ($this->token == ',') {
-                $this->getTok();
-            } else {
-                $tree['column_values'][] = $this->lexer->tokText;
-                $tree['column_names'][] = $this->lexer->tokText;
-                $tree['column_tables'][] = '';
-                $tree['column_aliases'][] = '';
-                //return $this->raiseError('Unexpected token "'.$this->token.'"');
-                $this->getTok();
+        while (1) {
+            $tree['select_expressions'][] = $this->parseCondition();
+            if ($this->token != ',') {
+                break;
             }
+            $this->getTok();
         }
 
         // FROM
@@ -1580,6 +1513,7 @@ class SQL_Parser
          && $this->token != ')') {
             switch ($this->token) {
                 case 'where':
+                    $this->getTok();
                     $clause = $this->parseCondition();
                     if (false === $clause) {
                         return $clause;
@@ -1589,7 +1523,7 @@ class SQL_Parser
                 case 'order':
                     $this->getTok();
                     if ($this->token != 'by') {
-                        return $this->raiseError('Expected "by"');
+                        $this->raiseError('Expected "by"');
                     }
                     $this->getTok();
                     while ($this->token == 'ident') {
@@ -1600,7 +1534,7 @@ class SQL_Parser
                             if ($this->token == 'ident') {
                                 $arg .= '.'.$this->lexer->tokText;
                             } else {
-                                return $this->raiseError('Expected a column name');
+                                $this->raiseError('Expected a column name');
                             }
                         } else {
                             $this->lexer->pushBack();
@@ -1611,7 +1545,7 @@ class SQL_Parser
                         if (isset($this->synonyms[$this->token])) {
                             $order = $this->synonyms[$this->token];
                             if (($order != 'asc') && ($order != 'desc')) {
-                                return $this->raiseError('Unexpected token');
+                                $this->raiseError('Unexpected token');
                             }
                             $this->getTok();
                         } else {
@@ -1626,7 +1560,7 @@ class SQL_Parser
                 case 'limit':
                     $this->getTok();
                     if ($this->token != 'int_val') {
-                        return $this->raiseError('Expected an integer value');
+                        $this->raiseError('Expected an integer value');
                     }
                     $length = $this->lexer->tokText;
                     $start = 0;
@@ -1634,7 +1568,7 @@ class SQL_Parser
                     if ($this->token == ',') {
                         $this->getTok();
                         if ($this->token != 'int_val') {
-                            return $this->raiseError('Expected an integer value');
+                            $this->raiseError('Expected an integer value');
                         }
                         $start  = $length;
                         $length = $this->lexer->tokText;
@@ -1646,7 +1580,7 @@ class SQL_Parser
                 case 'group':
                     $this->getTok();
                     if ($this->token != 'by') {
-                        return $this->raiseError('Expected "by"');
+                        $this->raiseError('Expected "by"');
                     }
                     $this->getTok();
                     while ($this->token == 'ident') {
@@ -1657,7 +1591,7 @@ class SQL_Parser
                             if ($this->token == 'ident') {
                                 $arg .= '.'.$this->lexer->tokText;
                             } else {
-                                return $this->raiseError('Expected a column name');
+                                $this->raiseError('Expected a column name');
                             }
                         } else {
                             $this->lexer->pushBack();
@@ -1672,7 +1606,7 @@ class SQL_Parser
                     }
                     break;
                 default:
-                    return $this->raiseError('Unexpected clause');
+                    $this->raiseError('Unexpected clause');
             }
         }
         return $tree;
@@ -1688,7 +1622,7 @@ class SQL_Parser
 
         $this->getTok();
         if ($this->token != 'tables') {
-            $this->raiseError('Expected tables, found: ' . $this->token);
+            $this->raiseError('Expected tables');
         }
 
         while(1) {
@@ -1738,7 +1672,7 @@ class SQL_Parser
             $tree['type'] = $this->token;
             $this->getTok();
         } else {
-            return $this->raiseError('Expected READ [LOCAL] | [LOW_PRIORITY] WRITE, found: ' . $this->token);
+            $this->raiseError('Expected READ [LOCAL] | [LOW_PRIORITY] WRITE');
         }
 
         return $tree;
@@ -1747,7 +1681,6 @@ class SQL_Parser
     // {{{ parse($string)
     /**
      *
-     * @param string $string the SQL
      * @return  array   parsed data
      * @uses  SQL_Parser::$lexeropts
      * @uses  SQL_Parser::$lexer
@@ -1765,59 +1698,107 @@ class SQL_Parser
      * @uses  SQL_Parser_Lexer::$symbols
      * @access  public
      */
-    public function parse($string = null)
+    public function parseQuery()
     {
-        if (is_string($string)) {
-            $this->initLexer($string);
-        } elseif (! $this->lexer instanceof SQL_Parser_Lexer) {
-            $this->raiseError('No initial string specified');
-            return array('empty' => true);
-        }
+        $tree = array();
 
         // get query action
         $this->getTok();
-        switch ($this->token) {
-            case null:
-                // null == end of string
-                $this->raiseError('Nothing to do');
-                $tree = array('empty' => true);
-                break;
-            case 'select':
-                $tree = $this->parseSelect();
-                break;
-            case 'update':
-                $tree = $this->parseUpdate();
-                break;
-            case 'insert':
-                $tree = $this->parseInsert();
-                break;
-            case 'delete':
-                $tree = $this->parseDelete();
-                break;
-            case 'create':
-                $tree = $this->parseCreate();
-                break;
-            case 'drop':
-                $tree = $this->parseDrop();
-                break;
-            case 'unlock':
-                $this->getTok();
-                if ($this->token != 'tables') {
-                    $this->raiseError('Expected tables, found: ' . $this->token);
-                }
+        while (1) {
+            $branch = array();
+            switch ($this->token) {
+                case null:
+                    // null == end of string
+                    break;
+                case 'select':
+                    $branch = $this->parseSelect();
+                    break;
+                case 'update':
+                    $branch = $this->parseUpdate();
+                    break;
+                case 'insert':
+                    $branch = $this->parseInsert();
+                    break;
+                case 'delete':
+                    $branch = $this->parseDelete();
+                    break;
+                case 'create':
+                    $branch = $this->parseCreate();
+                    break;
+                case 'drop':
+                    $branch = $this->parseDrop();
+                    break;
+                case 'unlock':
+                    $this->getTok();
+                    if ($this->token != 'tables') {
+                        $this->raiseError('Expected tables');
+                    }
 
+                    $this->getTok();
+                    $branch = array('command' => 'unlock tables');
+                    break;
+                case 'lock':
+                    $branch = $this->parseLock();
+                    break;
+                case '(':
+                    $branch[] = $this->parseQuery();
+                    if ($this->token != ')') {
+                        $this->raiseError('Expected )');
+                    }
+                    $this->getTok();
+                    break;
+                default:
+                    $this->raiseError('Unknown action: ' . $this->token);
+            }
+            $tree[] = $branch;
+
+            // another command separated with ; or a UNION
+            if ($this->token == ';') {
+                $tree[] = ';';
                 $this->getTok();
-                $tree = array('command' => 'unlock tables');
-                break;
-            case 'lock':
-                $tree = $this->parseLock();
-                break;
-            default:
-                return $this->raiseError('Unknown action: ' . $this->token);
+                if (! is_null($this->token)) {
+                    continue;
+                }
+            }
+
+            // another command separated with ; or a UNION
+            if ($this->token == 'UNION') {
+                $tree[] = 'UNION';
+                $this->getTok();
+                continue;
+            }
+
+            // end? unknown?
+            break;
         }
 
-        if ($this->token != ';' && ! is_null($this->token)) {
-            return $this->raiseError('Expected EOQ, found: ' . $this->token);
+        return $tree;
+    }
+
+    public function parse($string = null)
+    {
+        try {
+            if (is_string($string)) {
+                $this->initLexer($string);
+            } elseif (! $this->lexer instanceof SQL_Parser_Lexer) {
+                throw new Exception('No initial string specified');
+                return array('empty' => true);
+            }
+        } catch (Exception $e) {
+            return 'Caught exception on init: ' . $e->getMessage() . "\n";
+        }
+
+        try {
+            $tree = $this->parseQuery();
+            if (! is_null($this->token)) {
+                $this->raiseError('Expected EOQ');
+            }
+        } catch (Exception $e) {
+            $tree = "\n";
+            $tree .= 'Caught exception: ' . $e->getMessage() . "\n";
+            $tree .= 'in: ' . $e->getFile() . '#' . $e->getLine() . "\n";
+            $tree .= 'from: ' . "\n" . $e->getTraceAsString();
+            $tree .= "\n";
         }
 
         return $tree;

@@ -15,128 +15,127 @@ WHERE
 ',
     'expect' => 
     array (
-      'command' => 'update',
-      'tables' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'update',
+        'tables' => 
         array (
-          'database' => '',
-          'table' => 'tblTicklerPatientData',
-          'alias' => '',
-        ),
-      ),
-      'columns' => 
-      array (
-        0 => 
-        array (
-          'database' => '',
-          'table' => 'tblTicklerPatientData',
-          'column' => 'final_diagnosis',
-          'alias' => '',
-        ),
-      ),
-      'values' => 
-      array (
-        0 => 
-        array (
-          'value' => 
+          0 => 
           array (
             'database' => '',
-            'table' => 'ptc',
-            'column' => 'path_diagnosis_codes',
+            'table' => 'tblTicklerPatientData',
             'alias' => '',
           ),
-          'type' => 'ident',
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'sets' => 
         array (
-          'table_factors' => 
+          0 => 
           array (
-            0 => 
-            array (
-              'database' => '',
-              'table' => 'tblTicklerPatientData',
-              'alias' => '',
-            ),
-            1 => 
-            array (
-              'database' => '',
-              'table' => 'PatientTest(Case)',
-              'alias' => 'ptc',
-            ),
-          ),
-          'table_join' => 
-          array (
-            0 => 'inner join',
-          ),
-          'table_join_clause' => 
-          array (
-            0 => 
+            'column' => 
             array (
               'args' => 
               array (
                 0 => 
                 array (
                   'database' => '',
-                  'table' => 'tblTicklerPatientData',
-                  'column' => 'PatientTest_key',
-                  'alias' => '',
-                ),
-                1 => 
-                array (
-                  'database' => '',
                   'table' => 'ptc',
-                  'column' => 'PatientTest_key',
+                  'column' => 'path_diagnosis_codes',
                   'alias' => '',
                 ),
-              ),
-              'ops' => 
-              array (
-                0 => '=',
               ),
             ),
           ),
         ),
-      ),
-      'where_clause' => 
-      array (
-        'args' => 
+        'from' => 
         array (
-          0 => 
+          'table_references' => 
           array (
-            'database' => '',
-            'table' => 'ptc',
-            'column' => 'path_diagnosis_codes',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'value' => 'Null',
-            'type' => 'null',
-          ),
-          2 => 
-          array (
-            'database' => '',
-            'table' => 'tblTicklerPatientData',
-            'column' => 'final_diagnosis',
-            'alias' => '',
-          ),
-          3 => 
-          array (
-            'value' => 'null',
-            'type' => 'null',
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'tblTicklerPatientData',
+                'alias' => '',
+              ),
+              1 => 
+              array (
+                'database' => '',
+                'table' => 'PatientTest(Case)',
+                'alias' => 'ptc',
+              ),
+            ),
+            'table_join' => 
+            array (
+              0 => 'inner join',
+            ),
+            'table_join_clause' => 
+            array (
+              0 => 
+              array (
+                'args' => 
+                array (
+                  0 => 
+                  array (
+                    'database' => '',
+                    'table' => 'tblTicklerPatientData',
+                    'column' => 'PatientTest_key',
+                    'alias' => '',
+                  ),
+                  1 => 
+                  array (
+                    'database' => '',
+                    'table' => 'ptc',
+                    'column' => 'PatientTest_key',
+                    'alias' => '',
+                  ),
+                ),
+                'ops' => 
+                array (
+                  0 => '=',
+                ),
+              ),
+            ),
           ),
         ),
-        'ops' => 
+        'where_clause' => 
         array (
-          0 => 'is not',
-          1 => 'and',
-          2 => 'is',
+          'args' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => 'ptc',
+              'column' => 'path_diagnosis_codes',
+              'alias' => '',
+            ),
+            1 => 
+            array (
+              'value' => 'Null',
+              'type' => 'null',
+            ),
+            2 => 
+            array (
+              'database' => '',
+              'table' => 'tblTicklerPatientData',
+              'column' => 'final_diagnosis',
+              'alias' => '',
+            ),
+            3 => 
+            array (
+              'value' => 'null',
+              'type' => 'null',
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => 'is not',
+            1 => 'and',
+            2 => 'is',
+          ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'MySQL',

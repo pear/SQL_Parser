@@ -24,6 +24,7 @@ class SQL_Parser_AllTests
          * test files
          */
         $tests = glob('tests/testcases/*.php');
+        //$tests[] = 'tests/testcases/comment.php';
 
         /*
          * add test cases

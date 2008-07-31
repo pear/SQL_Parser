@@ -7,41 +7,46 @@ SELECT 1;
 SELECT "1";',
     'expect' => 
     array (
-      'command' => 'select',
-      'column_values' => 
+      0 => 
       array (
-        0 => 1,
-        1 => ';',
-        2 => 'SELECT',
-      ),
-      'column_names' => 
-      array (
-        0 => 1,
-        1 => ';',
-        2 => 'SELECT',
-      ),
-      'column_tables' => 
-      array (
-        0 => '',
-        1 => '',
-        2 => '',
-      ),
-      'column_aliases' => 
-      array (
-        0 => '',
-        1 => '',
-        2 => '',
-      ),
-      'fields' => 
-      array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => '1',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => 1,
+                'type' => 'int_val',
+              ),
+            ),
+          ),
         ),
       ),
+      1 => ';',
+      2 => 
+      array (
+        'command' => 'select',
+        'select_expressions' => 
+        array (
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => '1',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+      ),
+      3 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',

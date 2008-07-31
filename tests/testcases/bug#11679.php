@@ -6,28 +6,37 @@ $tests = array (
 select tab.row_one as row_show from `tables` as tab',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => 'tab',
-          'column' => 'row_one',
-          'alias' => 'row_show',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
+          0 => 
           array (
-            0 => 
+            'args' => 
             array (
-              'database' => '',
-              'table' => 'tables',
-              'alias' => 'tab',
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'tab',
+                'column' => 'row_one',
+                'alias' => 'row_show',
+              ),
+            ),
+          ),
+        ),
+        'from' => 
+        array (
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'tables',
+                'alias' => 'tab',
+              ),
             ),
           ),
         ),

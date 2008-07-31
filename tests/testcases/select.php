@@ -8,54 +8,62 @@ select * from dog where cat <> 4;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => '*',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => '*',
+                'type' => '*',
+              ),
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'dog',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
-              'table' => 'dog',
+              'table' => '',
+              'column' => 'cat',
               'alias' => '',
             ),
+            1 => 
+            array (
+              'value' => 4,
+              'type' => 'int_val',
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => '<>',
           ),
         ),
       ),
-      'where_clause' => 
-      array (
-        'args' => 
-        array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'cat',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'value' => 4,
-            'type' => 'int_val',
-          ),
-        ),
-        'ops' => 
-        array (
-          0 => '<>',
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -68,39 +76,55 @@ select legs, hairy from dog;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'legs',
-          'alias' => '',
-        ),
-        1 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => 'hairy',
-          'alias' => '',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
+          0 => 
           array (
-            0 => 
+            'args' => 
             array (
-              'database' => '',
-              'table' => 'dog',
-              'alias' => '',
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'legs',
+                'alias' => '',
+              ),
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'hairy',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'from' => 
+        array (
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'dog',
+                'alias' => '',
+              ),
             ),
           ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -113,37 +137,47 @@ select max(length) from dog;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'set_function' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'name' => 'max',
-          'arg' => 
+          0 => 
           array (
-            0 => 'length',
-          ),
-          'type' => 
-          array (
-            0 => 'ident',
+            'args' => 
+            array (
+              0 => 
+              array (
+                'name' => 'max',
+                'arg' => 
+                array (
+                  0 => 'length',
+                ),
+                'type' => 
+                array (
+                  0 => 'ident',
+                ),
+              ),
+            ),
           ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
           array (
-            0 => 
+            'table_factors' => 
             array (
-              'database' => '',
-              'table' => 'dog',
-              'alias' => '',
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'dog',
+                'alias' => '',
+              ),
             ),
           ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -156,37 +190,47 @@ select count(distinct country) from publishers;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'set_function' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'name' => 'count',
-          'arg' => 
+          0 => 
           array (
-            0 => 'distinctcountry',
-          ),
-          'type' => 
-          array (
-            0 => 'distinctident',
+            'args' => 
+            array (
+              0 => 
+              array (
+                'name' => 'count',
+                'arg' => 
+                array (
+                  0 => 'distinctcountry',
+                ),
+                'type' => 
+                array (
+                  0 => 'distinctident',
+                ),
+              ),
+            ),
           ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
           array (
-            0 => 
+            'table_factors' => 
             array (
-              'database' => '',
-              'table' => 'publishers',
-              'alias' => '',
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'publishers',
+                'alias' => '',
+              ),
             ),
           ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -199,75 +243,91 @@ select one, two from hairy where two <> 4 and one = 2;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'one',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'one',
+                'alias' => '',
+              ),
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'two',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-        1 => 
+        'from' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'two',
-          'alias' => '',
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'hairy',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'where_clause' => 
         array (
-          'table_factors' => 
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
-              'table' => 'hairy',
+              'table' => '',
+              'column' => 'two',
               'alias' => '',
             ),
+            1 => 
+            array (
+              'value' => 4,
+              'type' => 'int_val',
+            ),
+            2 => 
+            array (
+              'database' => '',
+              'table' => '',
+              'column' => 'one',
+              'alias' => '',
+            ),
+            3 => 
+            array (
+              'value' => 2,
+              'type' => 'int_val',
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => '<>',
+            1 => 'and',
+            2 => '=',
           ),
         ),
       ),
-      'where_clause' => 
-      array (
-        'args' => 
-        array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'two',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'value' => 4,
-            'type' => 'int_val',
-          ),
-          2 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'one',
-            'alias' => '',
-          ),
-          3 => 
-          array (
-            'value' => 2,
-            'type' => 'int_val',
-          ),
-        ),
-        'ops' => 
-        array (
-          0 => '<>',
-          1 => 'and',
-          2 => '=',
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -280,79 +340,95 @@ select one, two from hairy where two <> 4 and one = 2 order by two;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'one',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'one',
+                'alias' => '',
+              ),
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'two',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-        1 => 
+        'from' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'two',
-          'alias' => '',
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'hairy',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'where_clause' => 
         array (
-          'table_factors' => 
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
-              'table' => 'hairy',
+              'table' => '',
+              'column' => 'two',
               'alias' => '',
             ),
+            1 => 
+            array (
+              'value' => 4,
+              'type' => 'int_val',
+            ),
+            2 => 
+            array (
+              'database' => '',
+              'table' => '',
+              'column' => 'one',
+              'alias' => '',
+            ),
+            3 => 
+            array (
+              'value' => 2,
+              'type' => 'int_val',
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => '<>',
+            1 => 'and',
+            2 => '=',
           ),
         ),
-      ),
-      'where_clause' => 
-      array (
-        'args' => 
+        'sort_order' => 
         array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'two',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'value' => 4,
-            'type' => 'int_val',
-          ),
-          2 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'one',
-            'alias' => '',
-          ),
-          3 => 
-          array (
-            'value' => 2,
-            'type' => 'int_val',
-          ),
-        ),
-        'ops' => 
-        array (
-          0 => '<>',
-          1 => 'and',
-          2 => '=',
+          'two' => 'asc',
         ),
       ),
-      'sort_order' => 
-      array (
-        'two' => 'asc',
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -365,85 +441,101 @@ select one, two from hairy where two <> 4 and one = 2 limit 4 order by two ascen
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'one',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'one',
+                'alias' => '',
+              ),
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'two',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-        1 => 
+        'from' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'two',
-          'alias' => '',
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'hairy',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'where_clause' => 
         array (
-          'table_factors' => 
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
-              'table' => 'hairy',
+              'table' => '',
+              'column' => 'two',
               'alias' => '',
             ),
+            1 => 
+            array (
+              'value' => 4,
+              'type' => 'int_val',
+            ),
+            2 => 
+            array (
+              'database' => '',
+              'table' => '',
+              'column' => 'one',
+              'alias' => '',
+            ),
+            3 => 
+            array (
+              'value' => 2,
+              'type' => 'int_val',
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => '<>',
+            1 => 'and',
+            2 => '=',
           ),
         ),
-      ),
-      'where_clause' => 
-      array (
-        'args' => 
+        'limit_clause' => 
         array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'two',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'value' => 4,
-            'type' => 'int_val',
-          ),
-          2 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'one',
-            'alias' => '',
-          ),
-          3 => 
-          array (
-            'value' => 2,
-            'type' => 'int_val',
-          ),
+          'start' => 0,
+          'length' => 4,
         ),
-        'ops' => 
+        'sort_order' => 
         array (
-          0 => '<>',
-          1 => 'and',
-          2 => '=',
+          'two' => 'asc',
+          'dog' => 'desc',
         ),
       ),
-      'limit_clause' => 
-      array (
-        'start' => 0,
-        'length' => 4,
-      ),
-      'sort_order' => 
-      array (
-        'two' => 'asc',
-        'dog' => 'desc',
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -456,32 +548,42 @@ select foo.a from foo;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => 'foo',
-          'column' => 'a',
-          'alias' => '',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
+          0 => 
           array (
-            0 => 
+            'args' => 
             array (
-              'database' => '',
-              'table' => 'foo',
-              'alias' => '',
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'foo',
+                'column' => 'a',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'from' => 
+        array (
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'foo',
+                'alias' => '',
+              ),
             ),
           ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -492,51 +594,16 @@ select foo.a from foo;
 select a as b, min(a) as baz from foo;
 
 ',
-    'expect' => 
-    array (
-      'command' => 'select',
-      'fields' => 
-      array (
-        0 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => 'a',
-          'alias' => 'b',
-        ),
-      ),
-      'set_function' => 
-      array (
-        0 => 
-        array (
-          'name' => 'min',
-          'arg' => 
-          array (
-            0 => 'a',
-          ),
-          'type' => 
-          array (
-            0 => 'ident',
-          ),
-          'alias' => 'baz',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
-          array (
-            0 => 
-            array (
-              'database' => '',
-              'table' => 'foo',
-              'alias' => '',
-            ),
-          ),
-        ),
-      ),
-    ),
+    'expect' => '
+Caught exception: Parse error: Expected EOQ on line 2
+select a as b, min(a) as baz from foo;
+                      ^ found: "as"
+in: C:\\htdocs\\SQL_Parser\\Parser.php#318
+from: 
+#0 C:\\htdocs\\SQL_Parser\\Parser.php(1783): SQL_Parser->raiseError(\'Expected EOQ\')
+#1 C:\\htdocs\\SQL_Parser\\tests\\generate_testcases.php(92): SQL_Parser->parse(\'??select a as b...\')
+#2 {main}
+',
     'fail' => false,
     'dialect' => 'ANSI',
   ),
@@ -548,32 +615,42 @@ select a from foo as bar;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'a',
-          'alias' => '',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
+          0 => 
           array (
-            0 => 
+            'args' => 
             array (
-              'database' => '',
-              'table' => 'foo',
-              'alias' => 'bar',
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'a',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'from' => 
+        array (
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'foo',
+                'alias' => 'bar',
+              ),
             ),
           ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -586,68 +663,76 @@ select * from person where surname is not null and firstname = \'jason\';
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => '*',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => '*',
+                'type' => '*',
+              ),
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'person',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
-              'table' => 'person',
+              'table' => '',
+              'column' => 'surname',
               'alias' => '',
             ),
+            1 => 
+            array (
+              'value' => 'null',
+              'type' => 'null',
+            ),
+            2 => 
+            array (
+              'database' => '',
+              'table' => '',
+              'column' => 'firstname',
+              'alias' => '',
+            ),
+            3 => 
+            array (
+              'value' => 'jason',
+              'type' => 'text_val',
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => 'is not',
+            1 => 'and',
+            2 => '=',
           ),
         ),
       ),
-      'where_clause' => 
-      array (
-        'args' => 
-        array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'surname',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'value' => 'null',
-            'type' => 'null',
-          ),
-          2 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'firstname',
-            'alias' => '',
-          ),
-          3 => 
-          array (
-            'value' => 'jason',
-            'type' => 'text_val',
-          ),
-        ),
-        'ops' => 
-        array (
-          0 => 'is not',
-          1 => 'and',
-          2 => '=',
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -660,54 +745,62 @@ select * from person where surname is null;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => '*',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => '*',
+                'type' => '*',
+              ),
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'person',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
-              'table' => 'person',
+              'table' => '',
+              'column' => 'surname',
               'alias' => '',
             ),
+            1 => 
+            array (
+              'value' => 'null',
+              'type' => 'null',
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => 'is',
           ),
         ),
       ),
-      'where_clause' => 
-      array (
-        'args' => 
-        array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'surname',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'value' => 'null',
-            'type' => 'null',
-          ),
-        ),
-        'ops' => 
-        array (
-          0 => 'is',
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -720,68 +813,76 @@ select * from person where surname = \'\' and firstname = \'jason\';
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => '*',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => '*',
+                'type' => '*',
+              ),
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'person',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
-              'table' => 'person',
+              'table' => '',
+              'column' => 'surname',
               'alias' => '',
             ),
+            1 => 
+            array (
+              'value' => '',
+              'type' => 'text_val',
+            ),
+            2 => 
+            array (
+              'database' => '',
+              'table' => '',
+              'column' => 'firstname',
+              'alias' => '',
+            ),
+            3 => 
+            array (
+              'value' => 'jason',
+              'type' => 'text_val',
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => '=',
+            1 => 'and',
+            2 => '=',
           ),
         ),
       ),
-      'where_clause' => 
-      array (
-        'args' => 
-        array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'surname',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'value' => '',
-            'type' => 'text_val',
-          ),
-          2 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'firstname',
-            'alias' => '',
-          ),
-          3 => 
-          array (
-            'value' => 'jason',
-            'type' => 'text_val',
-          ),
-        ),
-        'ops' => 
-        array (
-          0 => '=',
-          1 => 'and',
-          2 => '=',
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -794,73 +895,89 @@ select table_1.id, table_2.name from table_1, table_2 where table_2.table_1_id =
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => 'table_1',
-          'column' => 'id',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'table_1',
+                'column' => 'id',
+                'alias' => '',
+              ),
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'table_2',
+                'column' => 'name',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-        1 => 
+        'from' => 
         array (
-          'database' => '',
-          'table' => 'table_2',
-          'column' => 'name',
-          'alias' => '',
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'table_1',
+                'alias' => '',
+              ),
+              1 => 
+              array (
+                'database' => '',
+                'table' => 'table_2',
+                'alias' => '',
+              ),
+            ),
+            'table_join' => 
+            array (
+              0 => ',',
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'where_clause' => 
         array (
-          'table_factors' => 
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
-              'table' => 'table_1',
+              'table' => 'table_2',
+              'column' => 'table_1_id',
               'alias' => '',
             ),
             1 => 
             array (
               'database' => '',
-              'table' => 'table_2',
+              'table' => 'table_1',
+              'column' => 'id',
               'alias' => '',
             ),
           ),
-          'table_join' => 
+          'ops' => 
           array (
-            0 => ',',
+            0 => '=',
           ),
         ),
       ),
-      'where_clause' => 
-      array (
-        'args' => 
-        array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => 'table_2',
-            'column' => 'table_1_id',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'database' => '',
-            'table' => 'table_1',
-            'column' => 'id',
-            'alias' => '',
-          ),
-        ),
-        'ops' => 
-        array (
-          0 => '=',
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -873,79 +990,95 @@ select a from table_1 where a not in (select b from table_2);
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => 'a',
-          'alias' => '',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
-          array (
-            0 => 
-            array (
-              'database' => '',
-              'table' => 'table_1',
-              'alias' => '',
-            ),
-          ),
-        ),
-      ),
-      'where_clause' => 
-      array (
-        'args' => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
           0 => 
           array (
-            'database' => '',
-            'table' => '',
-            'column' => 'a',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'command' => 'select',
-            'fields' => 
+            'args' => 
             array (
               0 => 
               array (
                 'database' => '',
                 'table' => '',
-                'column' => 'b',
+                'column' => 'a',
                 'alias' => '',
               ),
             ),
-            'from' => 
+          ),
+        ),
+        'from' => 
+        array (
+          'table_references' => 
+          array (
+            'table_factors' => 
             array (
-              'table_references' => 
+              0 => 
               array (
-                'table_factors' => 
+                'database' => '',
+                'table' => 'table_1',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => '',
+              'column' => 'a',
+              'alias' => '',
+            ),
+            1 => 
+            array (
+              'command' => 'select',
+              'select_expressions' => 
+              array (
+                0 => 
                 array (
-                  0 => 
+                  'args' => 
                   array (
-                    'database' => '',
-                    'table' => 'table_2',
-                    'alias' => '',
+                    0 => 
+                    array (
+                      'database' => '',
+                      'table' => '',
+                      'column' => 'b',
+                      'alias' => '',
+                    ),
+                  ),
+                ),
+              ),
+              'from' => 
+              array (
+                'table_references' => 
+                array (
+                  'table_factors' => 
+                  array (
+                    0 => 
+                    array (
+                      'database' => '',
+                      'table' => 'table_2',
+                      'alias' => '',
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          2 => 
-          array (
-            'value' => ')',
-            'type' => ')',
+            2 => 
+            array (
+              'value' => ')',
+              'type' => ')',
+            ),
           ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -958,126 +1091,148 @@ select a from table_1 where a in (select b from table_2 where c not in (select d
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => 'a',
-          'alias' => '',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
-          array (
-            0 => 
-            array (
-              'database' => '',
-              'table' => 'table_1',
-              'alias' => '',
-            ),
-          ),
-        ),
-      ),
-      'where_clause' => 
-      array (
-        'args' => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
           0 => 
           array (
-            'database' => '',
-            'table' => '',
-            'column' => 'a',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'command' => 'select',
-            'fields' => 
+            'args' => 
             array (
               0 => 
               array (
                 'database' => '',
                 'table' => '',
-                'column' => 'b',
+                'column' => 'a',
                 'alias' => '',
               ),
             ),
-            'from' => 
+          ),
+        ),
+        'from' => 
+        array (
+          'table_references' => 
+          array (
+            'table_factors' => 
             array (
-              'table_references' => 
+              0 => 
               array (
-                'table_factors' => 
-                array (
-                  0 => 
-                  array (
-                    'database' => '',
-                    'table' => 'table_2',
-                    'alias' => '',
-                  ),
-                ),
+                'database' => '',
+                'table' => 'table_1',
+                'alias' => '',
               ),
             ),
-            'where_clause' => 
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
+          array (
+            0 => 
             array (
-              'args' => 
+              'database' => '',
+              'table' => '',
+              'column' => 'a',
+              'alias' => '',
+            ),
+            1 => 
+            array (
+              'command' => 'select',
+              'select_expressions' => 
               array (
                 0 => 
                 array (
-                  'database' => '',
-                  'table' => '',
-                  'column' => 'c',
-                  'alias' => '',
-                ),
-                1 => 
-                array (
-                  'command' => 'select',
-                  'fields' => 
+                  'args' => 
                   array (
                     0 => 
                     array (
                       'database' => '',
                       'table' => '',
-                      'column' => 'd',
+                      'column' => 'b',
                       'alias' => '',
                     ),
                   ),
-                  'from' => 
+                ),
+              ),
+              'from' => 
+              array (
+                'table_references' => 
+                array (
+                  'table_factors' => 
                   array (
-                    'table_references' => 
+                    0 => 
                     array (
-                      'table_factors' => 
+                      'database' => '',
+                      'table' => 'table_2',
+                      'alias' => '',
+                    ),
+                  ),
+                ),
+              ),
+              'where_clause' => 
+              array (
+                'args' => 
+                array (
+                  0 => 
+                  array (
+                    'database' => '',
+                    'table' => '',
+                    'column' => 'c',
+                    'alias' => '',
+                  ),
+                  1 => 
+                  array (
+                    'command' => 'select',
+                    'select_expressions' => 
+                    array (
+                      0 => 
                       array (
-                        0 => 
+                        'args' => 
                         array (
-                          'database' => '',
-                          'table' => 'table_3',
-                          'alias' => '',
+                          0 => 
+                          array (
+                            'database' => '',
+                            'table' => '',
+                            'column' => 'd',
+                            'alias' => '',
+                          ),
+                        ),
+                      ),
+                    ),
+                    'from' => 
+                    array (
+                      'table_references' => 
+                      array (
+                        'table_factors' => 
+                        array (
+                          0 => 
+                          array (
+                            'database' => '',
+                            'table' => 'table_3',
+                            'alias' => '',
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                2 => 
-                array (
-                  'value' => ')',
-                  'type' => ')',
+                  2 => 
+                  array (
+                    'value' => ')',
+                    'type' => ')',
+                  ),
                 ),
               ),
             ),
-          ),
-          2 => 
-          array (
-            'value' => ')',
-            'type' => ')',
+            2 => 
+            array (
+              'value' => ')',
+              'type' => ')',
+            ),
           ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -1090,65 +1245,75 @@ select a from table_1 where a in (1, 2, 3);
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'a',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'a',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'table_1',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
-              'table' => 'table_1',
+              'table' => '',
+              'column' => 'a',
               'alias' => '',
             ),
+            1 => 
+            array (
+              'values' => 
+              array (
+                0 => 1,
+                1 => 2,
+                2 => 3,
+              ),
+              'types' => 
+              array (
+                0 => 'int_val',
+                1 => 'int_val',
+                2 => 'int_val',
+              ),
+            ),
+            2 => 
+            array (
+              'value' => ')',
+              'type' => ')',
+            ),
           ),
         ),
       ),
-      'where_clause' => 
-      array (
-        'args' => 
-        array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'a',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'values' => 
-            array (
-              0 => 1,
-              1 => 2,
-              2 => 3,
-            ),
-            'types' => 
-            array (
-              0 => 'int_val',
-              1 => 'int_val',
-              2 => 'int_val',
-            ),
-          ),
-          2 => 
-          array (
-            'value' => ')',
-            'type' => ')',
-          ),
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -1161,71 +1326,81 @@ select count(child_table.name) from parent_table ,child_table where parent_table
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'set_function' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'name' => 'count',
-          'arg' => 
+          0 => 
           array (
-            0 => 'child_table.name',
-          ),
-          'type' => 
-          array (
-            0 => 'ident.ident',
+            'args' => 
+            array (
+              0 => 
+              array (
+                'name' => 'count',
+                'arg' => 
+                array (
+                  0 => 'child_table.name',
+                ),
+                'type' => 
+                array (
+                  0 => 'ident.ident',
+                ),
+              ),
+            ),
           ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'parent_table',
+                'alias' => '',
+              ),
+              1 => 
+              array (
+                'database' => '',
+                'table' => 'child_table',
+                'alias' => '',
+              ),
+            ),
+            'table_join' => 
+            array (
+              0 => ',',
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
               'table' => 'parent_table',
+              'column' => 'id',
               'alias' => '',
             ),
             1 => 
             array (
               'database' => '',
               'table' => 'child_table',
+              'column' => 'id',
               'alias' => '',
             ),
           ),
-          'table_join' => 
+          'ops' => 
           array (
-            0 => ',',
+            0 => '=',
           ),
         ),
       ),
-      'where_clause' => 
-      array (
-        'args' => 
-        array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => 'parent_table',
-            'column' => 'id',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'database' => '',
-            'table' => 'child_table',
-            'column' => 'id',
-            'alias' => '',
-          ),
-        ),
-        'ops' => 
-        array (
-          0 => '=',
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -1238,85 +1413,98 @@ select parent_table.name, count(child_table.name) from parent_table ,child_table
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => 'parent_table',
-          'column' => 'name',
-          'alias' => '',
-        ),
-      ),
-      'set_function' => 
-      array (
-        0 => 
-        array (
-          'name' => 'count',
-          'arg' => 
+          0 => 
           array (
-            0 => 'child_table.name',
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'parent_table',
+                'column' => 'name',
+                'alias' => '',
+              ),
+            ),
           ),
-          'type' => 
+          1 => 
           array (
-            0 => 'ident.ident',
+            'args' => 
+            array (
+              0 => 
+              array (
+                'name' => 'count',
+                'arg' => 
+                array (
+                  0 => 'child_table.name',
+                ),
+                'type' => 
+                array (
+                  0 => 'ident.ident',
+                ),
+              ),
+            ),
           ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'parent_table',
+                'alias' => '',
+              ),
+              1 => 
+              array (
+                'database' => '',
+                'table' => 'child_table',
+                'alias' => '',
+              ),
+            ),
+            'table_join' => 
+            array (
+              0 => ',',
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
               'table' => 'parent_table',
+              'column' => 'id',
               'alias' => '',
             ),
             1 => 
             array (
               'database' => '',
               'table' => 'child_table',
+              'column' => 'id',
               'alias' => '',
             ),
           ),
-          'table_join' => 
+          'ops' => 
           array (
-            0 => ',',
+            0 => '=',
           ),
         ),
-      ),
-      'where_clause' => 
-      array (
-        'args' => 
+        'group_by' => 
         array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => 'parent_table',
-            'column' => 'id',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'database' => '',
-            'table' => 'child_table',
-            'column' => 'id',
-            'alias' => '',
-          ),
-        ),
-        'ops' => 
-        array (
-          0 => '=',
+          0 => 'parent_table.name',
         ),
       ),
-      'group_by' => 
-      array (
-        0 => 'parent_table.name',
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -1329,59 +1517,67 @@ select * from cats where furry = 1 group by name, type;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => '*',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => '*',
+                'type' => '*',
+              ),
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'cats',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
-              'table' => 'cats',
+              'table' => '',
+              'column' => 'furry',
               'alias' => '',
             ),
+            1 => 
+            array (
+              'value' => 1,
+              'type' => 'int_val',
+            ),
           ),
-        ),
-      ),
-      'where_clause' => 
-      array (
-        'args' => 
-        array (
-          0 => 
+          'ops' => 
           array (
-            'database' => '',
-            'table' => '',
-            'column' => 'furry',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'value' => 1,
-            'type' => 'int_val',
+            0 => '=',
           ),
         ),
-        'ops' => 
+        'group_by' => 
         array (
-          0 => '=',
+          0 => 'name',
+          1 => 'type',
         ),
       ),
-      'group_by' => 
-      array (
-        0 => 'name',
-        1 => 'type',
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -1392,77 +1588,16 @@ select * from cats where furry = 1 group by name, type;
 select a, max(b) as x, sum(c) as y, min(d) as z from e;
 
 ',
-    'expect' => 
-    array (
-      'command' => 'select',
-      'fields' => 
-      array (
-        0 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => 'a',
-          'alias' => '',
-        ),
-      ),
-      'set_function' => 
-      array (
-        0 => 
-        array (
-          'name' => 'max',
-          'arg' => 
-          array (
-            0 => 'b',
-          ),
-          'type' => 
-          array (
-            0 => 'ident',
-          ),
-          'alias' => 'x',
-        ),
-        1 => 
-        array (
-          'name' => 'sum',
-          'arg' => 
-          array (
-            0 => 'c',
-          ),
-          'type' => 
-          array (
-            0 => 'ident',
-          ),
-          'alias' => 'y',
-        ),
-        2 => 
-        array (
-          'name' => 'min',
-          'arg' => 
-          array (
-            0 => 'd',
-          ),
-          'type' => 
-          array (
-            0 => 'ident',
-          ),
-          'alias' => 'z',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
-          array (
-            0 => 
-            array (
-              'database' => '',
-              'table' => 'e',
-              'alias' => '',
-            ),
-          ),
-        ),
-      ),
-    ),
+    'expect' => '
+Caught exception: Parse error: Expected EOQ on line 2
+select a, max(b) as x, sum(c) as y, min(d) as z from e;
+                 ^ found: "as"
+in: C:\\htdocs\\SQL_Parser\\Parser.php#318
+from: 
+#0 C:\\htdocs\\SQL_Parser\\Parser.php(1783): SQL_Parser->raiseError(\'Expected EOQ\')
+#1 C:\\htdocs\\SQL_Parser\\tests\\generate_testcases.php(92): SQL_Parser->parse(\'??select a, max...\')
+#2 {main}
+',
     'fail' => false,
     'dialect' => 'ANSI',
   ),
@@ -1482,145 +1617,12 @@ select clients_translation.id_clients_prefix, clients_translation.rule_number,
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
-        array (
-          'database' => '',
-          'table' => 'clients_translation',
-          'column' => 'id_clients_prefix',
-          'alias' => '',
-        ),
-        1 => 
-        array (
-          'database' => '',
-          'table' => 'clients_translation',
-          'column' => 'rule_number',
-          'alias' => '',
-        ),
-        2 => 
-        array (
-          'database' => '',
-          'table' => 'clients_translation',
-          'column' => 'pattern',
-          'alias' => '',
-        ),
-        3 => 
-        array (
-          'database' => '',
-          'table' => 'clients_translation',
-          'column' => 'rule',
-          'alias' => '',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
-          array (
-            0 => 
-            array (
-              'database' => '',
-              'table' => 'clients',
-              'alias' => '',
-            ),
-            1 => 
-            array (
-              'database' => '',
-              'table' => 'clients_prefix',
-              'alias' => '',
-            ),
-            2 => 
-            array (
-              'database' => '',
-              'table' => 'clients_translation',
-              'alias' => '',
-            ),
-          ),
-          'table_join' => 
-          array (
-            0 => ',',
-            1 => ',',
-          ),
-        ),
-      ),
-      'where_clause' => 
-      array (
-        'args' => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
           0 => 
-          array (
-            'args' => 
-            array (
-              0 => 
-              array (
-                'database' => '',
-                'table' => 'clients',
-                'column' => 'id_softswitch',
-                'alias' => '',
-              ),
-              1 => 
-              array (
-                'value' => 5,
-                'type' => 'int_val',
-              ),
-            ),
-            'ops' => 
-            array (
-              0 => '=',
-            ),
-          ),
-          1 => 
-          array (
-            'args' => 
-            array (
-              0 => 
-              array (
-                'database' => '',
-                'table' => 'clients',
-                'column' => 'id_clients',
-                'alias' => '',
-              ),
-              1 => 
-              array (
-                'database' => '',
-                'table' => 'clients_prefix',
-                'column' => 'id_clients',
-                'alias' => '',
-              ),
-            ),
-            'ops' => 
-            array (
-              0 => '=',
-            ),
-          ),
-          2 => 
-          array (
-            'database' => '',
-            'table' => 'clients',
-            'column' => 'enable',
-            'alias' => '',
-          ),
-          3 => 
-          array (
-            'value' => 'y',
-            'type' => 'text_val',
-          ),
-          4 => 
-          array (
-            'database' => '',
-            'table' => 'clients',
-            'column' => 'unused',
-            'alias' => '',
-          ),
-          5 => 
-          array (
-            'value' => 'n',
-            'type' => 'text_val',
-          ),
-          6 => 
           array (
             'args' => 
             array (
@@ -1631,35 +1633,196 @@ select clients_translation.id_clients_prefix, clients_translation.rule_number,
                 'column' => 'id_clients_prefix',
                 'alias' => '',
               ),
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'clients_translation',
+                'column' => 'rule_number',
+                'alias' => '',
+              ),
+            ),
+          ),
+          2 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'clients_translation',
+                'column' => 'pattern',
+                'alias' => '',
+              ),
+            ),
+          ),
+          3 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'clients_translation',
+                'column' => 'rule',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'from' => 
+        array (
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'clients',
+                'alias' => '',
+              ),
               1 => 
               array (
                 'database' => '',
                 'table' => 'clients_prefix',
-                'column' => 'id_clients_prefix',
+                'alias' => '',
+              ),
+              2 => 
+              array (
+                'database' => '',
+                'table' => 'clients_translation',
                 'alias' => '',
               ),
             ),
-            'ops' => 
+            'table_join' => 
             array (
-              0 => '=',
+              0 => ',',
+              1 => ',',
             ),
           ),
         ),
-        'ops' => 
+        'where_clause' => 
         array (
-          0 => 'and',
-          1 => 'and',
-          2 => '=',
-          3 => 'and',
-          4 => '=',
-          5 => 'and',
+          'args' => 
+          array (
+            0 => 
+            array (
+              'args' => 
+              array (
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => 'clients',
+                  'column' => 'id_softswitch',
+                  'alias' => '',
+                ),
+                1 => 
+                array (
+                  'value' => 5,
+                  'type' => 'int_val',
+                ),
+              ),
+              'ops' => 
+              array (
+                0 => '=',
+              ),
+            ),
+            1 => 
+            array (
+              'args' => 
+              array (
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => 'clients',
+                  'column' => 'id_clients',
+                  'alias' => '',
+                ),
+                1 => 
+                array (
+                  'database' => '',
+                  'table' => 'clients_prefix',
+                  'column' => 'id_clients',
+                  'alias' => '',
+                ),
+              ),
+              'ops' => 
+              array (
+                0 => '=',
+              ),
+            ),
+            2 => 
+            array (
+              'database' => '',
+              'table' => 'clients',
+              'column' => 'enable',
+              'alias' => '',
+            ),
+            3 => 
+            array (
+              'value' => 'y',
+              'type' => 'text_val',
+            ),
+            4 => 
+            array (
+              'database' => '',
+              'table' => 'clients',
+              'column' => 'unused',
+              'alias' => '',
+            ),
+            5 => 
+            array (
+              'value' => 'n',
+              'type' => 'text_val',
+            ),
+            6 => 
+            array (
+              'args' => 
+              array (
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => 'clients_translation',
+                  'column' => 'id_clients_prefix',
+                  'alias' => '',
+                ),
+                1 => 
+                array (
+                  'database' => '',
+                  'table' => 'clients_prefix',
+                  'column' => 'id_clients_prefix',
+                  'alias' => '',
+                ),
+              ),
+              'ops' => 
+              array (
+                0 => '=',
+              ),
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => 'and',
+            1 => 'and',
+            2 => '=',
+            3 => 'and',
+            4 => '=',
+            5 => 'and',
+          ),
+        ),
+        'sort_order' => 
+        array (
+          'clients_translation.id_clients_prefix' => 'asc',
+          'clients_translation.rule_number' => 'asc',
         ),
       ),
-      'sort_order' => 
-      array (
-        'clients_translation.id_clients_prefix' => 'asc',
-        'clients_translation.rule_number' => 'asc',
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -1674,42 +1837,10 @@ WHERE (column1=\'1\' AND column2=\'1\') OR (column3=\'1\' AND column4=\'1\');
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => 'column1',
-          'alias' => '',
-        ),
-        1 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => 'column2',
-          'alias' => '',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
-          array (
-            0 => 
-            array (
-              'database' => '',
-              'table' => 'table1',
-              'alias' => '',
-            ),
-          ),
-        ),
-      ),
-      'where_clause' => 
-      array (
-        'args' => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
           0 => 
           array (
@@ -1722,29 +1853,6 @@ WHERE (column1=\'1\' AND column2=\'1\') OR (column3=\'1\' AND column4=\'1\');
                 'column' => 'column1',
                 'alias' => '',
               ),
-              1 => 
-              array (
-                'value' => '1',
-                'type' => 'text_val',
-              ),
-              2 => 
-              array (
-                'database' => '',
-                'table' => '',
-                'column' => 'column2',
-                'alias' => '',
-              ),
-              3 => 
-              array (
-                'value' => '1',
-                'type' => 'text_val',
-              ),
-            ),
-            'ops' => 
-            array (
-              0 => '=',
-              1 => 'and',
-              2 => '=',
             ),
           ),
           1 => 
@@ -1755,40 +1863,111 @@ WHERE (column1=\'1\' AND column2=\'1\') OR (column3=\'1\' AND column4=\'1\');
               array (
                 'database' => '',
                 'table' => '',
-                'column' => 'column3',
+                'column' => 'column2',
                 'alias' => '',
               ),
-              1 => 
-              array (
-                'value' => '1',
-                'type' => 'text_val',
-              ),
-              2 => 
-              array (
-                'database' => '',
-                'table' => '',
-                'column' => 'column4',
-                'alias' => '',
-              ),
-              3 => 
-              array (
-                'value' => '1',
-                'type' => 'text_val',
-              ),
-            ),
-            'ops' => 
-            array (
-              0 => '=',
-              1 => 'and',
-              2 => '=',
             ),
           ),
         ),
-        'ops' => 
+        'from' => 
         array (
-          0 => 'or',
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'table1',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
+          array (
+            0 => 
+            array (
+              'args' => 
+              array (
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'column1',
+                  'alias' => '',
+                ),
+                1 => 
+                array (
+                  'value' => '1',
+                  'type' => 'text_val',
+                ),
+                2 => 
+                array (
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'column2',
+                  'alias' => '',
+                ),
+                3 => 
+                array (
+                  'value' => '1',
+                  'type' => 'text_val',
+                ),
+              ),
+              'ops' => 
+              array (
+                0 => '=',
+                1 => 'and',
+                2 => '=',
+              ),
+            ),
+            1 => 
+            array (
+              'args' => 
+              array (
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'column3',
+                  'alias' => '',
+                ),
+                1 => 
+                array (
+                  'value' => '1',
+                  'type' => 'text_val',
+                ),
+                2 => 
+                array (
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'column4',
+                  'alias' => '',
+                ),
+                3 => 
+                array (
+                  'value' => '1',
+                  'type' => 'text_val',
+                ),
+              ),
+              'ops' => 
+              array (
+                0 => '=',
+                1 => 'and',
+                2 => '=',
+              ),
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => 'or',
+          ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -1801,49 +1980,12 @@ SELECT name FROM people WHERE id > 1 AND (name = \'arjan\' OR name = \'john\');
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => 'name',
-          'alias' => '',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
-          array (
-            0 => 
-            array (
-              'database' => '',
-              'table' => 'people',
-              'alias' => '',
-            ),
-          ),
-        ),
-      ),
-      'where_clause' => 
-      array (
-        'args' => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
           0 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'id',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'value' => 1,
-            'type' => 'int_val',
-          ),
-          2 => 
           array (
             'args' => 
             array (
@@ -1854,38 +1996,85 @@ SELECT name FROM people WHERE id > 1 AND (name = \'arjan\' OR name = \'john\');
                 'column' => 'name',
                 'alias' => '',
               ),
-              1 => 
-              array (
-                'value' => 'arjan',
-                'type' => 'text_val',
-              ),
-              2 => 
-              array (
-                'database' => '',
-                'table' => '',
-                'column' => 'name',
-                'alias' => '',
-              ),
-              3 => 
-              array (
-                'value' => 'john',
-                'type' => 'text_val',
-              ),
-            ),
-            'ops' => 
-            array (
-              0 => '=',
-              1 => 'or',
-              2 => '=',
             ),
           ),
         ),
-        'ops' => 
+        'from' => 
         array (
-          0 => '>',
-          1 => 'and',
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'people',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
+          array (
+            0 => 
+            array (
+              'database' => '',
+              'table' => '',
+              'column' => 'id',
+              'alias' => '',
+            ),
+            1 => 
+            array (
+              'value' => 1,
+              'type' => 'int_val',
+            ),
+            2 => 
+            array (
+              'args' => 
+              array (
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'name',
+                  'alias' => '',
+                ),
+                1 => 
+                array (
+                  'value' => 'arjan',
+                  'type' => 'text_val',
+                ),
+                2 => 
+                array (
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'name',
+                  'alias' => '',
+                ),
+                3 => 
+                array (
+                  'value' => 'john',
+                  'type' => 'text_val',
+                ),
+              ),
+              'ops' => 
+              array (
+                0 => '=',
+                1 => 'or',
+                2 => '=',
+              ),
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => '>',
+            1 => 'and',
+          ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -1898,35 +2087,10 @@ select * from test where (field1 = \'x\' and field2 <>\'y\') or field3 = \'z\';
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => '*',
-          'alias' => '',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
-          array (
-            0 => 
-            array (
-              'database' => '',
-              'table' => 'test',
-              'alias' => '',
-            ),
-          ),
-        ),
-      ),
-      'where_clause' => 
-      array (
-        'args' => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
           0 => 
           array (
@@ -1934,55 +2098,88 @@ select * from test where (field1 = \'x\' and field2 <>\'y\') or field3 = \'z\';
             array (
               0 => 
               array (
-                'database' => '',
-                'table' => '',
-                'column' => 'field1',
-                'alias' => '',
-              ),
-              1 => 
-              array (
-                'value' => 'x',
-                'type' => 'text_val',
-              ),
-              2 => 
-              array (
-                'database' => '',
-                'table' => '',
-                'column' => 'field2',
-                'alias' => '',
-              ),
-              3 => 
-              array (
-                'value' => 'y',
-                'type' => 'text_val',
+                'value' => '*',
+                'type' => '*',
               ),
             ),
-            'ops' => 
-            array (
-              0 => '=',
-              1 => 'and',
-              2 => '<>',
-            ),
-          ),
-          1 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'field3',
-            'alias' => '',
-          ),
-          2 => 
-          array (
-            'value' => 'z',
-            'type' => 'text_val',
           ),
         ),
-        'ops' => 
+        'from' => 
         array (
-          0 => 'or',
-          1 => '=',
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'test',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
+          array (
+            0 => 
+            array (
+              'args' => 
+              array (
+                0 => 
+                array (
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'field1',
+                  'alias' => '',
+                ),
+                1 => 
+                array (
+                  'value' => 'x',
+                  'type' => 'text_val',
+                ),
+                2 => 
+                array (
+                  'database' => '',
+                  'table' => '',
+                  'column' => 'field2',
+                  'alias' => '',
+                ),
+                3 => 
+                array (
+                  'value' => 'y',
+                  'type' => 'text_val',
+                ),
+              ),
+              'ops' => 
+              array (
+                0 => '=',
+                1 => 'and',
+                2 => '<>',
+              ),
+            ),
+            1 => 
+            array (
+              'database' => '',
+              'table' => '',
+              'column' => 'field3',
+              'alias' => '',
+            ),
+            2 => 
+            array (
+              'value' => 'z',
+              'type' => 'text_val',
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => 'or',
+            1 => '=',
+          ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -1995,76 +2192,92 @@ select a, d from b inner join c on b.a = c.a;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'a',
-          'alias' => '',
-        ),
-        1 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => 'd',
-          'alias' => '',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
+          0 => 
           array (
-            0 => 
+            'args' => 
             array (
-              'database' => '',
-              'table' => 'b',
-              'alias' => '',
-            ),
-            1 => 
-            array (
-              'database' => '',
-              'table' => 'c',
-              'alias' => '',
-            ),
-          ),
-          'table_join' => 
-          array (
-            0 => 'inner join',
-          ),
-          'table_join_clause' => 
-          array (
-            0 => 
-            array (
-              'args' => 
+              0 => 
               array (
-                0 => 
-                array (
-                  'database' => '',
-                  'table' => 'b',
-                  'column' => 'a',
-                  'alias' => '',
-                ),
-                1 => 
-                array (
-                  'database' => '',
-                  'table' => 'c',
-                  'column' => 'a',
-                  'alias' => '',
-                ),
+                'database' => '',
+                'table' => '',
+                'column' => 'a',
+                'alias' => '',
               ),
-              'ops' => 
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
               array (
-                0 => '=',
+                'database' => '',
+                'table' => '',
+                'column' => 'd',
+                'alias' => '',
               ),
             ),
           ),
         ),
+        'from' => 
+        array (
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'b',
+                'alias' => '',
+              ),
+              1 => 
+              array (
+                'database' => '',
+                'table' => 'c',
+                'alias' => '',
+              ),
+            ),
+            'table_join' => 
+            array (
+              0 => 'inner join',
+            ),
+            'table_join_clause' => 
+            array (
+              0 => 
+              array (
+                'args' => 
+                array (
+                  0 => 
+                  array (
+                    'database' => '',
+                    'table' => 'b',
+                    'column' => 'a',
+                    'alias' => '',
+                  ),
+                  1 => 
+                  array (
+                    'database' => '',
+                    'table' => 'c',
+                    'column' => 'a',
+                    'alias' => '',
+                  ),
+                ),
+                'ops' => 
+                array (
+                  0 => '=',
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -2077,107 +2290,123 @@ select a, d from b inner join c on b.a = c.a left outer join q on r < m;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'a',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'a',
+                'alias' => '',
+              ),
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'd',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-        1 => 
+        'from' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'd',
-          'alias' => '',
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'b',
+                'alias' => '',
+              ),
+              1 => 
+              array (
+                'database' => '',
+                'table' => 'c',
+                'alias' => '',
+              ),
+              2 => 
+              array (
+                'database' => '',
+                'table' => 'q',
+                'alias' => '',
+              ),
+            ),
+            'table_join' => 
+            array (
+              0 => 'inner join',
+              1 => 'left outer join',
+            ),
+            'table_join_clause' => 
+            array (
+              0 => 
+              array (
+                'args' => 
+                array (
+                  0 => 
+                  array (
+                    'database' => '',
+                    'table' => 'b',
+                    'column' => 'a',
+                    'alias' => '',
+                  ),
+                  1 => 
+                  array (
+                    'database' => '',
+                    'table' => 'c',
+                    'column' => 'a',
+                    'alias' => '',
+                  ),
+                ),
+                'ops' => 
+                array (
+                  0 => '=',
+                ),
+              ),
+              1 => 
+              array (
+                'args' => 
+                array (
+                  0 => 
+                  array (
+                    'database' => '',
+                    'table' => '',
+                    'column' => 'r',
+                    'alias' => '',
+                  ),
+                  1 => 
+                  array (
+                    'database' => '',
+                    'table' => '',
+                    'column' => 'm',
+                    'alias' => '',
+                  ),
+                ),
+                'ops' => 
+                array (
+                  0 => '<',
+                ),
+              ),
+            ),
+          ),
         ),
       ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
-          array (
-            0 => 
-            array (
-              'database' => '',
-              'table' => 'b',
-              'alias' => '',
-            ),
-            1 => 
-            array (
-              'database' => '',
-              'table' => 'c',
-              'alias' => '',
-            ),
-            2 => 
-            array (
-              'database' => '',
-              'table' => 'q',
-              'alias' => '',
-            ),
-          ),
-          'table_join' => 
-          array (
-            0 => 'inner join',
-            1 => 'left outer join',
-          ),
-          'table_join_clause' => 
-          array (
-            0 => 
-            array (
-              'args' => 
-              array (
-                0 => 
-                array (
-                  'database' => '',
-                  'table' => 'b',
-                  'column' => 'a',
-                  'alias' => '',
-                ),
-                1 => 
-                array (
-                  'database' => '',
-                  'table' => 'c',
-                  'column' => 'a',
-                  'alias' => '',
-                ),
-              ),
-              'ops' => 
-              array (
-                0 => '=',
-              ),
-            ),
-            1 => 
-            array (
-              'args' => 
-              array (
-                0 => 
-                array (
-                  'database' => '',
-                  'table' => '',
-                  'column' => 'r',
-                  'alias' => '',
-                ),
-                1 => 
-                array (
-                  'database' => '',
-                  'table' => '',
-                  'column' => 'm',
-                  'alias' => '',
-                ),
-              ),
-              'ops' => 
-              array (
-                0 => '<',
-              ),
-            ),
-          ),
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -2191,54 +2420,64 @@ select 4b from test where 7iModule_Solution = 3;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => '4b',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => '4b',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'test',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
-              'table' => 'test',
+              'table' => '',
+              'column' => '7iModule_Solution',
               'alias' => '',
             ),
+            1 => 
+            array (
+              'value' => 3,
+              'type' => 'int_val',
+            ),
+          ),
+          'ops' => 
+          array (
+            0 => '=',
           ),
         ),
       ),
-      'where_clause' => 
-      array (
-        'args' => 
-        array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => '7iModule_Solution',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'value' => 3,
-            'type' => 'int_val',
-          ),
-        ),
-        'ops' => 
-        array (
-          0 => '=',
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'MySQL',
@@ -2254,80 +2493,90 @@ select Courses.*
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => 'Courses',
-          'column' => '*',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'Courses',
+                'column' => '*',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'Courses',
+                'alias' => '',
+              ),
+              1 => 
+              array (
+                'database' => '',
+                'table' => 'Student_Courses',
+                'alias' => '',
+              ),
+            ),
+            'table_join' => 
+            array (
+              0 => ',',
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
               'table' => 'Courses',
+              'column' => 'id',
               'alias' => '',
             ),
             1 => 
             array (
               'database' => '',
               'table' => 'Student_Courses',
+              'column' => 'courseid',
               'alias' => '',
             ),
+            2 => 
+            array (
+              'database' => '',
+              'table' => 'Student_Courses',
+              'column' => 'studentid',
+              'alias' => '',
+            ),
+            3 => 
+            array (
+              'value' => '10',
+              'type' => 'text_val',
+            ),
           ),
-          'table_join' => 
+          'ops' => 
           array (
-            0 => ',',
+            0 => '=',
+            1 => 'and',
+            2 => '=',
           ),
         ),
       ),
-      'where_clause' => 
-      array (
-        'args' => 
-        array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => 'Courses',
-            'column' => 'id',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'database' => '',
-            'table' => 'Student_Courses',
-            'column' => 'courseid',
-            'alias' => '',
-          ),
-          2 => 
-          array (
-            'database' => '',
-            'table' => 'Student_Courses',
-            'column' => 'studentid',
-            'alias' => '',
-          ),
-          3 => 
-          array (
-            'value' => '10',
-            'type' => 'text_val',
-          ),
-        ),
-        'ops' => 
-        array (
-          0 => '=',
-          1 => 'and',
-          2 => '=',
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -2339,35 +2588,48 @@ SELECT *,a from Foo
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => '*',
-          'alias' => '',
-        ),
-        1 => 
-        array (
-          'database' => '',
-          'table' => '',
-          'column' => 'a',
-          'alias' => '',
-        ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
-        array (
-          'table_factors' => 
+          0 => 
           array (
-            0 => 
+            'args' => 
             array (
-              'database' => '',
-              'table' => 'Foo',
-              'alias' => '',
+              0 => 
+              array (
+                'value' => '*',
+                'type' => '*',
+              ),
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'a',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'from' => 
+        array (
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'Foo',
+                'alias' => '',
+              ),
             ),
           ),
         ),

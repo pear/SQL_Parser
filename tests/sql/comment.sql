@@ -9,7 +9,7 @@ SELECT 'a' # Test Comment;
 , 'b';
 
 -- SQL PARSER TESTCASE
-SELECT 'a' -- Test Comment;
+SELECT 'a', -- Test Comment;
 'b';
 
 -- SQL PARSER TESTCASE

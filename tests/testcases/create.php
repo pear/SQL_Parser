@@ -15,82 +15,86 @@ CREATE TABLE albums (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'albums',
+        'command' => 'create_table',
+        'table_names' => 
+        array (
+          0 => 'albums',
+        ),
+        'column_defs' => 
+        array (
+          'name' => 
+          array (
+            'type' => 'varchar',
+            'length' => 60,
+          ),
+          'directory' => 
+          array (
+            'type' => 'varchar',
+            'length' => 60,
+          ),
+          'rating' => 
+          array (
+            'type' => 'enum',
+            'domain' => 
+            array (
+              0 => 1,
+              1 => 2,
+              2 => 3,
+              3 => 4,
+              4 => 5,
+              5 => 6,
+              6 => 7,
+              7 => 8,
+              8 => 9,
+              9 => 10,
+            ),
+            'constraints' => 
+            array (
+              0 => 
+              array (
+                'type' => 'not_null',
+                'value' => true,
+              ),
+            ),
+          ),
+          'category' => 
+          array (
+            'type' => 'set',
+            'domain' => 
+            array (
+              0 => 'sexy',
+              1 => '\'family time\'',
+              2 => 'outdoors',
+              3 => 'generic',
+              4 => 'very weird',
+            ),
+          ),
+          'description' => 
+          array (
+            'type' => 'text',
+          ),
+          'id' => 
+          array (
+            'type' => 'int',
+            'constraints' => 
+            array (
+              0 => 
+              array (
+                'type' => 'default_value',
+                'value' => 200,
+              ),
+              1 => 
+              array (
+                'type' => 'primary_key',
+                'value' => true,
+              ),
+            ),
+          ),
+        ),
       ),
-      'column_defs' => 
-      array (
-        'name' => 
-        array (
-          'type' => 'varchar',
-          'length' => 60,
-        ),
-        'directory' => 
-        array (
-          'type' => 'varchar',
-          'length' => 60,
-        ),
-        'rating' => 
-        array (
-          'type' => 'enum',
-          'domain' => 
-          array (
-            0 => 1,
-            1 => 2,
-            2 => 3,
-            3 => 4,
-            4 => 5,
-            5 => 6,
-            6 => 7,
-            7 => 8,
-            8 => 9,
-            9 => 10,
-          ),
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'not_null',
-              'value' => true,
-            ),
-          ),
-        ),
-        'category' => 
-        array (
-          'type' => 'set',
-          'domain' => 
-          array (
-            0 => 'sexy',
-            1 => '\'family time\'',
-            2 => 'outdoors',
-            3 => 'generic',
-            4 => 'very weird',
-          ),
-        ),
-        'description' => 
-        array (
-          'type' => 'text',
-        ),
-        'id' => 
-        array (
-          'type' => 'int',
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'default_value',
-              'value' => 200,
-            ),
-            1 => 
-            array (
-              'type' => 'primary_key',
-              'value' => true,
-            ),
-          ),
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -110,83 +114,87 @@ CREATE TABLE photos (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'photos',
+        'command' => 'create_table',
+        'table_names' => 
+        array (
+          0 => 'photos',
+        ),
+        'column_defs' => 
+        array (
+          'filename' => 
+          array (
+            'type' => 'varchar',
+            'length' => 60,
+            'constraints' => 
+            array (
+              0 => 
+              array (
+                'type' => 'not_null',
+                'value' => true,
+              ),
+            ),
+          ),
+          'name' => 
+          array (
+            'type' => 'varchar',
+            'length' => 60,
+            'constraints' => 
+            array (
+              0 => 
+              array (
+                'type' => 'default_value',
+                'value' => 'no name',
+              ),
+            ),
+          ),
+          'album' => 
+          array (
+            'type' => 'int',
+          ),
+          'price' => 
+          array (
+            'type' => 'float',
+            'length' => 4,
+          ),
+          'description' => 
+          array (
+            'type' => 'text',
+            'constraints' => 
+            array (
+              0 => 
+              array (
+                'type' => 'default_value',
+                'value' => 'hello',
+              ),
+            ),
+          ),
+          'id' => 
+          array (
+            'type' => 'int',
+            'constraints' => 
+            array (
+              0 => 
+              array (
+                'type' => 'default_value',
+                'value' => 0,
+              ),
+              1 => 
+              array (
+                'type' => 'primary_key',
+                'value' => true,
+              ),
+              2 => 
+              array (
+                'type' => 'not_null',
+                'value' => true,
+              ),
+            ),
+          ),
+        ),
       ),
-      'column_defs' => 
-      array (
-        'filename' => 
-        array (
-          'type' => 'varchar',
-          'length' => 60,
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'not_null',
-              'value' => true,
-            ),
-          ),
-        ),
-        'name' => 
-        array (
-          'type' => 'varchar',
-          'length' => 60,
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'default_value',
-              'value' => 'no name',
-            ),
-          ),
-        ),
-        'album' => 
-        array (
-          'type' => 'int',
-        ),
-        'price' => 
-        array (
-          'type' => 'float',
-          'length' => 4,
-        ),
-        'description' => 
-        array (
-          'type' => 'text',
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'default_value',
-              'value' => 'hello',
-            ),
-          ),
-        ),
-        'id' => 
-        array (
-          'type' => 'int',
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'default_value',
-              'value' => 0,
-            ),
-            1 => 
-            array (
-              'type' => 'primary_key',
-              'value' => true,
-            ),
-            2 => 
-            array (
-              'type' => 'not_null',
-              'value' => true,
-            ),
-          ),
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -202,24 +210,28 @@ create table brent (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'brent',
-      ),
-      'column_defs' => 
-      array (
-        'filename' => 
+        'command' => 'create_table',
+        'table_names' => 
         array (
-          'type' => 'varchar',
-          'length' => 10,
+          0 => 'brent',
         ),
-        'description' => 
+        'column_defs' => 
         array (
-          'type' => 'varchar',
-          'length' => 20,
+          'filename' => 
+          array (
+            'type' => 'varchar',
+            'length' => 10,
+          ),
+          'description' => 
+          array (
+            'type' => 'varchar',
+            'length' => 20,
+          ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -240,83 +252,87 @@ CREATE TABLE films (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'films',
-      ),
-      'column_defs' => 
-      array (
-        'code' => 
+        'command' => 'create_table',
+        'table_names' => 
         array (
-          'type' => 'char',
-          'length' => 5,
-          'constraints' => 
+          0 => 'films',
+        ),
+        'column_defs' => 
+        array (
+          'code' => 
           array (
-            'firstkey' => 
+            'type' => 'char',
+            'length' => 5,
+            'constraints' => 
             array (
-              'type' => 'primary_key',
-              'value' => true,
-            ),
-          ),
-        ),
-        'title' => 
-        array (
-          'type' => 'char',
-          'length' => 40,
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'not_null',
-              'value' => true,
-            ),
-          ),
-        ),
-        'did' => 
-        array (
-          'type' => 'numeric',
-          'length' => 3,
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'not_null',
-              'value' => true,
-            ),
-          ),
-        ),
-        'date_prod' => 
-        array (
-          'type' => 'date',
-        ),
-        'kind' => 
-        array (
-          'type' => 'char',
-          'length' => 10,
-        ),
-        'len' => 
-        array (
-          'type' => 'interval',
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'quantum_1' => 'hour',
-              'quantum_2' => 'minute',
-              'type' => 'values',
-            ),
-            'production' => 
-            array (
-              'type' => 'unique',
-              'column_names' => 
+              'firstkey' => 
               array (
-                0 => 'date_prod',
+                'type' => 'primary_key',
+                'value' => true,
+              ),
+            ),
+          ),
+          'title' => 
+          array (
+            'type' => 'char',
+            'length' => 40,
+            'constraints' => 
+            array (
+              0 => 
+              array (
+                'type' => 'not_null',
+                'value' => true,
+              ),
+            ),
+          ),
+          'did' => 
+          array (
+            'type' => 'numeric',
+            'length' => 3,
+            'constraints' => 
+            array (
+              0 => 
+              array (
+                'type' => 'not_null',
+                'value' => true,
+              ),
+            ),
+          ),
+          'date_prod' => 
+          array (
+            'type' => 'date',
+          ),
+          'kind' => 
+          array (
+            'type' => 'char',
+            'length' => 10,
+          ),
+          'len' => 
+          array (
+            'type' => 'interval',
+            'constraints' => 
+            array (
+              0 => 
+              array (
+                'quantum_1' => 'hour',
+                'quantum_2' => 'minute',
+                'type' => 'values',
+              ),
+              'production' => 
+              array (
+                'type' => 'unique',
+                'column_names' => 
+                array (
+                  0 => 'date_prod',
+                ),
               ),
             ),
           ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -336,9 +352,20 @@ CREATE TABLE films (
 );
 
 ',
-    'expect' => 'Parse error: Expected EOQ, found: hour on line 9
+    'expect' => '
+Caught exception: Parse error: hour is not smaller than minute on line 9
     len       INTERVAL minute to hour
-                                 ^ found: "hour"',
+                                 ^ found: "hour"
+in: C:\\htdocs\\SQL_Parser\\Parser.php#318
+from: 
+#0 C:\\htdocs\\SQL_Parser\\Parser.php(574): SQL_Parser->raiseError(\'hour is not sma...\')
+#1 C:\\htdocs\\SQL_Parser\\Parser.php(1006): SQL_Parser->parseFieldOptions()
+#2 C:\\htdocs\\SQL_Parser\\Parser.php(1068): SQL_Parser->parseFieldList()
+#3 C:\\htdocs\\SQL_Parser\\Parser.php(1715): SQL_Parser->parseCreate()
+#4 C:\\htdocs\\SQL_Parser\\Parser.php(1781): SQL_Parser->parseQuery()
+#5 C:\\htdocs\\SQL_Parser\\tests\\generate_testcases.php(92): SQL_Parser->parse(\'??-- SQL_PARSER...\')
+#6 {main}
+',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -352,112 +379,20 @@ CREATE TABLE distributors (
 );
 
 ',
-    'expect' => 
-    array (
-      'command' => 'create_table',
-      'table_names' => 
-      array (
-        0 => 'distributors',
-      ),
-      'column_defs' => 
-      array (
-        'did' => 
-        array (
-          'type' => 'numeric',
-          'length' => 3,
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'primary_key',
-              'value' => true,
-            ),
-            1 => 
-            array (
-              'name' => 'nextval',
-              'arg' => 
-              array (
-                0 => 'serial',
-              ),
-              'type' => 'default_function',
-            ),
-          ),
-        ),
-        'name' => 
-        array (
-          'type' => 'varchar',
-          'length' => 40,
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'not_null',
-              'value' => true,
-            ),
-            1 => 
-            array (
-              'args' => 
-              array (
-                0 => 
-                array (
-                  'database' => '',
-                  'table' => '',
-                  'column' => 'name',
-                  'alias' => '',
-                ),
-                1 => 
-                array (
-                  'value' => '',
-                  'type' => 'text_val',
-                ),
-              ),
-              'ops' => 
-              array (
-                0 => '<>',
-              ),
-              'type' => 'check',
-            ),
-            'con1' => 
-            array (
-              'args' => 
-              array (
-                0 => 
-                array (
-                  'database' => '',
-                  'table' => '',
-                  'column' => 'did',
-                  'alias' => '',
-                ),
-                1 => 
-                array (
-                  'value' => 100,
-                  'type' => 'int_val',
-                ),
-                2 => 
-                array (
-                  'database' => '',
-                  'table' => '',
-                  'column' => 'name',
-                  'alias' => '',
-                ),
-                3 => 
-                array (
-                  'value' => '',
-                  'type' => 'text_val',
-                ),
-              ),
-              'ops' => 
-              array (
-                0 => '>',
-                1 => 'and',
-                2 => '>',
-              ),
-              'type' => 'check',
-            ),
-          ),
-        ),
-      ),
-    ),
+    'expect' => '
+Caught exception: Parse error: Unexpected token name on line 4
+    name     VARCHAR(40) NOT NULL CHECK (name <> \'\') 
+    ^ found: "name"
+in: C:\\htdocs\\SQL_Parser\\Parser.php#318
+from: 
+#0 C:\\htdocs\\SQL_Parser\\Parser.php(599): SQL_Parser->raiseError(\'Unexpected toke...\')
+#1 C:\\htdocs\\SQL_Parser\\Parser.php(1006): SQL_Parser->parseFieldOptions()
+#2 C:\\htdocs\\SQL_Parser\\Parser.php(1068): SQL_Parser->parseFieldList()
+#3 C:\\htdocs\\SQL_Parser\\Parser.php(1715): SQL_Parser->parseCreate()
+#4 C:\\htdocs\\SQL_Parser\\Parser.php(1781): SQL_Parser->parseQuery()
+#5 C:\\htdocs\\SQL_Parser\\tests\\generate_testcases.php(92): SQL_Parser->parse(\'??CREATE TABLE ...\')
+#6 {main}
+',
     'fail' => false,
     'dialect' => 'ANSI',
   ),
@@ -472,32 +407,36 @@ CREATE TABLE distributors (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'distributors',
-      ),
-      'column_defs' => 
-      array (
-        'did' => 
+        'command' => 'create_table',
+        'table_names' => 
         array (
-          'type' => 'numeric',
-          'length' => 3,
-          'constraints' => 
+          0 => 'distributors',
+        ),
+        'column_defs' => 
+        array (
+          'did' => 
           array (
-            0 => 
+            'type' => 'numeric',
+            'length' => 3,
+            'constraints' => 
             array (
-              'type' => 'primary_key',
-              'value' => true,
+              0 => 
+              array (
+                'type' => 'primary_key',
+                'value' => true,
+              ),
             ),
           ),
-        ),
-        'name' => 
-        array (
-          'type' => 'varchar',
-          'length' => 40,
+          'name' => 
+          array (
+            'type' => 'varchar',
+            'length' => 40,
+          ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -510,35 +449,39 @@ CREATE TABLE msgs ( user_id integer, msg_id integer, msg_text varchar, msg_title
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'msgs',
+        'command' => 'create_table',
+        'table_names' => 
+        array (
+          0 => 'msgs',
+        ),
+        'column_defs' => 
+        array (
+          'user_id' => 
+          array (
+            'type' => 'int',
+          ),
+          'msg_id' => 
+          array (
+            'type' => 'int',
+          ),
+          'msg_text' => 
+          array (
+            'type' => 'varchar',
+          ),
+          'msg_title' => 
+          array (
+            'type' => 'varchar',
+            'length' => 30,
+          ),
+          'msg_date' => 
+          array (
+            'type' => 'time',
+          ),
+        ),
       ),
-      'column_defs' => 
-      array (
-        'user_id' => 
-        array (
-          'type' => 'int',
-        ),
-        'msg_id' => 
-        array (
-          'type' => 'int',
-        ),
-        'msg_text' => 
-        array (
-          'type' => 'varchar',
-        ),
-        'msg_title' => 
-        array (
-          'type' => 'varchar',
-          'length' => 30,
-        ),
-        'msg_date' => 
-        array (
-          'type' => 'time',
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -550,9 +493,19 @@ CREATE TABLE msgs ( user_id integer, msg_id integer, msg_text varchar, msg_title
 create table nodefinitions;
 
 ',
-    'expect' => 'Parse error: Expected ( on line 3
+    'expect' => '
+Caught exception: Parse error: Expected ( on line 3
 create table nodefinitions;
-                          ^ found: ";"',
+                          ^ found: ";"
+in: C:\\htdocs\\SQL_Parser\\Parser.php#318
+from: 
+#0 C:\\htdocs\\SQL_Parser\\Parser.php(869): SQL_Parser->raiseError(\'Expected (\')
+#1 C:\\htdocs\\SQL_Parser\\Parser.php(1068): SQL_Parser->parseFieldList()
+#2 C:\\htdocs\\SQL_Parser\\Parser.php(1715): SQL_Parser->parseCreate()
+#3 C:\\htdocs\\SQL_Parser\\Parser.php(1781): SQL_Parser->parseQuery()
+#4 C:\\htdocs\\SQL_Parser\\tests\\generate_testcases.php(92): SQL_Parser->parse(\'??-- SQL_PARSER...\')
+#5 {main}
+',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -563,9 +516,18 @@ create table nodefinitions;
 create dogfood;
 
 ',
-    'expect' => 'Parse error: Expected EOQ, found: ident on line 3
+    'expect' => '
+Caught exception: Parse error: Unknown object to create on line 3
 create dogfood;
-       ^ found: "dogfood"',
+       ^ found: "dogfood"
+in: C:\\htdocs\\SQL_Parser\\Parser.php#318
+from: 
+#0 C:\\htdocs\\SQL_Parser\\Parser.php(1085): SQL_Parser->raiseError(\'Unknown object ...\')
+#1 C:\\htdocs\\SQL_Parser\\Parser.php(1715): SQL_Parser->parseCreate()
+#2 C:\\htdocs\\SQL_Parser\\Parser.php(1781): SQL_Parser->parseQuery()
+#3 C:\\htdocs\\SQL_Parser\\tests\\generate_testcases.php(92): SQL_Parser->parse(\'??-- SQL_PARSER...\')
+#4 {main}
+',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -576,9 +538,20 @@ create dogfood;
 create table dunce (name varchar;
 
 ',
-    'expect' => 'Parse error: Unexpected token ; on line 3
+    'expect' => '
+Caught exception: Parse error: Unexpected token ; on line 3
 create table dunce (name varchar;
-                                ^ found: ";"',
+                                ^ found: ";"
+in: C:\\htdocs\\SQL_Parser\\Parser.php#318
+from: 
+#0 C:\\htdocs\\SQL_Parser\\Parser.php(599): SQL_Parser->raiseError(\'Unexpected toke...\')
+#1 C:\\htdocs\\SQL_Parser\\Parser.php(1006): SQL_Parser->parseFieldOptions()
+#2 C:\\htdocs\\SQL_Parser\\Parser.php(1068): SQL_Parser->parseFieldList()
+#3 C:\\htdocs\\SQL_Parser\\Parser.php(1715): SQL_Parser->parseCreate()
+#4 C:\\htdocs\\SQL_Parser\\Parser.php(1781): SQL_Parser->parseQuery()
+#5 C:\\htdocs\\SQL_Parser\\tests\\generate_testcases.php(92): SQL_Parser->parse(\'??-- SQL_PARSER...\')
+#6 {main}
+',
     'fail' => true,
     'dialect' => 'ANSI',
   ),
@@ -588,9 +561,19 @@ create table dunce (name varchar;
 -- SQL_PARSER_FLAG_FAIL
 create table dunce (name varchar(2,3));
 ',
-    'expect' => 'Parse error: Expected EOQ, found: ) on line 3
+    'expect' => '
+Caught exception: Parse error: Expected 1 parameter on line 3
 create table dunce (name varchar(2,3));
-                                    ^ found: ")"',
+                                    ^ found: ")"
+in: C:\\htdocs\\SQL_Parser\\Parser.php#318
+from: 
+#0 C:\\htdocs\\SQL_Parser\\Parser.php(984): SQL_Parser->raiseError(\'Expected 1 para...\')
+#1 C:\\htdocs\\SQL_Parser\\Parser.php(1068): SQL_Parser->parseFieldList()
+#2 C:\\htdocs\\SQL_Parser\\Parser.php(1715): SQL_Parser->parseCreate()
+#3 C:\\htdocs\\SQL_Parser\\Parser.php(1781): SQL_Parser->parseQuery()
+#4 C:\\htdocs\\SQL_Parser\\tests\\generate_testcases.php(92): SQL_Parser->parse(\'??-- SQL_PARSER...\')
+#5 {main}
+',
     'fail' => true,
     'dialect' => 'ANSI',
   ),

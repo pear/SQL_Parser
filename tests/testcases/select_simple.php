@@ -6,15 +6,24 @@ $tests = array (
 SELECT abc',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'abc',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'abc',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
       ),
     ),

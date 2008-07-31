@@ -10,27 +10,25 @@ SELECT \'a\';
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'column_values' => 
+      0 => 
       array (
-        0 => 'a',
-        1 => ';',
+        'command' => 'select',
+        'select_expressions' => 
+        array (
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => 'a',
+                'type' => 'text_val',
+              ),
+            ),
+          ),
+        ),
       ),
-      'column_names' => 
-      array (
-        0 => 'a',
-        1 => ';',
-      ),
-      'column_tables' => 
-      array (
-        0 => '',
-        1 => '',
-      ),
-      'column_aliases' => 
-      array (
-        0 => '',
-        1 => '',
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'MySQL',
@@ -45,31 +43,36 @@ SELECT \'a\' # Test Comment;
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'column_values' => 
+      0 => 
       array (
-        0 => 'a',
-        1 => 'b',
-        2 => ';',
+        'command' => 'select',
+        'select_expressions' => 
+        array (
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => 'a',
+                'type' => 'text_val',
+              ),
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => 'b',
+                'type' => 'text_val',
+              ),
+            ),
+          ),
+        ),
       ),
-      'column_names' => 
-      array (
-        0 => 'a',
-        1 => 'b',
-        2 => ';',
-      ),
-      'column_tables' => 
-      array (
-        0 => '',
-        1 => '',
-        2 => '',
-      ),
-      'column_aliases' => 
-      array (
-        0 => '',
-        1 => '',
-        2 => '',
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'MySQL',
@@ -77,37 +80,42 @@ SELECT \'a\' # Test Comment;
   2 => 
   array (
     'sql' => '
-SELECT \'a\' -- Test Comment;
+SELECT \'a\', -- Test Comment;
 \'b\';
 
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'column_values' => 
+      0 => 
       array (
-        0 => 'a',
-        1 => 'b',
-        2 => ';',
+        'command' => 'select',
+        'select_expressions' => 
+        array (
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => 'a',
+                'type' => 'text_val',
+              ),
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => 'b',
+                'type' => 'text_val',
+              ),
+            ),
+          ),
+        ),
       ),
-      'column_names' => 
-      array (
-        0 => 'a',
-        1 => 'b',
-        2 => ';',
-      ),
-      'column_tables' => 
-      array (
-        0 => '',
-        1 => '',
-        2 => '',
-      ),
-      'column_aliases' => 
-      array (
-        0 => '',
-        1 => '',
-        2 => '',
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -121,31 +129,36 @@ SELECT \'a\' /* Test Comment; */, \'b\'; -- Comment
 ',
     'expect' => 
     array (
-      'command' => 'select',
-      'column_values' => 
+      0 => 
       array (
-        0 => 'a',
-        1 => 'b',
-        2 => ';',
+        'command' => 'select',
+        'select_expressions' => 
+        array (
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => 'a',
+                'type' => 'text_val',
+              ),
+            ),
+          ),
+          1 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'value' => 'b',
+                'type' => 'text_val',
+              ),
+            ),
+          ),
+        ),
       ),
-      'column_names' => 
-      array (
-        0 => 'a',
-        1 => 'b',
-        2 => ';',
-      ),
-      'column_tables' => 
-      array (
-        0 => '',
-        1 => '',
-        2 => '',
-      ),
-      'column_aliases' => 
-      array (
-        0 => '',
-        1 => '',
-        2 => '',
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'MySQL',

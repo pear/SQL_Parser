@@ -9,7 +9,11 @@ UNLOCK TABLES;
 ',
     'expect' => 
     array (
-      'command' => 'unlock tables',
+      0 => 
+      array (
+        'command' => 'unlock tables',
+      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'MySQL',
@@ -22,20 +26,24 @@ LOCK TABLES `mpn_bannerfinish` WRITE;
 ',
     'expect' => 
     array (
-      'command' => 'lock tables',
-      'locks' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'lock tables',
+        'locks' => 
         array (
-          'type' => 'write',
-          'table' => 
+          0 => 
           array (
-            'database' => '',
-            'table' => 'mpn_bannerfinish',
-            'alias' => '',
+            'type' => 'write',
+            'table' => 
+            array (
+              'database' => '',
+              'table' => 'mpn_bannerfinish',
+              'alias' => '',
+            ),
           ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'MySQL',

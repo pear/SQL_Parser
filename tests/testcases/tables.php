@@ -26,123 +26,127 @@ CREATE TABLE event (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'event',
+        'command' => 'create_table',
+        'table_names' => 
+        array (
+          0 => 'event',
+        ),
+        'column_defs' => 
+        array (
+          'id' => 
+          array (
+            'type' => 'int',
+            'constraints' => 
+            array (
+              0 => 
+              array (
+                'type' => 'auto_increment',
+                'value' => true,
+              ),
+              1 => 
+              array (
+                'type' => 'primary_key',
+                'value' => true,
+              ),
+            ),
+          ),
+          'foreign_id' => 
+          array (
+            'type' => 'int',
+          ),
+          'active' => 
+          array (
+            'type' => 'bool',
+            'constraints' => 
+            array (
+              0 => 
+              array (
+                'type' => 'default_value',
+                'value' => 'true',
+              ),
+            ),
+          ),
+          'status' => 
+          array (
+            'type' => 'set',
+            'domain' => 
+            array (
+              0 => 'canceled',
+              1 => 'sold out',
+              2 => 'rescheduled',
+              3 => 'changed location',
+            ),
+          ),
+          'category_id' => 
+          array (
+            'type' => 'varchar',
+            'length' => 10,
+          ),
+          'status_desc' => 
+          array (
+            'type' => 'varchar',
+            'length' => 40,
+          ),
+          'title' => 
+          array (
+            'type' => 'varchar',
+            'length' => 40,
+          ),
+          'featuring' => 
+          array (
+            'type' => 'varchar',
+            'length' => 40,
+          ),
+          'sponsors' => 
+          array (
+            'type' => 'varchar',
+            'length' => 40,
+          ),
+          'uri' => 
+          array (
+            'type' => 'varchar',
+            'length' => 30,
+          ),
+          'image' => 
+          array (
+            'type' => 'varchar',
+            'length' => 30,
+          ),
+          'description' => 
+          array (
+            'type' => 'text',
+          ),
+          'location_id_primary' => 
+          array (
+            'type' => 'int',
+          ),
+          'location_id_secondary' => 
+          array (
+            'type' => 'int',
+          ),
+          'cost' => 
+          array (
+            'type' => 'varchar',
+            'length' => 30,
+          ),
+          'contact_id' => 
+          array (
+            'type' => 'int',
+          ),
+          'flags' => 
+          array (
+            'type' => 'set',
+            'domain' => 
+            array (
+              0 => 'interpreter',
+              1 => 'childcare',
+            ),
+          ),
+        ),
       ),
-      'column_defs' => 
-      array (
-        'id' => 
-        array (
-          'type' => 'int',
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'auto_increment',
-              'value' => true,
-            ),
-            1 => 
-            array (
-              'type' => 'primary_key',
-              'value' => true,
-            ),
-          ),
-        ),
-        'foreign_id' => 
-        array (
-          'type' => 'int',
-        ),
-        'active' => 
-        array (
-          'type' => 'bool',
-          'constraints' => 
-          array (
-            0 => 
-            array (
-              'type' => 'default_value',
-              'value' => 'true',
-            ),
-          ),
-        ),
-        'status' => 
-        array (
-          'type' => 'set',
-          'domain' => 
-          array (
-            0 => 'canceled',
-            1 => 'sold out',
-            2 => 'rescheduled',
-            3 => 'changed location',
-          ),
-        ),
-        'category_id' => 
-        array (
-          'type' => 'varchar',
-          'length' => 10,
-        ),
-        'status_desc' => 
-        array (
-          'type' => 'varchar',
-          'length' => 40,
-        ),
-        'title' => 
-        array (
-          'type' => 'varchar',
-          'length' => 40,
-        ),
-        'featuring' => 
-        array (
-          'type' => 'varchar',
-          'length' => 40,
-        ),
-        'sponsors' => 
-        array (
-          'type' => 'varchar',
-          'length' => 40,
-        ),
-        'uri' => 
-        array (
-          'type' => 'varchar',
-          'length' => 30,
-        ),
-        'image' => 
-        array (
-          'type' => 'varchar',
-          'length' => 30,
-        ),
-        'description' => 
-        array (
-          'type' => 'text',
-        ),
-        'location_id_primary' => 
-        array (
-          'type' => 'int',
-        ),
-        'location_id_secondary' => 
-        array (
-          'type' => 'int',
-        ),
-        'cost' => 
-        array (
-          'type' => 'varchar',
-          'length' => 30,
-        ),
-        'contact_id' => 
-        array (
-          'type' => 'int',
-        ),
-        'flags' => 
-        array (
-          'type' => 'set',
-          'domain' => 
-          array (
-            0 => 'interpreter',
-            1 => 'childcare',
-          ),
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -158,36 +162,40 @@ CREATE TABLE event_category (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'event_category',
-      ),
-      'column_defs' => 
-      array (
-        'id' => 
+        'command' => 'create_table',
+        'table_names' => 
         array (
-          'type' => 'int',
-          'constraints' => 
+          0 => 'event_category',
+        ),
+        'column_defs' => 
+        array (
+          'id' => 
           array (
-            0 => 
+            'type' => 'int',
+            'constraints' => 
             array (
-              'type' => 'auto_increment',
-              'value' => true,
-            ),
-            1 => 
-            array (
-              'type' => 'primary_key',
-              'value' => true,
+              0 => 
+              array (
+                'type' => 'auto_increment',
+                'value' => true,
+              ),
+              1 => 
+              array (
+                'type' => 'primary_key',
+                'value' => true,
+              ),
             ),
           ),
-        ),
-        'name' => 
-        array (
-          'type' => 'varchar',
-          'length' => 30,
+          'name' => 
+          array (
+            'type' => 'varchar',
+            'length' => 30,
+          ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -207,54 +215,58 @@ CREATE TABLE notice (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'notice',
-      ),
-      'column_defs' => 
-      array (
-        'id' => 
+        'command' => 'create_table',
+        'table_names' => 
         array (
-          'type' => 'int',
-          'constraints' => 
+          0 => 'notice',
+        ),
+        'column_defs' => 
+        array (
+          'id' => 
           array (
-            0 => 
+            'type' => 'int',
+            'constraints' => 
             array (
-              'type' => 'auto_increment',
-              'value' => true,
-            ),
-            1 => 
-            array (
-              'type' => 'primary_key',
-              'value' => true,
+              0 => 
+              array (
+                'type' => 'auto_increment',
+                'value' => true,
+              ),
+              1 => 
+              array (
+                'type' => 'primary_key',
+                'value' => true,
+              ),
             ),
           ),
-        ),
-        'title' => 
-        array (
-          'type' => 'varchar',
-          'length' => 50,
-        ),
-        'description' => 
-        array (
-          'type' => 'text',
-        ),
-        'uri' => 
-        array (
-          'type' => 'varchar',
-          'length' => 30,
-        ),
-        'link_only' => 
-        array (
-          'type' => 'bool',
-        ),
-        'image' => 
-        array (
-          'type' => 'varchar',
-          'length' => 30,
+          'title' => 
+          array (
+            'type' => 'varchar',
+            'length' => 50,
+          ),
+          'description' => 
+          array (
+            'type' => 'text',
+          ),
+          'uri' => 
+          array (
+            'type' => 'varchar',
+            'length' => 30,
+          ),
+          'link_only' => 
+          array (
+            'type' => 'bool',
+          ),
+          'image' => 
+          array (
+            'type' => 'varchar',
+            'length' => 30,
+          ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -277,76 +289,80 @@ CREATE TABLE schedule (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'schedule',
-      ),
-      'column_defs' => 
-      array (
-        'id' => 
+        'command' => 'create_table',
+        'table_names' => 
         array (
-          'type' => 'int',
-          'constraints' => 
+          0 => 'schedule',
+        ),
+        'column_defs' => 
+        array (
+          'id' => 
           array (
-            0 => 
+            'type' => 'int',
+            'constraints' => 
             array (
-              'type' => 'auto_increment',
-              'value' => true,
+              0 => 
+              array (
+                'type' => 'auto_increment',
+                'value' => true,
+              ),
+              1 => 
+              array (
+                'type' => 'primary_key',
+                'value' => true,
+              ),
             ),
-            1 => 
+          ),
+          'event_id' => 
+          array (
+            'type' => 'int',
+          ),
+          'date_start' => 
+          array (
+            'type' => 'date',
+          ),
+          'date_finish' => 
+          array (
+            'type' => 'date',
+          ),
+          'time_start' => 
+          array (
+            'type' => 'time',
+          ),
+          'time_finish' => 
+          array (
+            'type' => 'time',
+          ),
+          'repeats' => 
+          array (
+            'type' => 'enum',
+            'domain' => 
             array (
-              'type' => 'primary_key',
-              'value' => true,
+              0 => 'once',
+              1 => 'daily',
+              2 => 'weekly',
+              3 => 'monthly',
             ),
           ),
-        ),
-        'event_id' => 
-        array (
-          'type' => 'int',
-        ),
-        'date_start' => 
-        array (
-          'type' => 'date',
-        ),
-        'date_finish' => 
-        array (
-          'type' => 'date',
-        ),
-        'time_start' => 
-        array (
-          'type' => 'time',
-        ),
-        'time_finish' => 
-        array (
-          'type' => 'time',
-        ),
-        'repeats' => 
-        array (
-          'type' => 'enum',
-          'domain' => 
+          'type' => 
           array (
-            0 => 'once',
-            1 => 'daily',
-            2 => 'weekly',
-            3 => 'monthly',
+            'type' => 'enum',
+            'domain' => 
+            array (
+              0 => 'event',
+              1 => 'notice',
+              2 => 'location',
+            ),
           ),
-        ),
-        'type' => 
-        array (
-          'type' => 'enum',
-          'domain' => 
+          'spotlight' => 
           array (
-            0 => 'event',
-            1 => 'notice',
-            2 => 'location',
+            'type' => 'bool',
           ),
-        ),
-        'spotlight' => 
-        array (
-          'type' => 'bool',
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -365,51 +381,55 @@ CREATE TABLE contacts (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'contacts',
-      ),
-      'column_defs' => 
-      array (
-        'id' => 
+        'command' => 'create_table',
+        'table_names' => 
         array (
-          'type' => 'int',
-          'constraints' => 
+          0 => 'contacts',
+        ),
+        'column_defs' => 
+        array (
+          'id' => 
           array (
-            0 => 
+            'type' => 'int',
+            'constraints' => 
             array (
-              'type' => 'auto_increment',
-              'value' => true,
-            ),
-            1 => 
-            array (
-              'type' => 'primary_key',
-              'value' => true,
+              0 => 
+              array (
+                'type' => 'auto_increment',
+                'value' => true,
+              ),
+              1 => 
+              array (
+                'type' => 'primary_key',
+                'value' => true,
+              ),
             ),
           ),
-        ),
-        'name' => 
-        array (
-          'type' => 'varchar',
-          'length' => 40,
-        ),
-        'email' => 
-        array (
-          'type' => 'varchar',
-          'length' => 40,
-        ),
-        'organization' => 
-        array (
-          'type' => 'varchar',
-          'length' => 40,
-        ),
-        'phone' => 
-        array (
-          'type' => 'varchar',
-          'length' => 16,
+          'name' => 
+          array (
+            'type' => 'varchar',
+            'length' => 40,
+          ),
+          'email' => 
+          array (
+            'type' => 'varchar',
+            'length' => 40,
+          ),
+          'organization' => 
+          array (
+            'type' => 'varchar',
+            'length' => 40,
+          ),
+          'phone' => 
+          array (
+            'type' => 'varchar',
+            'length' => 16,
+          ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -428,49 +448,53 @@ CREATE TABLE location (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'location',
-      ),
-      'column_defs' => 
-      array (
-        'id' => 
+        'command' => 'create_table',
+        'table_names' => 
         array (
-          'type' => 'int',
-          'constraints' => 
+          0 => 'location',
+        ),
+        'column_defs' => 
+        array (
+          'id' => 
           array (
-            0 => 
+            'type' => 'int',
+            'constraints' => 
             array (
-              'type' => 'auto_increment',
-              'value' => true,
-            ),
-            1 => 
-            array (
-              'type' => 'primary_key',
-              'value' => true,
+              0 => 
+              array (
+                'type' => 'auto_increment',
+                'value' => true,
+              ),
+              1 => 
+              array (
+                'type' => 'primary_key',
+                'value' => true,
+              ),
             ),
           ),
-        ),
-        'name' => 
-        array (
-          'type' => 'varchar',
-          'length' => 40,
-        ),
-        'description' => 
-        array (
-          'type' => 'varchar',
-          'length' => 40,
-        ),
-        'address' => 
-        array (
-          'type' => 'text',
-        ),
-        'capacity' => 
-        array (
-          'type' => 'int',
+          'name' => 
+          array (
+            'type' => 'varchar',
+            'length' => 40,
+          ),
+          'description' => 
+          array (
+            'type' => 'varchar',
+            'length' => 40,
+          ),
+          'address' => 
+          array (
+            'type' => 'text',
+          ),
+          'capacity' => 
+          array (
+            'type' => 'int',
+          ),
         ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -494,64 +518,68 @@ CREATE TABLE room (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'room',
-      ),
-      'column_defs' => 
-      array (
-        'id' => 
+        'command' => 'create_table',
+        'table_names' => 
         array (
-          'type' => 'int',
+          0 => 'room',
         ),
-        'description' => 
+        'column_defs' => 
         array (
-          'type' => 'varchar',
-          'length' => 50,
-        ),
-        'shape' => 
-        array (
-          'type' => 'enum',
-          'domain' => 
+          'id' => 
           array (
-            0 => 'round',
-            1 => 'square',
-            2 => 'rectangular',
+            'type' => 'int',
+          ),
+          'description' => 
+          array (
+            'type' => 'varchar',
+            'length' => 50,
+          ),
+          'shape' => 
+          array (
+            'type' => 'enum',
+            'domain' => 
+            array (
+              0 => 'round',
+              1 => 'square',
+              2 => 'rectangular',
+            ),
+          ),
+          'capacity_min' => 
+          array (
+            'type' => 'int',
+          ),
+          'capacity_max' => 
+          array (
+            'type' => 'int',
+          ),
+          'dimension_x' => 
+          array (
+            'type' => 'int',
+          ),
+          'dimension_y' => 
+          array (
+            'type' => 'int',
+          ),
+          'furniture' => 
+          array (
+            'type' => 'varchar',
+            'length' => 60,
+          ),
+          'image' => 
+          array (
+            'type' => 'varchar',
+            'length' => 50,
+          ),
+          'notes' => 
+          array (
+            'type' => 'varchar',
+            'length' => 50,
           ),
         ),
-        'capacity_min' => 
-        array (
-          'type' => 'int',
-        ),
-        'capacity_max' => 
-        array (
-          'type' => 'int',
-        ),
-        'dimension_x' => 
-        array (
-          'type' => 'int',
-        ),
-        'dimension_y' => 
-        array (
-          'type' => 'int',
-        ),
-        'furniture' => 
-        array (
-          'type' => 'varchar',
-          'length' => 60,
-        ),
-        'image' => 
-        array (
-          'type' => 'varchar',
-          'length' => 50,
-        ),
-        'notes' => 
-        array (
-          'type' => 'varchar',
-          'length' => 50,
-        ),
       ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',
@@ -569,35 +597,39 @@ CREATE TABLE room_uses (
 ',
     'expect' => 
     array (
-      'command' => 'create_table',
-      'table_names' => 
+      0 => 
       array (
-        0 => 'room_uses',
+        'command' => 'create_table',
+        'table_names' => 
+        array (
+          0 => 'room_uses',
+        ),
+        'column_defs' => 
+        array (
+          'id' => 
+          array (
+            'type' => 'int',
+          ),
+          'room_id' => 
+          array (
+            'type' => 'int',
+          ),
+          'description' => 
+          array (
+            'type' => 'varchar',
+            'length' => 50,
+          ),
+          'capacity_min' => 
+          array (
+            'type' => 'int',
+          ),
+          'capacity_max' => 
+          array (
+            'type' => 'int',
+          ),
+        ),
       ),
-      'column_defs' => 
-      array (
-        'id' => 
-        array (
-          'type' => 'int',
-        ),
-        'room_id' => 
-        array (
-          'type' => 'int',
-        ),
-        'description' => 
-        array (
-          'type' => 'varchar',
-          'length' => 50,
-        ),
-        'capacity_min' => 
-        array (
-          'type' => 'int',
-        ),
-        'capacity_max' => 
-        array (
-          'type' => 'int',
-        ),
-      ),
+      1 => ';',
     ),
     'fail' => false,
     'dialect' => 'ANSI',

@@ -6,57 +6,66 @@ $tests = array (
 SELECT x FROM y WHERE z > NOW()',
     'expect' => 
     array (
-      'command' => 'select',
-      'fields' => 
+      0 => 
       array (
-        0 => 
+        'command' => 'select',
+        'select_expressions' => 
         array (
-          'database' => '',
-          'table' => '',
-          'column' => 'x',
-          'alias' => '',
+          0 => 
+          array (
+            'args' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => '',
+                'column' => 'x',
+                'alias' => '',
+              ),
+            ),
+          ),
         ),
-      ),
-      'from' => 
-      array (
-        'table_references' => 
+        'from' => 
         array (
-          'table_factors' => 
+          'table_references' => 
+          array (
+            'table_factors' => 
+            array (
+              0 => 
+              array (
+                'database' => '',
+                'table' => 'y',
+                'alias' => '',
+              ),
+            ),
+          ),
+        ),
+        'where_clause' => 
+        array (
+          'args' => 
           array (
             0 => 
             array (
               'database' => '',
-              'table' => 'y',
+              'table' => '',
+              'column' => 'z',
               'alias' => '',
             ),
-          ),
-        ),
-      ),
-      'where_clause' => 
-      array (
-        'args' => 
-        array (
-          0 => 
-          array (
-            'database' => '',
-            'table' => '',
-            'column' => 'z',
-            'alias' => '',
-          ),
-          1 => 
-          array (
-            'name' => 'now',
-            'arg' => 
+            1 => 
             array (
-            ),
-            'type' => 
-            array (
+              'name' => 'now',
+              'arg' => 
+              array (
+              ),
+              'type' => 
+              array (
+              ),
             ),
           ),
-        ),
-        'ops' => 
-        array (
-          0 => '>',
+          'ops' => 
+          array (
+            0 => '>',
+          ),
         ),
       ),
     ),
