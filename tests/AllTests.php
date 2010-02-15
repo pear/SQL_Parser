@@ -5,7 +5,7 @@ if (!defined('PHPUnit_MAIN_METHOD')) {
 chdir(dirname(__FILE__) . '/../');
 
 require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once './Parser.php';
+require_once 'SQL/Parser.php';
 
 class SQL_Parser_AllTests
 {
