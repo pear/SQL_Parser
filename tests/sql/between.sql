@@ -1,5 +1,0 @@
--- SQL PARSER TESTCASE
-SELECT "a" FROM mytable WHERE "b" BETWEEN "a" AND "c";
-
--- SQL PARSER TESTCASE
-SELECT "b" BETWEEN "a" AND "c" FROM mytable;

@@ -1,8 +1,0 @@
-Add your SQL statements in *.sql
-
-Run generate_testcases.sh.  This creates the PHPUnit testcases from the SQL, 
-using the present output of the parser as its idea of how things should be.
-
-Edit foo.php if necessary to tweak the test to what should actually happen.
-
-To run the tests, from the base directory, do `php tests/test_parser.php`.
