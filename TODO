@@ -1,0 +1,52 @@
+This is the goal -- to specify EBNF and extract a
+PEAR EBNF package:
+
+<?php
+$ebnf = new EBNF_Expression('
+    (
+        (CROSS|INNER) | 
+        (NATURAL? ((LEFT|RIGHT) OUTER?)?)
+    )? JOIN
+');
+$sql_ebnf = $ebnf->parse();
+$parsing_visitor = new Parsing_Visitor($this->lexer);
+$parse_tree = $parsing_visitor->visit($sql_ebnf);
+
+//(or temporarily:
+    $parsing_visitor = new ParseTreeModifying_Visitor($this->lexer);
+    $parse_tree = $parsing_visitor->($this->lexer, $parse_tree);
+//)
+?>
+
+--- 
+
+This is an intermediate goal --
+to specify EBNF parse tree which is a parser for SQL 
+
+<?php
+$sql_interpreter = new Expression(
+    new Optional_Expression(
+        new Alternative_Expression(
+            new Alternative_Expression(
+                'cross',
+                'inner'
+            )
+            new Expression(
+                new Optional_Expression(
+                    'natural',
+                )
+                new Optional_Expression(
+                    new Alternative_Expression(
+                        'left'
+                        'right'
+                    ),
+                    new Optional_Expression(
+                        'outer'
+                    )
+                ),
+            )
+        )
+    ),
+    'join'
+);
+?>
