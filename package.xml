@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.0RC1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>SQL_Parser</name>
  <channel>pear.php.net</channel>
  <summary>An SQL parser</summary>
@@ -22,11 +22,11 @@
   <email>erich.enke@gmail.com</email>
   <active>no</active>
  </lead>
- <date>2010-02-15</date>
- <time>06:22:34</time>
+ <date>2010-10-06</date>
+ <time>21:44:22</time>
  <version>
-  <release>0.6</release>
-  <api>0.6</api>
+  <release>0.6.0</release>
+  <api>0.6.0</api>
  </version>
  <stability>
   <release>devel</release>
@@ -34,71 +34,48 @@
  </stability>
  <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
  <notes>
-Parser:
+QA release
     * Fixed bug in parsing default function arguments
     * Added more test cases; tests no longer rely on Var_Dump for now
     * Dialects can pass parser and lexer options to change behavior
       beyond just keywords.
     * Added lexer option to accept idents starting with a number
-    * (TODO) Added PHPDoc comments
+Bug #4034 	Assignment of field = field not recognized 	busterb
+Bug #4035 	Update statements should recognize FROM clause 	cybot
+Bug #4036 	Implement Parser with Bridge design pattern 	 
+Bug #4054 	Parsing create: int(11) not recognized as type 	epte
+Bug #4058 	[Patch] Functions added to Dialect_MySQL 	busterb
+Bug #4059 	parseFieldList (or Options?) doesn&apos;t handle auto_increment 	 
+Bug #4066 	Functions are keywords 	busterb
+Bug #4067 	Dialect_Mysql.php needs tinyint in $types 	busterb
+Bug #4081 	[PATCH] Added tinyint to synonyms 	epte
+Bug #4082 	MySQL: PRIMARY KEY(id) line breaks 	epte
+Bug #4085 	Lexer should recognize identifier delimiters 	cybot
+Bug #4086 	(UN)LOCK TABLES statements not recognized (MySQL) 	cybot
+Bug #4087 	Comma not recognized after PRIMARY KEY statement 	cybot
+Bug #4088 	c-style block comments not handled 	cybot
+Bug #5755 	Cannot handle select in form of tablename.* 	epte
+Bug #6438 	Column list with &apos;*&apos; cannot have additional columns 	epte
+Bug #6439 	Improper handling of absolute column names eg: table.column 	epte
+Bug #11462 	generate_testcases.php does not correct split queries 	cybot
+Bug #11463 	int and string is a valid token after SELECT 	cybot
+Bug #11464 	FROM is not required for SELECT 	cybot
+Bug #11472 	comment handling for ANSI and MySQL 	cybot
+Bug #11544 	Arithmetic Operations in (), problem with update and in where clause 	cybot
+Bug #11679 	Wrong parsed select statement. 	cybot
+Bug #13403 	Parser does not accept arbitrary expressions in JOIN clauses 	cybot
+Bug #13404 	NOW() causes infinite loop 	cybot
+Bug #14744 	keyword parse problem 	doconnor
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <file baseinstalldir="/" md5sum="c10d382b7efb72451e8470d06d85b81e" name="SQL/Parser.php" role="php" />
-   <file baseinstalldir="/" md5sum="3c20f87d2e913ecfff7ae5645f715f05" name="SQL/Parser/Compiler.php" role="php" />
-   <file baseinstalldir="/" md5sum="5bb7a34399af116f69e20a71ce407c13" name="SQL/Parser/ctype.php" role="php" />
-   <file baseinstalldir="/" md5sum="448b8fe6948aff5c7295b7c1becafa0b" name="SQL/Parser/Lexer.php" role="php" />
-   <file baseinstalldir="/" md5sum="c6d54033de58c8bb9561501042caf14c" name="SQL/Parser/Dialect/ANSI.php" role="php" />
-   <file baseinstalldir="/" md5sum="970b49079dd3588b0e14e7f83895f88d" name="SQL/Parser/Dialect/MySQL.php" role="php" />
-   <file baseinstalldir="/" md5sum="81b1ebbc10be7367b6ffffddafecbde1" name="tests/AllTests.php" role="test" />
-   <file baseinstalldir="/" md5sum="3e2258077b8a9a139f77f0edfa117c98" name="tests/Case.php" role="test" />
-   <file baseinstalldir="/" md5sum="48bee656602f1bc24042a1562e7f9b87" name="tests/generate_testcases.php" role="test" />
-   <file baseinstalldir="/" md5sum="5ed90e08f1bc4fbc366b7d9210561a47" name="tests/generate_testcases.sh" role="test" />
-   <file baseinstalldir="/" md5sum="9b89d1a8de814aabae82ed0f0096c98f" name="tests/README" role="test" />
-   <file baseinstalldir="/" md5sum="382e1a7e239001b36d5ff67495e38270" name="tests/Sql.php" role="test" />
-   <file baseinstalldir="/" md5sum="fb4c55c9c5792651a4e2c7f284d558ae" name="tests/Suite.php" role="test" />
-   <file baseinstalldir="/" md5sum="4c39114a2930cf977803c845303d9797" name="tests/WUI.php" role="test" />
-   <file baseinstalldir="/" md5sum="08e8d9735b3a1a34a1949201ebebec20" name="tests/sql/between.sql" role="test" />
-   <file baseinstalldir="/" md5sum="c8b9527520ead09964b54c6db19e60fc" name="tests/sql/bug#4035.sql" role="test" />
-   <file baseinstalldir="/" md5sum="12c1722de189ad9326a62cdeca08eee9" name="tests/sql/bug#4086.sql" role="test" />
-   <file baseinstalldir="/" md5sum="b647d84e4e7f76fd81434be1704390b5" name="tests/sql/bug#11544.sql" role="test" />
-   <file baseinstalldir="/" md5sum="c1eb9befb98db92b667b9e2fe63ac566" name="tests/sql/bug#11679.sql" role="test" />
-   <file baseinstalldir="/" md5sum="bd81240d8118dfdf3c87f912c74a8633" name="tests/sql/bug#13403.sql" role="test" />
-   <file baseinstalldir="/" md5sum="1cb803ad6c908e872d8daa47f6d92e98" name="tests/sql/bug#13404.sql" role="test" />
-   <file baseinstalldir="/" md5sum="b83a801bd533d792bdca5832c18963d8" name="tests/sql/comment.sql" role="test" />
-   <file baseinstalldir="/" md5sum="b1b75429205b39d51a80a125ec50eabb" name="tests/sql/create.sql" role="test" />
-   <file baseinstalldir="/" md5sum="4c54a38a39f1a54f3ec51d05c92722e0" name="tests/sql/delete.sql" role="test" />
-   <file baseinstalldir="/" md5sum="c9c67296494f7a45ef0ccf2f05700f48" name="tests/sql/drop.sql" role="test" />
-   <file baseinstalldir="/" md5sum="cfcd60dfc072462d5017aac72c9453da" name="tests/sql/employment.sql" role="test" />
-   <file baseinstalldir="/" md5sum="a068598c78cdacb28231aa476109c72b" name="tests/sql/insert.sql" role="test" />
-   <file baseinstalldir="/" md5sum="98e401aee0b411a0eae95aa8eec8a940" name="tests/sql/locking.sql" role="test" />
-   <file baseinstalldir="/" md5sum="6e0f4de4f6a403962ff155baa86a9743" name="tests/sql/paranthisez.sql" role="test" />
-   <file baseinstalldir="/" md5sum="a171bdd6c25ae6b469c66e2979cb4f2c" name="tests/sql/select.sql" role="test" />
-   <file baseinstalldir="/" md5sum="d44d7720c49accd53742be3586292b08" name="tests/sql/select_integer.sql" role="test" />
-   <file baseinstalldir="/" md5sum="bfc39ed8b23fd47dc49eabca0140d112" name="tests/sql/select_simple.sql" role="test" />
-   <file baseinstalldir="/" md5sum="9a4a9cf3299d589dea8e683fe4639327" name="tests/sql/tables.sql" role="test" />
-   <file baseinstalldir="/" md5sum="70b2561efae25fca1471b3b260383dc1" name="tests/sql/update.sql" role="test" />
-   <file baseinstalldir="/" md5sum="03226c0f6aa2aa91b0dbe662cfc77f7d" name="tests/testcases/between.php" role="test" />
-   <file baseinstalldir="/" md5sum="34e6effabd8e5ebaeba6cd1ebd2282e5" name="tests/testcases/bug#4035.php" role="test" />
-   <file baseinstalldir="/" md5sum="6ba959823bc99288644fd71363416a25" name="tests/testcases/bug#4086.php" role="test" />
-   <file baseinstalldir="/" md5sum="7100634065bce6b4d15717ced19fcd25" name="tests/testcases/bug#11544.php" role="test" />
-   <file baseinstalldir="/" md5sum="b0b53a95a982b0df1c6653be324571b1" name="tests/testcases/bug#11679.php" role="test" />
-   <file baseinstalldir="/" md5sum="2746fa918fab544147e4681a6b904408" name="tests/testcases/bug#13403.php" role="test" />
-   <file baseinstalldir="/" md5sum="1abbdc9b381642de5f72fce216484d27" name="tests/testcases/bug#13404.php" role="test" />
-   <file baseinstalldir="/" md5sum="60414233f71995745d64ce8017e0ebb4" name="tests/testcases/comment.php" role="test" />
-   <file baseinstalldir="/" md5sum="009f670bed156bda0971b1581208bf3d" name="tests/testcases/create.php" role="test" />
-   <file baseinstalldir="/" md5sum="31154b9385003f1066b0def55799d1b1" name="tests/testcases/delete.php" role="test" />
-   <file baseinstalldir="/" md5sum="01eb6ce009d8a1d65ebdc9873bbbb623" name="tests/testcases/drop.php" role="test" />
-   <file baseinstalldir="/" md5sum="8c2eac2be1b31579ca5aca5e5c14e124" name="tests/testcases/employment.php" role="test" />
-   <file baseinstalldir="/" md5sum="23f8f8172ed0554be165a79ba193df5b" name="tests/testcases/insert.php" role="test" />
-   <file baseinstalldir="/" md5sum="df220493d18f3882a8eed90fef87685c" name="tests/testcases/locking.php" role="test" />
-   <file baseinstalldir="/" md5sum="4c18cf9e8f04e8d732f37aabed5dc6de" name="tests/testcases/paranthisez.php" role="test" />
-   <file baseinstalldir="/" md5sum="59e675a6ac316cfdd3cbdeb9ae036bf9" name="tests/testcases/select.php" role="test" />
-   <file baseinstalldir="/" md5sum="26651fc865edf68561dfd7b83fe06883" name="tests/testcases/select_integer.php" role="test" />
-   <file baseinstalldir="/" md5sum="f9c58c30b160fbfa9b26ca9b857e8a70" name="tests/testcases/select_simple.php" role="test" />
-   <file baseinstalldir="/" md5sum="5ba5de0c963824c0c329dae764ebbfbd" name="tests/testcases/tables.php" role="test" />
-   <file baseinstalldir="/" md5sum="75a41bd4041981c46c36ee17517107a2" name="tests/testcases/update.php" role="test" />
-   <file baseinstalldir="/" md5sum="67f922dfdf843d5b85623b79c328e6fb" name="TODO" role="data" />
+   <file baseinstalldir="/" md5sum="e87cf4791b0ac772d4291f63b1d5b423" name="SQL/Parser.php" role="php" />
+   <file baseinstalldir="/" md5sum="d7110a26dbf1283427d11e717f6235f2" name="SQL/Parser/Compiler.php" role="php" />
+   <file baseinstalldir="/" md5sum="d91da5e3391c188d7c1c817be17f1202" name="SQL/Parser/ctype.php" role="php" />
+   <file baseinstalldir="/" md5sum="29dac837bc279d069fa86db2b2620b0a" name="SQL/Parser/Lexer.php" role="php" />
+   <file baseinstalldir="/" md5sum="5717a0d0946d0c73b428329e3ba87644" name="SQL/Parser/Dialect/ANSI.php" role="php" />
+   <file baseinstalldir="/" md5sum="3f4ca0087fc18510ed25ae1f6bfe8642" name="SQL/Parser/Dialect/MySQL.php" role="php" />
+   <file baseinstalldir="/" md5sum="3cf446e3ad8fad2cddaf8d658ed37fa1" name="TODO" role="data" />
   </dir>
  </contents>
  <dependencies>
@@ -238,6 +215,52 @@ Parser:
       beyond just keywords.
     * Added lexer option to accept idents starting with a number
     * (TODO) Added PHPDoc comments
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.0</release>
+    <api>0.6.0</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2010-10-06</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>
+QA release
+    * Fixed bug in parsing default function arguments
+    * Added more test cases; tests no longer rely on Var_Dump for now
+    * Dialects can pass parser and lexer options to change behavior
+      beyond just keywords.
+    * Added lexer option to accept idents starting with a number
+Bug #4034 	Assignment of field = field not recognized 	busterb
+Bug #4035 	Update statements should recognize FROM clause 	cybot
+Bug #4036 	Implement Parser with Bridge design pattern 	 
+Bug #4054 	Parsing create: int(11) not recognized as type 	epte
+Bug #4058 	[Patch] Functions added to Dialect_MySQL 	busterb
+Bug #4059 	parseFieldList (or Options?) doesn&apos;t handle auto_increment 	 
+Bug #4066 	Functions are keywords 	busterb
+Bug #4067 	Dialect_Mysql.php needs tinyint in $types 	busterb
+Bug #4081 	[PATCH] Added tinyint to synonyms 	epte
+Bug #4082 	MySQL: PRIMARY KEY(id) line breaks 	epte
+Bug #4085 	Lexer should recognize identifier delimiters 	cybot
+Bug #4086 	(UN)LOCK TABLES statements not recognized (MySQL) 	cybot
+Bug #4087 	Comma not recognized after PRIMARY KEY statement 	cybot
+Bug #4088 	c-style block comments not handled 	cybot
+Bug #5755 	Cannot handle select in form of tablename.* 	epte
+Bug #6438 	Column list with &apos;*&apos; cannot have additional columns 	epte
+Bug #6439 	Improper handling of absolute column names eg: table.column 	epte
+Bug #11462 	generate_testcases.php does not correct split queries 	cybot
+Bug #11463 	int and string is a valid token after SELECT 	cybot
+Bug #11464 	FROM is not required for SELECT 	cybot
+Bug #11472 	comment handling for ANSI and MySQL 	cybot
+Bug #11544 	Arithmetic Operations in (), problem with update and in where clause 	cybot
+Bug #11679 	Wrong parsed select statement. 	cybot
+Bug #13403 	Parser does not accept arbitrary expressions in JOIN clauses 	cybot
+Bug #13404 	NOW() causes infinite loop 	cybot
+Bug #14744 	keyword parse problem 	doconnor
    </notes>
   </release>
  </changelog>
