@@ -44,11 +44,20 @@
 /**
  *
  */
-require_once dirname(__FILE__) . '/Parser/Lexer.php';
+require_once 'SQL/Parser/Lexer.php';
 
 /**
  * A sql parser
+ * 
+ * 
+ * @example
+ * 
+require_once 'SQL/Parser.php';
+$parser = new SQL_Parser();
+$struct = $parser->parse("SELECT a,b,c FROM Foo");
+print_r($struct);
  *
+ * @see       http://www.sjhannah.com/blog/?p=16
  * @category  Database
  * @package   SQL_Parser
  * @author    Brent Cook <busterbcook@yahoo.com>
@@ -442,7 +451,7 @@ class SQL_Parser
         // parse field options
         $namedConstraint = false;
         $options         = array();
-        while ($this->token != ',' && $this->token != ')' && $this->token != null ) {
+        while ($this->token != ',' && $this->token != ';' && $this->token != ')' && $this->token != null ) {
             $option    = $this->token;
             $haveValue = true;
             switch ($option) {
@@ -871,21 +880,29 @@ class SQL_Parser
      * @access  public
      * @return mixed array parsed field list on success, otherwise Error
      */
-    public function parseFieldList()
+    public function parseFieldList($allow_multiple = true, $expect = '(')
     {
         $fields = array();
-
-        $this->getTok();
-        if ($this->token != '(') {
-            $this->raiseError('Expected (');
+        if ($expect !== false) {
+            $this->getTok();
+            if ($this->token != $expect) {
+                $this->raiseError('Expected (');
+            }
         }
-
         while (1) {
             // parse field identifier
             $this->getTok();
             if ($this->token == ',') {
-                continue;
+                if ($allow_multiple) {
+                    continue;
+                }
+                // parsing alter field list - have to break on ','
+                return $fields;
             }
+            if ($this->token == ';') {
+                return $fields;
+            }
+            
             // In this context, field names can be reserved words or function names
             if ($this->token == 'primary') {
                 $this->getTok();
@@ -896,21 +913,38 @@ class SQL_Parser
                 if ($this->token != '(') {
                     $this->raiseError('Expected (');
                 }
-                $this->getTok();
-                if ($this->token != 'ident') {
-                    $this->raiseError('Expected identifier');
-                }
-                $name = $this->lexer->tokText;
-                $this->getTok();
-                if ($this->token != ')') {
+                while (1) {
+                         
+                    
+                    $this->getTok();
+                    if ($this->token != 'ident') {
+                        $this->raiseError('Expected identifier');
+                    }
+                    $name = $this->lexer->tokText;
+                    $this->getTok();
+                
+                    if ($this->token == ')') {
+                        $fields[$name]['constraints'][] = array(
+                            'type'  => 'primary_key',
+                            'value' => true,
+                        );
+                        break;
+                    }
+                    if ($this->token == ',') {
+                        $fields[$name]['constraints'][] = array(
+                            'type'  => 'primary_key',
+                            'value' => true,
+                        );
+                        continue;
+                    }
                     $this->raiseError('Expected )');
+                    
                 }
-                $fields[$name]['constraints'][] = array(
-                    'type'  => 'primary_key',
-                    'value' => true,
-                );
                 continue;
-            } elseif ($this->token == 'key') {
+            }
+            
+            
+            if ($this->token == 'key') {
                 $this->getTok();
                 if ($this->token != 'ident') {
                     $this->raiseError('Expected identifier');
@@ -934,15 +968,17 @@ class SQL_Parser
                     $this->getTok();
                 }
                 continue;
-            } elseif ($this->token == 'ident' || $this->isFunc()
-             || $this->isReserved()) {
-                $name = $this->lexer->tokText;
-            } elseif ($this->token == ')') {
+            } 
+            
+            if ($this->token == ')') {
                 return $fields;
-            } else {
-                //$this->raiseError('Expected identifier');
             }
-
+            
+            if ($this->token == 'ident' || $this->isFunc() || $this->isReserved()) {
+                $name = $this->lexer->tokText;
+            }
+            // else ??    //$this->raiseError('Expected identifier');
+            
             // parse field type
             $this->getTok();
             if (! $this->isType($this->token)) {
@@ -965,7 +1001,10 @@ class SQL_Parser
                 }
                 $this->getTok();
             }
+            
+            
             $fields[$name]['type'] = $this->synonyms[$type];
+            
             // parse type parameters
             if ($this->token == '(') {
                 $results = $this->getParams($values, $types);
@@ -1013,19 +1052,28 @@ class SQL_Parser
                 }
                 $this->getTok();
             }
-
+            // parse field options..
             $options = $this->parseFieldOptions();
             if (false === $options) {
                 return $options;
             }
 
             $fields[$name] += $options;
-
+            
+           // var_Dump($this->token);
+            
             if ($this->token == ')') {
                 return $fields;
-            } elseif ($this->token == ';' || is_null($this->token)) {
+            } 
+            if ($this->token == ';' || is_null($this->token)) {
                 return $fields;
             }
+            
+            if (($this->token == ',')  && !$allow_multiple) {
+                // parsing alter field list - have to break on ','
+                return $fields;
+            }
+            
         }
 
         return $fields;
@@ -1101,6 +1149,141 @@ class SQL_Parser
     }
     // }}}
 
+    
+    public function parseAlter()
+    {
+        $tree = array();
+
+        $this->getTok();
+        switch ($this->token) {
+            case 'table':
+                $tree['command'] = 'alter_table';
+                $this->getTok();
+                if ($this->token != 'ident') {
+                    $this->raiseError('Expected table name');
+                }
+                $tree['table_names'] = array( $this->lexer->tokText );
+                $tree['table_actions'] = array();
+                
+                $action = array();
+                    
+                    
+                while (1) {
+                    
+                    if ($this->token == ';' || $this->token == ',') {
+                        $tree['table_actions'][] = $action;
+                        $action = array();
+                    }
+                    
+                    if ($this->token == ';') {
+                        return $tree;
+                    }
+                    
+                    $this->getTok();
+                    // alter table ADD|CHANGE|..
+                    $action['action'] = $this->token;
+                    $this->getTok();
+                    // alter table ADD COLUMN....
+                    $action['what'] = $this->token;
+                   // var_dump($action['what']);
+                    switch ($action['what']) {
+                        
+                        case 'column': // add / remove / 
+                            
+                            if ($action['action'] == 'drop') {
+                                $this->getTok();
+                                $action['name'] = $this->lexer->tokText;
+                                // fixmen check...
+                                $this->getTok(); // comma or ;
+                                if ($this->token != ';' && $this->token != ',') {
+                                    $this->raiseError("expection ', or ;' got ".  $this->token);
+                                }
+                                break;
+                            }
+                            
+                            if ($action['action'] == 'change') {
+                                $this->getTok();
+                                $action['from'] = $this->lexer->tokText;
+                            }
+                            
+                            $fields = $this->parseFieldList(false, false);
+                            foreach($fields as $k=>$v) {
+                                $action['name'] = $k;
+                                $action['field'] = $v;
+                            }
+                            //var_dump($this->token);
+                            if ($this->token != ';' && $this->token != ',') {
+                                $this->raiseError("expection ', or ;' got " . $this->token);
+                            }
+                            
+                            break;
+                            
+                            
+                            
+                        case 'index':
+                            // alter table xxx add index indexname(a,b,c);
+                            $this->getTok();
+                            $action['name'] = $this->lexer->tokText;
+                            
+                            $this->getTok();
+                            if ($this->token != '(') {
+                                $this->raiseError("Expecting '(', got : ". $this->token);
+                            }
+                            // this needs more work.. let's start with just handling a lit of toeksn..
+                            $action['indexes'] = array();
+                            while(1) {
+                                $this->getTok();
+                                $action['indexes'][] = $this->lexer->tokText;
+                                $this->getTok();
+                                if ($this->token ==',') {
+                                    continue;
+                                }
+                                if ($this->token ==')') {
+                                    break;
+                                }
+                                $this->raiseError("Expecting ', or )' got " . $this->token);
+                            }
+                            
+                            // @ ), or ;
+                            
+                            $this->getTok();
+                            if ($this->token != ';' && $this->token != ',') {
+                                $this->raiseError("expection ', or ;' got " . $this->token);
+                            }
+                            
+                            break;
+                            
+                        
+                        default: 
+                            $this->raiseError("do not know how to handle: " . $action['what']);
+                    }// end switch..
+                    
+                    
+                    
+                    
+                }
+                // we never get here.. it should return from insind the loop.
+                break;
+            case 'index':
+                $tree['command'] = 'alter_index';
+                
+                
+                
+                break;
+            case 'constraint':
+                $tree['command'] = 'alter_constraint';
+                break;
+            case 'sequence':
+                $tree['command'] = 'alter_sequence';
+                break;
+            default:
+                $this->raiseError('Unknown object to create');
+        }
+        
+        
+        throw new Exception("Can not handle ". $tree['command'] . " yet");
+    }
+    
     // {{{ parseInsert()
     // INSERT INTO tablename
     /**
@@ -1190,14 +1373,14 @@ class SQL_Parser
 
         while (true) {
             $this->getTok();
-            $set['column'] = $this->parseIdentifier();
+            $set['name'] = $this->parseIdentifier();
 
             if ($this->token != '=') {
                 $this->raiseError('Expected =');
             }
 
             $this->getTok();
-            $set['column'] = $this->parseCondition();
+            $set['value'] = $this->parseCondition();
 
             $tree['sets'][] = $set;
 
@@ -1404,6 +1587,26 @@ class SQL_Parser
             case 'sequence':
                 $tree = array('command' => 'drop_sequence');
                 break;
+            
+            case 'function':
+                $tree = array('command' => 'drop_function');
+                $this->getTok();
+                if ($this->token != 'ident') {
+                    $this->raiseError('Expected a table name');
+                }
+                $tree['name'] = $this->lexer->tokText;
+                $this->getTok();
+                if ($this->token == ';') {
+                    return;
+                }
+                var_dump($this->token);exit;
+                if ($this->token == 'if') {
+                    return;
+                }
+                
+                
+                
+                break;                
             default:
                 $this->raiseError('Unknown object to drop');
         }
@@ -1704,6 +1907,7 @@ class SQL_Parser
 
         // get query action
         $this->getTok();
+        //var_Dump($this->token);
         while (1) {
             $branch = array();
             switch ($this->token) {
@@ -1724,6 +1928,9 @@ class SQL_Parser
                     break;
                 case 'create':
                     $branch = $this->parseCreate();
+                    break;
+                case 'alter':
+                    $branch = $this->parseAlter();
                     break;
                 case 'drop':
                     $branch = $this->parseDrop();

@@ -27,6 +27,9 @@ require_once 'PEAR.php';
 
 /**
  * A SQL parse tree compiler.
+ * 
+ * This is really a skeleton, you should really extend this 
+ * and implement it for different databases - eg. SQL_Parser_Compiler_SQLite.. etc..
  *
  * @author  John Griffin <jgriffin316@netscape.net>
  * @version 0.1
@@ -36,7 +39,7 @@ require_once 'PEAR.php';
 class SQL_Parser_Compiler
 {
     var $tree;
-
+    var $quote_identifier = '`';
 // {{{ function SQL_Parser_Compiler($array = null)
     function SQL_Parser_Compiler($array = null)
     {
@@ -118,7 +121,21 @@ class SQL_Parser_Compiler
 //    {{{ function compileSearchClause
     function compileSearchClause($where_clause)
     {
-        $value = '';
+        // FIXME = nested - and a better interpretter
+        
+        // args + ops == nested...
+        $sql = '';
+        for($i = 0; $i < count($where_clause['args']); $i+=2) {
+            $sql = ' ' . $where_clause['args'][$i]['column'] . 
+                ' ' .
+                $where_clause['ops'][floor($i/2)] .
+                ' ' .
+                $this->getWhereValue ($where_clause['args'][$i+1]);
+            
+        }
+        return $sql;
+        
+        /*
         if (isset ($where_clause['arg_1']['value'])) {
             $value = $this->getWhereValue ($where_clause['arg_1']);
             if (PEAR::isError($value)) {
@@ -163,6 +180,7 @@ class SQL_Parser_Compiler
             }
         }
         return $sql;
+        */
     }
 //    }}}
 
@@ -258,12 +276,24 @@ class SQL_Parser_Compiler
 //    {{{ function compileUpdate()
     function compileUpdate()
     {
-        $sql = 'update '.implode(', ', $this->tree['table_names']);
+        
+        $sql = 'update ';
+        foreach($this->tree['tables'] as $t) {
+            $sql .= ' ' . $t['table']; //database & alias missing..
+        }
 
         // save the set clause
-        $cols = count($this->tree['column_names']);
+        /*
+        $cols = count($this->tree['sets']);
         for ($i = 0; $i < $cols; $i++) {
             $set_columns[] = $this->tree['column_names'][$i].' = '.$this->getWhereValue($this->tree['values'][$i]);
+        }
+        */
+        
+        print_r($this->tree['sets']);
+        foreach($this->tree['sets'] as $s) {
+            // FIXME - parser handles more complex than this does...
+            $set_columns[] = $s['name']['column'].' = '.$this->getWhereValue($s['value']['args'][0]);
         }
         $sql .= ' set '.implode (', ', $set_columns);
 
@@ -274,8 +304,8 @@ class SQL_Parser_Compiler
                 return $search_string;
             }
             $sql .= ' where '.$search_string;
-        }
-        return $sql;
+        } 
+        return $sql . ';';
     }
 //    }}}
 
@@ -315,6 +345,131 @@ class SQL_Parser_Compiler
     }
 //    }}}
 
+    function compileCreateTable()
+    {
+        $qi = $this->quote_identifier;
+        $sql = "CREATE TABLE {$qi}" . $this->tree['table_names'][0]. "{$qi} (\n";
+        $pk =  array();
+        foreach($this->tree['column_defs'] as $k=>$type) {
+            if (empty($type['constraints'])) {
+                continue ;
+            }
+            foreach($type['constraints'] as $c) {
+                if ($c['type'] == 'primary_key') {
+                    $pk[] = $k ;
+                    break;
+                }
+            }
+        }
+        // if we have more than one primary key... - then we have to use a line at the end..
+        $body = array();
+        foreach($this->tree['column_defs'] as $name=>$type) {
+            $body[] = "    {$qi}$name{$qi} " . 
+                $this->typeToSQL(
+                    $type, 
+                    count($pk) > 1 ? false : true
+                );
+        }
+        if (count($pk) >  1) {
+            $body[] = "    PRIMARY KEY ({$qi}" . 
+                implode("{$qi},{$qi}", $pk) .
+                "{$qi})";
+        }
+        
+        
+        
+        $sql .= implode(",\n", $body) . "\n);";
+        return $sql;
+    }
+    
+    function typeToSQL($data, $add_primary_key) 
+    {
+        $ret = $data['type'];
+        if (!empty($data['length'])) {
+            $ret.='('.$data['length'].')';
+        }
+        if (empty($data['constraints'])) {
+            return $ret;
+        }
+        foreach($data['constraints'] as $c) {
+            switch($c['type']) {
+                case 'not_null': 
+                    $ret .= " NOT NULL"; 
+                    break;
+                    
+                case 'auto_increment': 
+                    $ret .= " AUTO_INCREMENT"; 
+                    break;
+                    
+                case 'default_value': 
+                    $ret .= " DEFAULT " . $c['value']; 
+                    break;
+                
+                case 'primary_key': 
+                    if (!$add_primary_key) {
+                        continue;
+                    }
+                    $ret .= " PRIMARY KEY"; 
+                    break;
+                
+                default: 
+                    throw new Exception("FIXME - need to handle type" . $c['type']);
+            }
+        }
+        return $ret;
+    }
+    
+    function compileDropTable()
+    {
+        
+    }
+    function compileAlterTable()
+    {
+        $qi = $this->quote_identifier;
+        $sql = "ALTER TABLE {$qi}". $this->tree['table_names'][0] . "{$qi} ";
+        $sa = array();
+        foreach($this->tree['table_actions'] as $a) {
+            $line = $a['action'] . ' '. $a['what'];
+            
+            switch($a['what']) {
+                case 'column': 
+                    switch($a['action']) {
+                        case 'drop':
+                            $line .= ' ' . $qi . $a['name'] . $qi;
+                            break;
+                        
+                        case 'change':
+                            $line .= ' ' . $qi . $a['from'] . $qi;
+                            // no break.. continue thru to add..
+                        
+                        case 'add':
+                            $line .= ' ' . $qi . $a['name'] . $qi;
+                            $line .= ' ' . $this->typeToSQL(
+                                $a['field'], 
+                                true ///
+                            );
+                            //var_dump($line);exit;
+                            break;
+                        
+                        default:
+                            throw new Exception("FIXME - need to handle column action" . print_r($a, true));
+                    }
+                    break;
+                
+                case 'index': 
+                    $line .= " {$qi}{$a['name']}{$qi} ({$qi}" . 
+                        implode("{$qi},{$qi}", $a['indexes']) .
+                        "{$qi})";
+                    break;
+                    
+                default:
+                    throw new Exception("FIXME - need to handle alter table" . print_r($this->tree, true));
+            }
+            
+            $sa[] = $line;
+        }
+        return $sql . implode(",\n    ", $sa). ";";
+    }
 //    {{{ function compile($array = null)
     function compile($array = null)
     {
@@ -323,20 +478,26 @@ class SQL_Parser_Compiler
         switch ($this->tree['command']) {
             case 'select':
                 return $this->compileSelect();
-                break;
+                
             case 'update':
                 return $this->compileUpdate();
-                break;
+                
             case 'delete':
                 return $this->compileDelete();
-                break;
+                
             case 'insert':
                 return $this->compileInsert();
-                break;
-            case 'create':
+                
+            case 'create_table':
+                return $this->compileCreateTable();
+                
+            case 'alter_table':
+                return $this->compileAlterTable();
+                
             case 'drop':
             case 'alter':
             default:
+                throw new Exception("FIXME - need to handle type" . print_r($this->tree, true));
                 return PEAR::raiseError('Unknown action: '.$this->tree['command']);
         }    // switch ($this->_tree["command"])
 
