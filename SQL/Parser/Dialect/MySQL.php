@@ -92,7 +92,7 @@ $dialect = array(
         'or',
     ),
 
-    'types' => array(
+    'types' => array( // add here - you probably need to ad to synonyms
         'character',
         'char',
         'varchar',
@@ -118,6 +118,7 @@ $dialect = array(
         'set',
         'enum',
         'text',
+        'longtext'
     ),
 
     'conjunctions' => array(
@@ -579,6 +580,7 @@ $dialect = array(
         'set' => 'set',
         'enum' => 'enum',
         'text' => 'text',
+        'longtext' => 'longtext',
         'char' => 'char',
         'character' => 'char',
         'varchar' => 'varchar',
@@ -588,13 +590,22 @@ $dialect = array(
         'desc' => 'desc',
         'date' => 'date',
         'time' => 'time',
+        'datetime' => 'datetime'
     ),
 
     'lexeropts' => array(
         'allowIdentFirstDigit' => true,
     ),
-
-    'parseropts' => array(
+    'parseropts' => array(),
+    
+    'drop_options'  => array(
+        'temporary' => 'TEMPORARY',
+    ),
+    
+    'drop_table_options' => array(
+        'if' => array(
+            'exists' => 'IF EXISTS',
+        ),
     ),
 
     'comments' => array(
@@ -608,4 +619,6 @@ $dialect = array(
         '"' => 'string',
         '`' => 'ident',
     ),
+
+
 );

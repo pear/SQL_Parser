@@ -1560,59 +1560,114 @@ class SQL_Parser
     public function parseDrop()
     {
         $this->getTok();
+        
         switch ($this->token) {
             case 'table':
                 $tree = array('command' => 'drop_table');
-                $this->getTok();
-                if ($this->token != 'ident') {
-                    $this->raiseError('Expected a table name');
-                }
-                $tree['table_names'][] = $this->lexer->tokText;
-
-                $this->getTok();
-                if ($this->token == 'restrict'
-                 || $this->token == 'cascade')
-                {
-                    $tree['drop_behavior'] = $this->token;
-                    $this->getTok();
-                }
-                return $tree;
+                $this->parseDropTable($tree);
                 break;
+                
             case 'index':
                 $tree = array('command' => 'drop_index');
+                $this->raiseError('DROP ' . $this->token . ' not supported yet');
                 break;
+                
             case 'constraint':
                 $tree = array('command' => 'drop_constraint');
+                $this->raiseError('DROP ' . $this->token . ' not supported yet');
                 break;
+                
             case 'sequence':
                 $tree = array('command' => 'drop_sequence');
+                $this->raiseError('DROP ' . $this->token . ' not supported yet');
                 break;
             
             case 'function':
                 $tree = array('command' => 'drop_function');
-                $this->getTok();
-                if ($this->token != 'ident') {
-                    $this->raiseError('Expected a table name');
-                }
-                $tree['name'] = $this->lexer->tokText;
-                $this->getTok();
-                if ($this->token == ';') {
-                    return;
-                }
-                var_dump($this->token);exit;
-                if ($this->token == 'if') {
-                    return;
-                }
-                
-                
-                
-                break;                
+                $this->raiseError('DROP ' . $this->token . ' not supported yet');
+                break;
+              
+                            
             default:
                 $this->raiseError('Unknown object to drop');
         }
         return $tree;
     }
     // }}}
+    /**
+     * parses SQL from right after DROP TABLE
+     * 
+     * @uses    SQL_Parser::getTok()
+     * @uses    SQL_Parser::$token
+     * @uses    SQL_Parser::$drop_table_options
+     * @uses    SQL_Parser::$lexer
+     * @uses    Lexer::$tokText
+     * @param   array   $tree   the array to be filled with SQL information
+     */
+    public function parseDropTable(&$tree)
+    {
+        $this->getTok();
+        $table_names_valid = true;
+        while (null !== $this->token && $this->token != ';') {
+            switch ($this->token) {
+                case ',':
+                    break;
+                case 'restrict':
+                    $tree['behaviors'][] = $this->token;
+                    $table_names_valid = false;
+                    break;
+                case 'cascade':
+                    $tree['behaviors'][] = $this->token;
+                    $table_names_valid = false;
+                    break;
+                default:
+                    $token_text = $this->lexer->tokText;
+                    if ($option = $this->parseOption($this->drop_table_options)) {
+                        $tree['command_options'][] = $option;
+                    } elseif ($table_names_valid) {
+                        $tree['table_names'][] = $token_text;
+                    } else {
+                        $this->raiseError('Unknown drop syntax '. $token_text);
+                        $tree['unknown'][] = $token_text;
+                    }
+            }
+            $this->getTok();
+        }
+    }
+    
+    /**
+     * checks if the current token leads to a valid option (keyword)
+     * supports multi word option like IF EXISTS
+     * 
+     * @recursiv
+     * @uses    SQL_Parser::getTok()
+     * @uses    SQL_Parser::_parseOption()
+     * @uses    SQL_Parser::$lexer
+     * @uses    Lexer::pushBack()
+     * @uses    Lexer::$tokText
+     * @uses    is_array()
+     * @param   array   $valid_options  valid options to check $this->lexer->tokText against
+     * @return  mixed   option name or false if not found
+     */
+    public function _parseOption($valid_options)
+    {
+        if (isset($valid_options[$this->lexer->tokText])) {
+            if (is_array($valid_options[$this->lexer->tokText])) {
+                $valid_options = $valid_options[$this->lexer->tokText];
+                $this->getTok();
+                $option = $this->_parseOption($valid_options);
+                if (false === $option) {
+                    $this->lexer->pushBack();
+                }
+                return $option;
+            } else {
+                return $valid_options[$this->lexer->tokText];
+            }
+        } else {
+            return false;
+        }
+    }
+
 
     /**
      * [[db.].table].column [[AS] alias]
