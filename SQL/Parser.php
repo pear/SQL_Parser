@@ -162,7 +162,7 @@ class SQL_Parser
      * Constructor
      *
      * @param string $string the SQL query to parse
-     * @param string $dialect the SQL dialect
+     * @param string $dialect the SQL dialect (eg. 'ANSI' or 'MySQL')
      * @uses  SQL_Parser::setDialect()
      * @uses  SQL_Parser::$lexer      W to create it
      * @uses  SQL_Parser::$symbols    R
