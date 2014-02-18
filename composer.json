@@ -18,7 +18,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "SQL_Parser": "./"
+            "SQL": "./"
         }
     },
     "description": "More info available on: http://pear.php.net/package/SQL_Parser",
