@@ -1,0 +1,41 @@
+{
+    "authors": [
+        {
+            "email": "pear@sebastianmendel.de",
+            "name": "Sebastian Mendel",
+            "role": "Lead"
+        },
+        {
+            "email": "busterbcook@yahoo.com",
+            "name": "Brent Cook",
+            "role": "Lead"
+        },
+        {
+            "email": "erich.enke@gmail.com",
+            "name": "Erich Enke",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "SQL": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/SQL_Parser",
+    "include-path": [
+        "./"
+    ],
+    "license": "LGPL",
+    "name": "pear/sql_parser",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=SQL_Parser",
+        "source": "https://github.com/pear/SQL_Parser"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
